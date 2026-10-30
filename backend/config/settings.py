@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -75,12 +76,43 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+import dj_database_url
+
+
+# DATABASE_URL = "postgresql://postgres:SE-SEP2026-Team-027@db.rdwiyffmqihystfctpav.supabase.co:5432/postgres"
+
+# DATABASES = {
+#     "default": dj_database_url.parse(
+#         DATABASE_URL,
+#         conn_max_age=60,
+#         ssl_require=True,
+#     )
+# }
+
+
+USE_SUPABASE = True
+if USE_SUPABASE:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "postgres",
+            "USER": "postgres.timourvtnflcufzbpzbh",
+            "PASSWORD": "SE-SEP2026-Team-027",
+            "HOST": "aws-0-eu-north-1.pooler.supabase.com",
+            "PORT": "5432",
+            "OPTIONS": {
+                "sslmode": "require",
+                "connect_timeout": 15,
+            },
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation
