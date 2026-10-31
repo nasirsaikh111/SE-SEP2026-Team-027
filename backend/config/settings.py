@@ -32,19 +32,25 @@ ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS=[
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'drf_spectacular',
+    'corsheaders',
     'apps.accounts',
     'apps.mentoring',
+    'apps.assistant_ai',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -55,13 +61,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'config.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS':[BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
@@ -71,23 +79,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'config.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/6.1/ref/settings/#databases
-
-import dj_database_url
-
-
-# DATABASE_URL = "postgresql://postgres:SE-SEP2026-Team-027@db.rdwiyffmqihystfctpav.supabase.co:5432/postgres"
-
-# DATABASES = {
-#     "default": dj_database_url.parse(
-#         DATABASE_URL,
-#         conn_max_age=60,
-#         ssl_require=True,
-#     )
-# }
+ASGI_APPLICATION='config.asgi.application'
+AUTH_USER_MODEL='accounts.User'
 
 
 USE_SUPABASE = True
@@ -137,24 +130,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/
 AUTH_USER_MODEL = "accounts.User"
-
-LANGUAGE_CODE = 'en-us'
-
+LANGUAGE_CODE='en-us'
 TIME_ZONE = "Asia/Kolkata"
-
 USE_I18N = True
-
 USE_TZ = True
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/6.1/howto/static-files/
-
 STATIC_URL = 'static/'
+DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
 
-
-# Email
-# https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
 MAILERS = {
     'default': {
@@ -162,3 +144,42 @@ MAILERS = {
     },
 }
 
+CORS_ALLOWED_ORIGINS=['https://sangam-step2.vercel.app','http://localhost:5173','http://127.0.0.1:5173']
+CSRF_TRUSTED_ORIGINS=['https://sangam-step2.vercel.app']
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_THROTTLE_RATES": {
+        "sangam_ai_chat": "10/minute",
+    },
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 50,
+}
+
+SPECTACULAR_SETTINGS={'TITLE':'Sangam API','DESCRIPTION':'IIC-approved student mentoring API. No ratings or conversation logging.',
+ 'VERSION':'1.0.0','SERVE_INCLUDE_SCHEMA':False,'COMPONENT_SPLIT_REQUEST':True}
+AUTH_PASSWORD_VALIDATORS=[
+ {'NAME':'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+ {'NAME':'django.contrib.auth.password_validation.MinimumLengthValidator'},
+ {'NAME':'django.contrib.auth.password_validation.CommonPasswordValidator'},
+ {'NAME':'django.contrib.auth.password_validation.NumericPasswordValidator'},
+]
+
+
+# Ollama runs on the SAME computer hosting Django. No student data sent to cloud AI.
+SANGAM_OLLAMA_ENABLED=True
+SANGAM_OLLAMA_URL='http://127.0.0.1:11434/api/chat'
+SANGAM_OLLAMA_MODEL='qwen3:8b'
+SANGAM_FRONTEND_URL='https://sangam-step2.vercel.app'
