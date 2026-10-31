@@ -31,6 +31,17 @@ class StudentProfileAdmin(admin.ModelAdmin):
 
 @admin.register(MentorProfile)
 class MentorProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'domain', 'specialty', 'experience_years', 'is_verified', 'is_available')
-    list_filter = ('is_verified', 'is_available', 'domain')
-    search_fields = ('user__email', 'alumni_roll_number', 'domain', 'company')
+    list_display = ('user', 'domain', 'specialty', 'experience_years', 'is_verified', 'is_discoverable', 'is_available')
+    list_filter = ('is_verified', 'is_discoverable', 'is_available', 'domain')
+    search_fields = ('user__email', 'alumni_roll_number', 'domain', 'company', 'specialty')
+    readonly_fields = ('verified_by', 'verified_at', 'invited_by', 'created_at')
+    fieldsets = (
+        (None, {'fields': ('user', 'alumni_roll_number', 'graduation_year')}),
+        ('Professional', {'fields': ('current_role', 'company', 'domain', 'specialty', 'career_path', 'experience_years', 'skills', 'bio', 'linkedin_url')}),
+        ('IIC controls', {'fields': ('is_verified', 'is_discoverable', 'is_available', 'verified_by', 'verified_at', 'invited_by', 'created_at')}),
+    )
+    def save_model(self, request, obj, form, change):
+        from django.utils import timezone
+        if 'is_verified' in form.changed_data and obj.is_verified:
+            obj.verified_by, obj.verified_at = request.user, timezone.now()
+        super().save_model(request, obj, form, change)

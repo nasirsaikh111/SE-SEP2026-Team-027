@@ -1,3 +1,6 @@
+> **Superseded (31 Oct 2026).** This handoff describes the Vue mock prototype. The implemented API, data model and
+> rules (one open request, IIC approval, no ratings or private notes) are documented in [`docs/`](./docs) and at `/project-report/`.
+
 # Sangam · Backend Architecture & API Specification
 **Prepared for:** Nasir (Backend Lead)  
 **From:** Hemant (Frontend Lead / Tech Lead)  

@@ -1,0 +1,44 @@
+# 1. Gap analysis
+
+Baseline: `main` at commit `f4bd4bf` (tagged `vue-prototype-m2`), inspected on 31 Oct 2026.
+The deployed prototype (sangam-step2.vercel.app) and every branch (`main`, `feature/django-models`,
+`frontendhemant`) contained the same Vue 3 + Pinia application, driven entirely by mock data in
+`frontend/src/mock/data.js`. It made no calls to the Django API.
+
+Priority key: **P0** security or data integrity · **P1** required by Milestone 2 or this brief · **P2** quality/maintainability.
+
+| # | Area | Existing | Missing / Incorrect | Recommended change (done) | Priority | Impacted files |
+|---|------|----------|---------------------|---------------------------|----------|----------------|
+| 1 | Secrets | `settings.py` hard-coded the Supabase host, user and password, and the Django `SECRET_KEY`; `DEBUG=True`, `ALLOWED_HOSTS=['*']` | Credentials are in Git history; production would run in debug mode | All secrets and hosts come from environment variables (`backend/.env`, see `.env.example`); `DEBUG` defaults to off; secure cookies when not in debug. **Rotate the Supabase password and generate a new secret key.** | P0 | `backend/config/settings.py`, `backend/.env.example` |
+| 2 | Frontend stack | Vue 3, Pinia mock stores, "View as" role switcher, footer, star ratings, private notes, 3-request cap | Requirement is React + DaisyUI against the Django API; switcher and mock data are not allowed | Replaced with React 19 + Vite + Tailwind 4 + DaisyUI 5 + TanStack Query + Axios; Vue kept in Git (tag `vue-prototype-m2`) | P1 | `frontend/**` |
+| 3 | Role source | Frontend role came from a manual switcher | The sidebar acted as the only "security" | Navigation is derived from `GET /auth/me/` → `effective_role`, which mirrors the backend `IsIIC` rule; every endpoint enforces its own permission | P0 | `apps/accounts/serializers.py`, `frontend/src/auth/*`, `frontend/src/layout/nav.ts` |
+| 4 | Project report | `/project-report/` pointed at a template that did not exist (HTTP 500) | Documentation route broken | Added `config/report.py` + template, which render `docs/*.md` plus a live endpoint index from the OpenAPI schema | P1 | `backend/config/report.py`, `backend/templates/sangam/project_report.html`, `docs/` |
+| 5 | Mentor discovery | None (Milestone 2 forbade student choice) | New requirement: curated directory and filters | `GET /mentors/`, `/mentors/facets/`, `/mentors/{id}/`; verified **and** IIC-published profiles only; no email, phone or roll number | P1 | `apps/accounts/views_api.py`, `serializers.py`, `models.py` |
+| 6 | Mentor professional details | domain, specialty, role, company, experience | No skills, LinkedIn, summary or publication flag | Added `skills`, `linkedin_url` (https linkedin.com only), `bio`, `is_discoverable`, `verified_by/at`; mentor self-service `GET/PATCH /mentor/profile/` | P1 | `accounts/models.py`, migration `0002` |
+| 7 | Mentor preference | None | Student can name a preferred mentor | Nullable `MentoringRequest.preferred_mentor`. It creates no check or mentorship; IIC suggestions flag it without boosting its score | P1 | `mentoring/models.py`, `serializers.py`, `assistant_ai/services.py` |
+| 8 | Request status history | Only the IIC-only AuditLog | No student-facing chronological timeline | `ActivityStatusHistory` written by every workflow service; `GET /requests/{id}/` returns the timeline; data migration backfills existing rows | P1 | `mentoring/models.py`, `services.py`, migrations `0002`, `0003` |
+| 9 | Workflow stages | Persisted statuses SUBMITTED, UNDER_REVIEW, WAITING, MATCHED, WITHDRAWN, CLOSED | UI needed "Availability check sent", "Awaiting IIC approval", "Active" | Derived `stage` computed from checks and mentorships (`workflow.py`). No new persisted statuses | P1 | `mentoring/workflow.py`, `serializers.py` |
+| 10 | Expiry bug | `respond_availability` set `EXPIRED`, then raised inside the same transaction | The expiry was rolled back, so overdue checks stayed `PENDING` | Expiry is now committed before the error is returned; the request moves to WAITING; regression test added | P0 | `mentoring/services.py` |
+| 11 | IIC request actions | Suggestions, send check, approve, close | No way to start review, mark waiting or close an unsuitable request; no reassignment | `POST /admin/requests/{id}/transition/`, `POST /admin/mentorships/{id}/reassign/`, `closure_type` on close | P1 | `services.py`, `views_api.py` |
+| 12 | AI priority | Students picked urgency in the Vue mock | Manual urgency must go; AI may only recommend | `AIRequestAssessment`: rules-based priority from deadlines, waiting time and workflow state; explanation and confidence; IIC override with reason; never changes status | P1 | `assistant_ai/models.py`, `services.py`, migration `0002` |
+| 13 | Meetings | Date, duration, HELD/CANCELLED/NO_SHOW | No scheduling metadata or upcoming meetings | Added `SCHEDULED` status, `start_at`, `end_at`, `timezone`, `title`, `meeting_format`; schedule, reschedule, cancel and record endpoints | P1 | `mentoring/models.py`, `views_calendar.py` |
+| 14 | Google Calendar | None | Connection status, real event creation and Meet links | OAuth web flow, Fernet-encrypted tokens, `GoogleCalendarConnection`, `MeetingCalendarEvent`; Calendar v3 insert/patch/delete; reauthorization detection | P1 | `mentoring/google_calendar.py`, `views_calendar.py` |
+| 15 | Dashboards | `admin/insights` counts only | No role dashboards or pending-task feed | `GET /dashboard/` per role, with tasks linked to frontend routes; insights extended with monthly series and breakdowns | P1 | `mentoring/views_dashboard.py`, `views_api.py` |
+| 16 | Monitoring | Alerts created daily; no way to resolve them | Alerts never close | `POST /admin/alerts/{id}/resolve/`; progress feedback and confirmed meetings resolve alerts automatically | P1 | `views_api.py` |
+| 17 | Feedback roles | Any participant could submit any kind | Students could file "mentor progress" | PROGRESS is mentor-only and CHANGE_MENTOR is student-only; change and closing requests notify IIC | P2 | `views_api.py` |
+| 18 | Knowledge management | Read-only `/ai/knowledge/` | IIC could not maintain chatbot content | `/admin/knowledge/` CRUD ViewSet (IIC only, audited) | P1 | `assistant_ai/views.py`, `urls.py` |
+| 19 | Error format | Mixed `{"detail"}`, field dicts and bare lists | Frontend cannot show errors consistently | Custom handler: every error has `detail`, `code` and `status_code`; field errors stay at top level and are also under `errors` | P2 | `apps/accounts/exceptions.py`, `settings.py` |
+| 20 | Pagination | `PAGE_SIZE` configured but function views returned lists | Large lists unbounded | Opt-in `?page`/`?page_size` envelope on legacy lists (no contract break); new list endpoints always paginate | P2 | `apps/accounts/pagination.py` |
+| 21 | OpenAPI | Most function views undocumented ("unable to guess serializer") | Swagger incomplete | `extend_schema` on every view; 74 operations, schema validates with 0 errors and 0 warnings | P2 | all `views*.py`, `settings.py` |
+| 22 | Throttling | Chatbot only | Login and registration open to brute force | `sangam_auth` scope (20/min/IP) on token, refresh, register and activate | P2 | `accounts/views_api.py` |
+| 23 | Email | `MAILERS` (not a Django setting) | `invite_mentor` would fail against SMTP on localhost | `EMAIL_*` settings from the environment; console backend by default | P2 | `settings.py` |
+| 24 | Tests | 5 workflow tests | No RBAC, discovery, calendar or priority coverage | 43 tests: RBAC, privacy, workflow, expiry regression, reassignment, priority, calendar (mocked Google), dashboards, exports, knowledge | P1 | `accounts/tests.py`, `mentoring/test_*.py`, `factories.py` |
+| 25 | Packaging | No `requirements.txt`; `apps/` not a package | Unreproducible installs; `manage.py test` could not discover tests | `backend/requirements.txt` (pinned), `apps/__init__.py` | P2 | `backend/requirements.txt` |
+| 26 | Admin panels | Core models registered | New models missing; requests editable outside the workflow | Admin for every new model; Google tokens hidden; history immutable; request status editable only through services | P2 | `*/admin.py` |
+
+## Not changed, deliberately
+
+- **One active mentee per mentor** stays a database constraint (`sangam_one_active_mentor`). Making capacity configurable would mean dropping that constraint, which is not additive.
+- **Students record outcomes; mentors do not**, as in Milestone 2. Mentors recommend closure through closing feedback.
+- **AI never approves.** Suggestions, explanations and priority are advisory. Only `approve_match` (IIC) creates a mentorship.
+- **Live Supabase state was not inspected.** Credential access was outside what this task was permitted to do. Run `python manage.py showmigrations` against the shared database before migrating (see Deployment).

@@ -28,6 +28,8 @@ class MentoringRequest(models.Model):
     background = models.TextField(blank=True)
     problem_statement = models.TextField()
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.SUBMITTED, db_index=True)
+    # Student preference from Discover Mentors. Advisory only: it never creates a check or a mentorship.
+    preferred_mentor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='preferred_in_requests')
     submitted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
@@ -57,6 +59,12 @@ class Mentorship(models.Model):
     class Status(models.TextChoices):
         ACTIVE = 'ACTIVE', 'Active'
         CLOSED = 'CLOSED', 'Closed'
+    class ClosureType(models.TextChoices):
+        COMPLETED = 'COMPLETED', 'Completed'
+        REASSIGNED = 'REASSIGNED', 'Reassigned to another mentor'
+        STUDENT_WITHDREW = 'STUDENT_WITHDREW', 'Student withdrew'
+        MENTOR_UNAVAILABLE = 'MENTOR_UNAVAILABLE', 'Mentor unavailable'
+        OTHER = 'OTHER', 'Other'
     request = models.ForeignKey(MentoringRequest, on_delete=models.PROTECT, related_name='mentorships')
     availability_check = models.OneToOneField(AvailabilityCheck, on_delete=models.PROTECT, related_name='approved_mentorship')
     student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name='student_mentorships')
@@ -66,6 +74,8 @@ class Mentorship(models.Model):
     started_at = models.DateTimeField(default=timezone.now)
     closed_at = models.DateTimeField(null=True, blank=True)
     closing_reason = models.TextField(blank=True)
+    closure_type = models.CharField(max_length=20, choices=ClosureType.choices, blank=True)
+    closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='closed_mentorships')
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['student'], condition=Q(status='ACTIVE'), name='sangam_one_active_student'),
@@ -87,9 +97,14 @@ class Goal(models.Model):
 
 class Meeting(models.Model):
     class Status(models.TextChoices):
+        SCHEDULED = 'SCHEDULED', 'Scheduled'
         HELD = 'HELD', 'Held'
         CANCELLED = 'CANCELLED', 'Cancelled'
         NO_SHOW = 'NO_SHOW', 'No show'
+    class Format(models.TextChoices):
+        VIDEO = 'VIDEO', 'Video call'
+        PHONE = 'PHONE', 'Phone call'
+        IN_PERSON = 'IN_PERSON', 'In person'
     mentorship = models.ForeignKey(Mentorship, on_delete=models.CASCADE, related_name='meetings')
     session_date = models.DateField()
     duration_minutes = models.PositiveSmallIntegerField()
@@ -97,6 +112,13 @@ class Meeting(models.Model):
     logged_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     mentor_confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    # Scheduling metadata only. Meeting records never hold discussion content.
+    start_at = models.DateTimeField(null=True, blank=True)
+    end_at = models.DateTimeField(null=True, blank=True)
+    timezone = models.CharField(max_length=64, blank=True)
+    title = models.CharField(max_length=120, blank=True)
+    meeting_format = models.CharField(max_length=12, choices=Format.choices, default=Format.VIDEO)
+    updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         ordering = ['-session_date', '-id']
 
@@ -158,3 +180,59 @@ class Alert(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     class Meta:
         constraints = [models.UniqueConstraint(fields=['mentorship', 'kind', 'period_start'], name='sangam_unique_alert_period')]
+
+
+class ActivityStatusHistory(models.Model):
+    """Chronological workflow transitions for request/mentorship timelines.
+
+    Stores status codes and short system notes only: never names, contact details,
+    problem statements or discussion content.
+    """
+    request = models.ForeignKey(MentoringRequest, on_delete=models.CASCADE, null=True, blank=True, related_name='status_history')
+    mentorship = models.ForeignKey(Mentorship, on_delete=models.CASCADE, null=True, blank=True, related_name='status_history')
+    event = models.CharField(max_length=40)
+    from_status = models.CharField(max_length=40, blank=True)
+    to_status = models.CharField(max_length=40)
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+    actor_role = models.CharField(max_length=20, blank=True)
+    note = models.CharField(max_length=300, blank=True)
+    visible_to_student = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=timezone.now, db_index=True)
+    class Meta:
+        ordering = ['created_at', 'id']
+        verbose_name_plural = 'activity status history'
+
+
+class GoogleCalendarConnection(models.Model):
+    class Status(models.TextChoices):
+        CONNECTED = 'CONNECTED', 'Connected'
+        DISCONNECTED = 'DISCONNECTED', 'Disconnected'
+        REAUTH_REQUIRED = 'REAUTH_REQUIRED', 'Reauthorization required'
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='google_calendar')
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.DISCONNECTED)
+    google_email = models.EmailField(blank=True)
+    scopes = models.CharField(max_length=500, blank=True)
+    access_token_enc = models.TextField(blank=True)   # Fernet-encrypted
+    refresh_token_enc = models.TextField(blank=True)  # Fernet-encrypted
+    token_expires_at = models.DateTimeField(null=True, blank=True)
+    connected_at = models.DateTimeField(null=True, blank=True)
+    last_error = models.CharField(max_length=300, blank=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return f'{self.user.email} · {self.status}'
+
+
+class MeetingCalendarEvent(models.Model):
+    class SyncStatus(models.TextChoices):
+        SYNCED = 'SYNCED', 'Synced'
+        FAILED = 'FAILED', 'Failed'
+        CANCELLED = 'CANCELLED', 'Cancelled'
+    meeting = models.OneToOneField(Meeting, on_delete=models.CASCADE, related_name='calendar_event')
+    provider = models.CharField(max_length=20, default='GOOGLE')
+    calendar_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+    event_id = models.CharField(max_length=255, blank=True)
+    html_link = models.URLField(max_length=500, blank=True)
+    meet_link = models.URLField(max_length=500, blank=True)
+    sync_status = models.CharField(max_length=12, choices=SyncStatus.choices, default=SyncStatus.SYNCED)
+    last_synced_at = models.DateTimeField(null=True, blank=True)
+    last_error = models.CharField(max_length=300, blank=True)

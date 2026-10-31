@@ -4,6 +4,14 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
+from urllib.parse import urlparse
+
+
+def validate_linkedin_url(value):
+    parsed = urlparse(value or '')
+    host = (parsed.hostname or '').lower()
+    if parsed.scheme != 'https' or not (host == 'linkedin.com' or host.endswith('.linkedin.com')):
+        raise ValidationError("Use an https://linkedin.com/... profile URL.")
 
 
 class UserManager(BaseUserManager):
@@ -84,8 +92,17 @@ class MentorProfile(models.Model):
     is_available = models.BooleanField(default=True)
     invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name="invited_mentors")
     created_at = models.DateTimeField(auto_now_add=True)
+    # Professional details shown in the IIC-curated Discover Mentors directory (no private contact data).
+    bio = models.CharField(max_length=500, blank=True)
+    skills = models.JSONField(default=list, blank=True)
+    linkedin_url = models.URLField(max_length=300, blank=True)
+    is_discoverable = models.BooleanField(default=False, help_text="IIC has authorised this verified profile for the student directory.")
+    verified_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name="verified_mentors")
+    verified_at = models.DateTimeField(null=True, blank=True)
     def clean(self):
         if self.user_id and self.user.role != User.Role.MENTOR:
             raise ValidationError("User must have MENTOR role.")
+        if self.linkedin_url:
+            validate_linkedin_url(self.linkedin_url)
     def __str__(self):
         return self.user.email

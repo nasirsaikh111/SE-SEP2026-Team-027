@@ -1,10 +1,9 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from . import views_api as v
 urlpatterns=[
  path('auth/register/',v.RegisterView.as_view()),
- path('auth/token/',TokenObtainPairView.as_view()),
- path('auth/token/refresh/',TokenRefreshView.as_view()),
+ path('auth/token/',v.SangamTokenObtainView.as_view()),
+ path('auth/token/refresh/',v.SangamTokenRefreshView.as_view()),
  path('auth/me/',v.me),
  path('students/me/',v.student_profile),
  path('admin/students/',v.pending_students),
@@ -16,4 +15,11 @@ urlpatterns=[
 urlpatterns += [
  path('admin/mentors/<int:pk>/invite/',v.invite_mentor),
  path('auth/mentor/activate/',v.activate_mentor),
+]
+urlpatterns += [
+ path('admin/mentors/<int:pk>/',v.mentor_admin_update),
+ path('mentor/profile/',v.mentor_profile),
+ path('mentors/',v.MentorDirectoryView.as_view()),
+ path('mentors/facets/',v.mentor_facets),
+ path('mentors/<int:pk>/',v.mentor_directory_detail),
 ]
