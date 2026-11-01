@@ -33,7 +33,7 @@ if not SECRET_KEY:
         raise RuntimeError('DJANGO_SECRET_KEY must be set when DJANGO_DEBUG is false.')
     SECRET_KEY = 'django-insecure-local-development-only'
 
-ALLOWED_HOSTS = env_list('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1')
+ALLOWED_HOSTS = env_list('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1,team-027-pre-prod.vercel.app')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
