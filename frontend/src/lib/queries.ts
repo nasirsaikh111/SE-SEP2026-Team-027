@@ -144,8 +144,10 @@ export const useAdminMentors = (params: Params) => useQuery({
 const ADMIN_KEYS: QueryKey[] = [['admin-students'], ['admin-mentors'], ['dashboard'], ['mentors'], ['insights']]
 export function useAdminActions() {
   return {
-    reviewStudent: useAction(({ userId, ...body }: { userId: number; decision: 'APPROVED' | 'REJECTED'; reason?: string; academic_verified?: boolean }) => post(`/admin/students/${userId}/review/`, body), ADMIN_KEYS),
+    reviewStudent: useAction(({ userId, ...body }: { userId: number; decision: 'APPROVED' | 'REJECTED'; reason?: string; checklist?: Record<T.ReviewChecklistItem, boolean> }) => post(`/admin/students/${userId}/review/`, body), ADMIN_KEYS),
     createMentor: useAction((body: Record<string, unknown>) => post('/admin/mentors/', body), ADMIN_KEYS),
+    importMentors: useAction((body: { mentors: Record<string, unknown>[]; dry_run: boolean }) => post<T.MentorImportResult>('/admin/mentors/import/', body), ADMIN_KEYS),
+    runDailyChecks: useAction(() => post<T.DailyChecksResult>('/admin/daily-checks/'), [['alerts'], ['dashboard'], ['insights'], ['requests'], ['availability'], ['notifications']]),
     verifyMentor: useAction(({ userId, discoverable }: { userId: number; discoverable: boolean }) => post(`/admin/mentors/${userId}/verify/`, { discoverable }), ADMIN_KEYS),
     updateMentor: useAction(({ userId, ...body }: { userId: number } & Partial<T.MentorProfile>) => patch(`/admin/mentors/${userId}/`, body), ADMIN_KEYS),
     inviteMentor: useAction((userId: number) => post(`/admin/mentors/${userId}/invite/`), []),

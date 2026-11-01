@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router'
-import { Mail, Search, Send, ShieldCheck, Sparkles, UserPlus } from 'lucide-react'
+import { Mail, Search, Send, ShieldCheck, Sparkles, Upload, UserPlus } from 'lucide-react'
 import { errorMessage, fieldErrors } from '../../lib/api'
 import { PATHWAY, PRIORITY, formatDate, formatDateTime, timeAgo, truncate } from '../../lib/format'
 import { useAdminActions, useAdminMentors, useRequest, useRequestActions, useRequests, useStudents, useSuggestions } from '../../lib/queries'
-import type { MentorProfile, PendingStudent, Priority, RequestDetail } from '../../lib/types'
+import type { MentorImportResult, MentorProfile, PendingStudent, Priority, RequestDetail, ReviewChecklistItem } from '../../lib/types'
 import { Badge, Card, EmptyState, ErrorAlert, Field, Loading, Modal, PageHeader, Pager, PriorityBadge, RowButton, StageBadge, Tabs, Timeline } from '../../components/ui'
 import { Confluence } from '../../components/Confluence'
 
@@ -21,15 +21,31 @@ function SearchBox({ value, onChange, placeholder }: { value: string; onChange: 
 // ------------------------------------------------------------ student approvals
 type StudentTab = 'PENDING' | 'APPROVED' | 'REJECTED' | 'ALL'
 
+const isIitmEmail = (email: string) => /@([a-z0-9-]+\.)*iitm\.ac\.in$/i.test(email)
+
+/** What IIC confirms against IITM records before approving (mirrors REVIEW_CHECKLIST in the API). */
+function reviewChecklist(s: PendingStudent): { key: ReviewChecklistItem; label: string; value: string }[] {
+  return [
+    { key: 'iitm_email', label: 'IITM email address', value: s.email },
+    { key: 'roll_number', label: 'Roll number matches IITM records', value: s.iitm_roll_number || 'Missing' },
+    { key: 'level', label: 'Enrolled at Diploma or Degree level', value: s.level === 'DEGREE' ? 'Degree' : 'Diploma' },
+    { key: 'courses', label: 'Courses completed', value: s.courses.join(', ') || 'None listed' },
+    { key: 'cgpa', label: 'CGPA', value: s.cgpa ?? 'Not given' },
+  ]
+}
+
 function StudentReviewModal({ student, onClose }: { student: PendingStudent | null; onClose: () => void }) {
   const { reviewStudent } = useAdminActions()
   const [mode, setMode] = useState<'view' | 'reject'>('view')
   const [reason, setReason] = useState('')
-  const [verified, setVerified] = useState(false)
-  const close = () => { setMode('view'); setReason(''); setVerified(false); reviewStudent.reset(); onClose() }
+  const [ticked, setTicked] = useState<Partial<Record<ReviewChecklistItem, boolean>>>({})
+  const items = student ? reviewChecklist(student) : []
+  const verified = items.length > 0 && items.every((i) => ticked[i.key])
+  const close = () => { setMode('view'); setReason(''); setTicked({}); reviewStudent.reset(); onClose() }
   const decide = async (decision: 'APPROVED' | 'REJECTED') => {
     if (!student) return
-    await reviewStudent.mutateAsync({ userId: student.user_id, decision, reason, academic_verified: verified })
+    const checklist = Object.fromEntries(items.map((i) => [i.key, !!ticked[i.key]])) as Record<ReviewChecklistItem, boolean>
+    await reviewStudent.mutateAsync({ userId: student.user_id, decision, reason, checklist })
     close()
   }
   const pending = student?.approval_status !== 'APPROVED'
@@ -44,20 +60,20 @@ function StudentReviewModal({ student, onClose }: { student: PendingStudent | nu
       ))}>
       {student && (
         <>
-          <dl className="grid grid-cols-2 gap-3">
-            {[['Roll number', student.iitm_roll_number], ['Level', student.level === 'DEGREE' ? 'Degree' : 'Diploma'], ['CGPA', student.cgpa ?? 'Not given'], ['Status', student.approval_status.toLowerCase()]].map(([k, v]) => (
-              <div key={k} className="bg-base-200 rounded-xl p-3"><dt className="text-base-content/60 text-xs">{k}</dt><dd className="font-medium">{v}</dd></div>
-            ))}
-            <div className="bg-base-200 col-span-2 rounded-xl p-3"><dt className="text-base-content/60 text-xs">Courses completed</dt><dd className="font-medium">{student.courses.join(', ')}</dd></div>
-          </dl>
-          {pending && (mode === 'reject' ? (
+          {pending && mode === 'reject' ? (
             <Field label="Reason the student will see"><textarea className="textarea w-full" rows={3} value={reason} onChange={(e) => setReason(e.target.value)} /></Field>
           ) : (
-            <label className="bg-primary/8 flex cursor-pointer items-start gap-3 rounded-xl p-3 text-sm">
-              <input type="checkbox" className="checkbox checkbox-primary checkbox-sm mt-0.5" checked={verified} onChange={(e) => setVerified(e.target.checked)} />
-              I checked the roll number, level, courses and CGPA against IITM's records.
-            </label>
-          ))}
+            <fieldset className="flex flex-col gap-2">
+              {pending && <legend className="mb-2 text-sm font-semibold">Approval checklist: confirm each item against IITM's records</legend>}
+              {items.map((i) => (
+                <label key={i.key} className={`flex items-start gap-3 rounded-xl p-3 text-sm ${pending ? 'bg-base-200 cursor-pointer' : 'bg-base-200/60'}`}>
+                  {pending && <input type="checkbox" className="checkbox checkbox-primary checkbox-sm mt-0.5" checked={!!ticked[i.key]} onChange={(e) => setTicked((t) => ({ ...t, [i.key]: e.target.checked }))} />}
+                  <span className="min-w-0 flex-1"><span className="text-base-content/60 block text-xs">{i.label}</span><span className="block font-medium break-words">{i.value}</span></span>
+                  {i.key === 'iitm_email' && !isIitmEmail(student.email) && <Badge tone="error">Not IITM</Badge>}
+                </label>
+              ))}
+            </fieldset>
+          )}
           {!pending && <p className="text-base-content/65 text-sm">Approved {formatDate(student.approved_at)}. Approved academic records are locked.</p>}
           <ErrorAlert error={reviewStudent.error} />
         </>
@@ -153,6 +169,104 @@ function MentorFormModal({ mentor, open, onClose }: { mentor: MentorProfile | nu
   )
 }
 
+const IMPORT_COLUMNS = ['email', 'first_name', 'last_name', 'alumni_roll_number', 'graduation_year', 'domain', 'specialty', 'current_role',
+  'company', 'experience_years', 'career_path', 'skills', 'linkedin_url', 'bio'] as const
+
+/** Minimal RFC 4180 parser: quoted fields, escaped quotes, commas and newlines inside quotes. */
+function parseCsv(text: string): string[][] {
+  const rows: string[][] = []
+  let row: string[] = [], field = '', quoted = false
+  for (let i = 0; i < text.length; i++) {
+    const ch = text[i]
+    if (quoted) {
+      if (ch === '"' && text[i + 1] === '"') { field += '"'; i++ } else if (ch === '"') quoted = false
+      else field += ch
+    } else if (ch === '"') quoted = true
+    else if (ch === ',') { row.push(field); field = '' }
+    else if (ch === '\n' || ch === '\r') {
+      if (ch === '\r' && text[i + 1] === '\n') i++
+      row.push(field); field = ''
+      if (row.some((c) => c.trim())) rows.push(row)
+      row = []
+    } else field += ch
+  }
+  row.push(field)
+  if (row.some((c) => c.trim())) rows.push(row)
+  return rows
+}
+
+function mentorRows(text: string): Record<string, unknown>[] {
+  const [header, ...body] = parseCsv(text.replace(/^﻿/, ''))
+  if (!header) return []
+  const keys = header.map((h) => h.trim().toLowerCase().replace(/\s+/g, '_'))
+  return body.map((cells) => {
+    const row: Record<string, unknown> = {}
+    keys.forEach((k, i) => {
+      const v = (cells[i] ?? '').trim()
+      if (!(IMPORT_COLUMNS as readonly string[]).includes(k) || v === '') return
+      row[k] = k === 'skills' ? v.split(';').map((s) => s.trim()).filter(Boolean) : k === 'graduation_year' || k === 'experience_years' ? Number(v) : v
+    })
+    return row
+  })
+}
+
+function downloadTemplate() {
+  const sample = 'alumni@example.org,Meera,Iyer,21f1000123,2024,Data & ML,NLP,ML engineer,Acme,3,Job,Python;SQL,https://www.linkedin.com/in/example,Happy to help with interviews'
+  const href = URL.createObjectURL(new Blob([`${IMPORT_COLUMNS.join(',')}\n${sample}\n`], { type: 'text/csv' }))
+  const link = document.createElement('a')
+  link.href = href; link.download = 'sangam_alumni_call_template.csv'; link.click()
+  URL.revokeObjectURL(href)
+}
+
+function MentorImportModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const { importMentors } = useAdminActions()
+  const [text, setText] = useState('')
+  const [result, setResult] = useState<MentorImportResult | null>(null)
+  const rows = mentorRows(text)
+  const close = () => { setText(''); setResult(null); importMentors.reset(); onClose() }
+  const run = async (dry_run: boolean) => setResult(await importMentors.mutateAsync({ mentors: rows, dry_run }))
+  const imported = result && !result.dry_run
+  return (
+    <Modal open={open} onClose={close} size="lg" title="Import an alumni call"
+      subtitle="Add the alumni who answered this round's call in one go. They stay unverified until you check each record, then you send invitations."
+      actions={imported ? <button className="btn btn-primary btn-sm" onClick={close}>Done</button> : (
+        <><button className="btn btn-ghost btn-sm" onClick={close}>Cancel</button>
+          <button className="btn btn-sm" disabled={!rows.length || importMentors.isPending} onClick={() => run(true)}>Check {rows.length || ''} rows</button>
+          <button className="btn btn-primary btn-sm" disabled={!result?.created.length || importMentors.isPending} onClick={() => run(false)}>Import {result?.created.length || ''} mentors</button></>
+      )}>
+      {!imported && (
+        <>
+          <div className="flex flex-wrap items-center gap-3">
+            <input type="file" accept=".csv,text/csv" className="file-input file-input-sm" aria-label="CSV file"
+              onChange={async (e) => { const f = e.target.files?.[0]; if (f) { setText(await f.text()); setResult(null) } }} />
+            <button type="button" className="link link-primary text-sm" onClick={downloadTemplate}>Download the CSV template</button>
+          </div>
+          <Field label="Or paste CSV" hint="First row is the header. Separate skills with semicolons. Required: email, first_name, last_name, alumni_roll_number, graduation_year, domain, specialty, current_role, experience_years.">
+            <textarea className="textarea w-full font-mono text-xs" rows={6} value={text} onChange={(e) => { setText(e.target.value); setResult(null) }} placeholder={IMPORT_COLUMNS.join(',')} />
+          </Field>
+        </>
+      )}
+      {result && (
+        <div className="flex flex-col gap-2 text-sm">
+          <p className={`rounded-xl px-3 py-2 ${result.errors.length ? 'bg-accent/15' : 'bg-success/12'}`}>
+            {imported ? `Added ${result.created.length} mentors.` : `${result.created.length} rows are ready to import.`}
+            {result.errors.length > 0 && ` ${result.errors.length} rows ${imported ? 'were skipped' : 'need fixing'}.`}
+          </p>
+          {result.errors.length > 0 && (
+            <ul className="rows max-h-56 overflow-y-auto">
+              {result.errors.map((e) => (
+                <li key={e.row} className="py-2"><span className="font-medium">Row {e.row}{e.email && `, ${e.email}`}: </span>
+                  <span className="text-base-content/70">{Object.entries(e.errors).map(([k, v]) => `${k}: ${v.join(' ')}`).join('; ')}</span></li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+      <ErrorAlert error={importMentors.error} />
+    </Modal>
+  )
+}
+
 function MentorSheet({ mentor, onClose, onEdit }: { mentor: MentorProfile | null; onClose: () => void; onEdit: (m: MentorProfile) => void }) {
   const { verifyMentor, updateMentor, inviteMentor } = useAdminActions()
   const [notice, setNotice] = useState('')
@@ -204,12 +318,14 @@ export function MentorRepositoryPage() {
   const [page, setPage] = useState(1)
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [editing, setEditing] = useState<{ open: boolean; mentor: MentorProfile | null }>({ open: false, mentor: null })
+  const [importing, setImporting] = useState(false)
   const mentors = useAdminMentors({ verified, search, page })
   const selected = mentors.data?.results.find((m) => m.id === selectedId) ?? null
   return (
     <>
       <PageHeader title="Mentor repository" subtitle="Verify alumni against IIC records and choose who students can find in Discover Mentors."
-        actions={<button className="btn btn-primary" onClick={() => setEditing({ open: true, mentor: null })}><UserPlus size={17} />Add mentor</button>} />
+        actions={<><button className="btn" onClick={() => setImporting(true)}><Upload size={17} />Import alumni call</button>
+          <button className="btn btn-primary" onClick={() => setEditing({ open: true, mentor: null })}><UserPlus size={17} />Add mentor</button></>} />
       <div className="flex flex-wrap items-start justify-between gap-2">
         <Tabs value={verified || 'all'} onChange={(k) => { setPage(1); setParams(k === 'all' ? {} : { verified: k }) }} tabs={[{ key: 'all', label: 'Everyone' }, { key: 'false', label: 'To verify' }, { key: 'true', label: 'Verified' }]} />
         <SearchBox value={search} onChange={(v) => { setSearch(v); setPage(1) }} placeholder="Name, company or specialty" />
@@ -237,6 +353,7 @@ export function MentorRepositoryPage() {
       </Card>
       <MentorSheet mentor={selected} onClose={() => setSelectedId(null)} onEdit={(m) => setEditing({ open: true, mentor: m })} />
       <MentorFormModal open={editing.open} mentor={editing.mentor} onClose={() => setEditing({ open: false, mentor: null })} />
+      <MentorImportModal open={importing} onClose={() => setImporting(false)} />
     </>
   )
 }

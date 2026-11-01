@@ -72,11 +72,27 @@ interface RegisterForm {
   level: 'DIPLOMA' | 'DEGREE'; courses: string; cgpa: string
 }
 
+/** IITM BS emails are <roll>@ds.study.iitm.ac.in, e.g. 21f1000907 (the API derives it the same way). */
+const rollFromEmail = (email: string) => {
+  const local = email.trim().split('@')[0]
+  return /^\d{2}f\d{7}$/i.test(local) ? local.toLowerCase() : ''
+}
+
 export function RegisterPage() {
   const [done, setDone] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [error, setError] = useState('')
-  const { register, handleSubmit, formState: { isSubmitting } } = useForm<RegisterForm>({ defaultValues: { level: 'DEGREE' } })
+  const [autoRoll, setAutoRoll] = useState('')
+  const { register, handleSubmit, setValue, getValues, formState: { isSubmitting } } = useForm<RegisterForm>({ defaultValues: { level: 'DEGREE' } })
+  const email = register('email', {
+    onChange: (e) => {
+      const current = getValues('iitm_roll_number')
+      if (current && current !== autoRoll) return  // keep a roll number the student typed
+      const derived = rollFromEmail(e.target.value)
+      setValue('iitm_roll_number', derived)
+      setAutoRoll(derived)
+    },
+  })
   const onSubmit = handleSubmit(async (values) => {
     setErrors({}); setError('')
     try {
@@ -97,17 +113,17 @@ export function RegisterPage() {
     )
   }
   return (
-    <AuthFrame title="Create your account" subtitle="Use your IITM email. IIC approves every student before matching.">
+    <AuthFrame title="Create your account" subtitle="Use your IITM email. IIC checks your details against IITM records, and mentoring is open to Diploma and Degree students.">
       <form onSubmit={onSubmit} className="flex flex-col gap-3" noValidate>
         <FormError message={error} />
         <div className="grid grid-cols-2 gap-3">
           <Field label="First name" error={errors.first_name}><input className="input w-full" {...register('first_name')} /></Field>
           <Field label="Last name" error={errors.last_name}><input className="input w-full" {...register('last_name')} /></Field>
         </div>
-        <Field label="IITM email" error={errors.email}><input type="email" autoComplete="email" className="input w-full" placeholder="you@ds.study.iitm.ac.in" {...register('email')} /></Field>
+        <Field label="IITM email" error={errors.email}><input type="email" autoComplete="email" className="input w-full" placeholder="21f1000123@ds.study.iitm.ac.in" {...email} /></Field>
         <Field label="Password" error={errors.password} hint="At least 8 characters, not a common password."><input type="password" autoComplete="new-password" className="input w-full" {...register('password')} /></Field>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="Roll number" error={errors.iitm_roll_number}><input className="input w-full" {...register('iitm_roll_number')} /></Field>
+          <Field label="Roll number" error={errors.iitm_roll_number} hint={autoRoll ? 'Filled in from your IITM email' : undefined}><input className="input w-full" {...register('iitm_roll_number')} /></Field>
           <Field label="Level" error={errors.level}><select className="select w-full" {...register('level')}><option value="DEGREE">Degree</option><option value="DIPLOMA">Diploma</option></select></Field>
         </div>
         <Field label="Courses completed" error={errors.courses} hint="Separate with commas, e.g. Python, MLF"><input className="input w-full" {...register('courses')} /></Field>

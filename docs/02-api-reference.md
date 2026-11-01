@@ -61,12 +61,15 @@ Roles: **Public** (no token) · **Any** (any signed-in user) · **Student** (IIC
 | GET | `/admin/students/` | IIC | Extended | Student Approvals |
 | POST | `/admin/students/{user_id}/review/` | IIC | — | Student Approvals |
 | GET, POST | `/admin/mentors/` | IIC | Extended | Mentor Repository |
+| POST | `/admin/mentors/import/` | IIC | **New** | Mentor Repository › Import alumni call |
 | PATCH | `/admin/mentors/{user_id}/` | IIC | **New** | Mentor Repository |
 | POST | `/admin/mentors/{user_id}/verify/` | IIC | Extended | Mentor Repository |
 | POST | `/admin/mentors/{user_id}/invite/` | IIC | — | Mentor Repository |
 | GET | `/admin/insights/` | IIC | Extended | Dashboard, Reports & Analytics |
 | GET | `/admin/alerts/` | IIC | Extended | Monitoring & Alerts |
 | POST | `/admin/alerts/{id}/resolve/` | IIC | **New** | Monitoring & Alerts |
+| POST | `/admin/daily-checks/` | IIC | **New** | Monitoring & Alerts › Run checks now |
+| GET, POST | `/cron/daily/` | Scheduler (`Bearer $CRON_SECRET`) | **New** | — (Vercel Cron) |
 | GET | `/admin/audit/` | IIC | Extended | Audit Log |
 | GET | `/admin/export/?type=` | IIC | Extended | Reports & Analytics |
 | POST | `/ai/chat/` | Any (10/min) | — | AI Assistant |
@@ -186,6 +189,11 @@ The original keys are unchanged. New keys: `students_pending`, `mentors_unverifi
 `monthly_requests`, `monthly_mentorships`, `monthly_meetings` (each `[{month: "2026-10", count: 3}]`, the last six months ending with the current one).
 
 ### Alerts, audit, export (Extended / New)
+- `POST /admin/mentors/import/` `{"mentors": [<rows as in POST /admin/mentors/>], "dry_run": true}` →
+  `{"dry_run", "created": [{"row", "email", "id"}], "errors": [{"row", "email", "errors"}]}` (max 500 rows; valid rows are created even when others fail).
+- `POST /admin/students/{id}/review/` accepts `"checklist": {"iitm_email", "roll_number", "level", "courses", "cgpa"}`; all must be `true` to approve (stored in the audit log). `academic_verified: true` is still accepted.
+- `POST /mentorships/{id}/feedback/` on a closed mentorship accepts only `CLOSING`, once per participant.
+- `POST /admin/daily-checks/` and `/cron/daily/` → `{"expired_checks", "inactivity_alerts", "feedback_alerts", "priorities_refreshed"}`.
 - `GET /admin/alerts/?include_resolved=true` adds `kind_label`, `created_at`, `resolved_at`, `student_name`, `mentor_name`. `POST /admin/alerts/{id}/resolve/` → `{"id": 3, "resolved_at": "…"}`.
 - `GET /admin/audit/?action=MATCH_APPROVED&page=1` adds `actor_email`, `actor_role` and `details` to the original fields.
 - `GET /admin/export/?type=pairs|requests|meetings|outcomes` returns CSV with IDs and metadata only; `pairs` is the default (original behaviour).

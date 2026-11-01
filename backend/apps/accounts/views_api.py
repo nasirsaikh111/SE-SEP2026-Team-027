@@ -107,7 +107,8 @@ def review_student(request,pk):
     p.approved_at=timezone.now() if p.approval_status=='APPROVED' else None
     p.approved_by=request.user if p.approval_status=='APPROVED' else None
     p.save()
-    AuditLog.objects.create(actor=request.user,action='STUDENT_REVIEW',entity_type='StudentProfile',entity_id=p.pk,details={'status':p.approval_status})
+    AuditLog.objects.create(actor=request.user,action='STUDENT_REVIEW',entity_type='StudentProfile',entity_id=p.pk,
+                            details={'status':p.approval_status,'checklist':serializer.validated_data.get('checklist')})
     Notification.objects.create(recipient=p.user,title='Student registration',message=f'Registration status: {p.approval_status}. {p.rejection_reason}')
     return Response(StudentProfileSerializer(p).data)
 
@@ -143,6 +144,43 @@ def mentors(request):
     u=s.save()
     AuditLog.objects.create(actor=request.user,action='MENTOR_ADDED',entity_type='MentorProfile',entity_id=u.mentor_profile.id)
     return Response({'id':u.id,'email':u.email,'is_verified':False,'activation':'IIC must invite mentor to set a password.'},status=201)
+
+
+MENTOR_IMPORT_LIMIT = 500
+
+
+@extend_schema(tags=['mentors'], summary='IIC: bulk-add alumni from a mentor call (each row as in POST /admin/mentors/). '
+               'dry_run=true validates without saving. Valid rows are created even when others fail.',
+               request=inline_serializer('MentorImport', {'mentors': serializers.ListField(child=serializers.DictField()),
+                                                          'dry_run': serializers.BooleanField(required=False, default=False)}),
+               responses=OpenApiTypes.OBJECT)
+@api_view(['POST'])
+@permission_classes([IsIIC])
+def import_mentors(request):
+    rows=request.data.get('mentors')
+    if not isinstance(rows,list) or not rows:
+        raise ValidationError({'mentors':'Provide a non-empty list of mentor rows.'})
+    if len(rows)>MENTOR_IMPORT_LIMIT:
+        raise ValidationError({'mentors':f'At most {MENTOR_IMPORT_LIMIT} rows per import.'})
+    dry_run=request.data.get('dry_run') is True
+    created,errors,seen=[],[],set()
+    for index,row in enumerate(rows,start=1):
+        s=MentorCreateSerializer(data=row if isinstance(row,dict) else {},context={'request':request})
+        email=str(row.get('email','')).strip().lower() if isinstance(row,dict) else ''
+        if not s.is_valid():
+            errors.append({'row':index,'email':email,'errors':s.errors});continue
+        if s.validated_data['email'] in seen:
+            errors.append({'row':index,'email':email,'errors':{'email':['Duplicate email in this import.']}});continue
+        seen.add(s.validated_data['email'])
+        if dry_run:
+            created.append({'row':index,'email':s.validated_data['email'],'id':None});continue
+        with transaction.atomic():
+            u=s.save()
+        created.append({'row':index,'email':u.email,'id':u.pk})
+    if not dry_run and created:
+        AuditLog.objects.create(actor=request.user,action='MENTORS_IMPORTED',entity_type='User',entity_id=request.user.pk,
+                                details={'created':len(created),'failed':len(errors)})
+    return Response({'dry_run':dry_run,'created':created,'errors':errors},status=200 if dry_run or not created else 201)
 
 
 @extend_schema(tags=['mentors'], summary='IIC: update a mentor profile or directory publication (pk = user id)',

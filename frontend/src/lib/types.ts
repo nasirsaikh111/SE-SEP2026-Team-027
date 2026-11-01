@@ -128,6 +128,15 @@ export interface AdminDashboard {
 }
 export type Dashboard = StudentDashboard | MentorDashboard | AdminDashboard
 
+export type ReviewChecklistItem = 'iitm_email' | 'roll_number' | 'level' | 'courses' | 'cgpa'
+
+export interface MentorImportResult {
+  dry_run: boolean
+  created: { row: number; email: string; id: number | null }[]
+  errors: { row: number; email: string; errors: Record<string, string[]> }[]
+}
+export interface DailyChecksResult { expired_checks: number; inactivity_alerts: number; feedback_alerts: number; priorities_refreshed: number }
+
 export interface PendingStudent extends StudentProfile {
   id: number; user_id: number; email: string; name: string; submitted_at: string; approved_at: string | null
 }

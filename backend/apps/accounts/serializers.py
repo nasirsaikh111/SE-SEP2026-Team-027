@@ -1,3 +1,4 @@
+import re
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
@@ -34,12 +35,21 @@ class StudentProfileSerializer(serializers.ModelSerializer):
         fields = ('iitm_roll_number', 'level', 'courses', 'cgpa', 'approval_status','rejection_reason')
         read_only_fields = ('approval_status','rejection_reason')
 
+IITM_ROLL = re.compile(r'^\d{2}f\d{7}$', re.IGNORECASE)
+
+
+def roll_from_email(email):
+    """IITM BS student emails are <roll>@ds.study.iitm.ac.in (or es.study), e.g. 21f1000907."""
+    local = (email or '').split('@')[0]
+    return local.lower() if IITM_ROLL.match(local) else ''
+
+
 class StudentRegistrationSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True, min_length=8)
     first_name = serializers.CharField(max_length=150)
     last_name = serializers.CharField(max_length=150)
-    iitm_roll_number = serializers.CharField(max_length=50)
+    iitm_roll_number = serializers.CharField(max_length=50, required=False, allow_blank=True)
     level = serializers.ChoiceField(choices=StudentProfile.Level.choices)
     courses = serializers.ListField(child=serializers.CharField(max_length=120), allow_empty=False)
     cgpa = serializers.DecimalField(max_digits=4, decimal_places=2, min_value=0, max_value=10, required=False, allow_null=True)
@@ -53,6 +63,12 @@ class StudentRegistrationSerializer(serializers.Serializer):
     def validate_password(self, password):
         validate_password(password)
         return password
+    def validate(self, data):
+        if not data.get('iitm_roll_number', '').strip():
+            data['iitm_roll_number'] = roll_from_email(data.get('email'))
+            if not data['iitm_roll_number']:
+                raise serializers.ValidationError({'iitm_roll_number': 'Enter your IITM roll number.'})
+        return data
     @transaction.atomic
     def create(self, validated_data):
         p = {key:validated_data.pop(key) for key in ('iitm_roll_number','level','courses','cgpa') if key in validated_data}
@@ -60,15 +76,27 @@ class StudentRegistrationSerializer(serializers.Serializer):
         StudentProfile.objects.create(user=user, **p)
         return user
 
+# What IIC confirms against IITM records before approving a registration.
+REVIEW_CHECKLIST = ('iitm_email', 'roll_number', 'level', 'courses', 'cgpa')
+
+
 class StudentReviewSerializer(serializers.Serializer):
     decision = serializers.ChoiceField(choices=['APPROVED','REJECTED'])
     reason = serializers.CharField(required=False, allow_blank=True)
     academic_verified = serializers.BooleanField(default=False)
+    checklist = serializers.DictField(child=serializers.BooleanField(), required=False,
+                                      help_text=f'Each of {", ".join(REVIEW_CHECKLIST)} must be true to approve.')
     def validate(self,data):
         if data['decision'] == 'REJECTED' and not data.get('reason','').strip():
             raise serializers.ValidationError({'reason':'Reason required for rejection.'})
-        if data['decision'] == 'APPROVED' and not data.get('academic_verified'):
-            raise serializers.ValidationError({'academic_verified':'IIC must verify academic details from authorized records.'})
+        if data['decision'] == 'APPROVED':
+            if 'checklist' in data:
+                missing = [item for item in REVIEW_CHECKLIST if not data['checklist'].get(item)]
+                if missing:
+                    raise serializers.ValidationError({'checklist': f'Confirm every checklist item before approving: {", ".join(missing)}.'})
+                data['academic_verified'] = True
+            if not data.get('academic_verified'):
+                raise serializers.ValidationError({'academic_verified':'IIC must verify academic details from authorized records.'})
         return data
 
 class MentorProfileSerializer(serializers.ModelSerializer):

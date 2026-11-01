@@ -72,8 +72,25 @@ Without these variables, scheduling still works inside Sangam and the UI reports
 
 ## 5.6 Frontend (Vercel)
 - Root directory `frontend`, build `npm run build`, output `dist`.
-- Environment: `VITE_API_BASE_URL=https://<backend-host>/api/v1`.
+- Environment: `VITE_API_BASE_URL=https://team-027-pre-prod.vercel.app/api/v1` (also the built-in default in `src/lib/api.ts`).
 - `frontend/vercel.json` rewrites all paths to `index.html` for client-side routing.
+
+## 5.6a Backend on Vercel (team-027-pre-prod.vercel.app)
+Set these in the backend project's Environment Variables, then redeploy:
+
+| Variable | Value |
+|---|---|
+| `SANGAM_FRONTEND_URL` | The React frontend URL, e.g. `https://<frontend>.vercel.app` (used in mentor invitation links) |
+| `CORS_ALLOWED_ORIGINS` | `https://<frontend>.vercel.app,http://localhost:5173` |
+| `CORS_ALLOWED_ORIGIN_REGEXES` | Optional, for preview URLs, e.g. `^https://<frontend>(-[a-z0-9-]+)?\.vercel\.app$` |
+| `CSRF_TRUSTED_ORIGINS` | `https://<frontend>.vercel.app` |
+| `CRON_SECRET` | A long random string (`python -c "import secrets;print(secrets.token_urlsafe(32))"`) |
+
+Vercel has no long-running server, so `check_sangam_alerts` cannot run from system cron. `backend/vercel.json` schedules
+`GET /api/v1/cron/daily/` at 20:30 UTC (02:00 IST); Vercel sends `Authorization: Bearer $CRON_SECRET` automatically.
+The job is idempotent. IIC can also run it any time from **Monitoring & alerts → Run checks now**
+(`POST /api/v1/admin/daily-checks/`), and the mentor availability inbox expires overdue 7-day checks on every load.
+This assumes the Vercel project's Root Directory is `backend`; otherwise move the `crons` entry to the root `vercel.json`.
 
 ## 5.7 Verification commands
 ```bash

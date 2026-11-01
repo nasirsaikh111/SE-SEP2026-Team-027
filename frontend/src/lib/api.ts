@@ -1,7 +1,7 @@
 import axios, { AxiosError, type AxiosRequestConfig, type InternalAxiosRequestConfig } from 'axios'
 
 // The single HTTP client for the Django REST API. All business data flows through here.
-export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? 'http://127.0.0.1:8000/api/v1'
+export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, '') ?? 'https://team-027-pre-prod.vercel.app/api/v1'
 
 const ACCESS = 'sangam.access'
 const REFRESH = 'sangam.refresh'

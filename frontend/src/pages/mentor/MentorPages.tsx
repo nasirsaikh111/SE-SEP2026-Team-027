@@ -275,11 +275,30 @@ export function CalendarMeetingsPage() {
 // -------------------------------------------------------------------- feedback
 export function FeedbackProgressPage() {
   const { list, pair } = useActivePair()
+  const ended = useMentorships({ status: 'CLOSED' })
+  const { me } = useAuth()
   const dashboard = useDashboard()
   const [writing, setWriting] = useState(false)
   if (list.isPending) return <Loading />
   if (list.isError) return <ErrorAlert error={list.error} />
-  if (!pair) return <><PageHeader title="Feedback & progress" /><EmptyState title="No active mentee" description="Fortnightly progress updates start once a mentorship is active." /></>
+  if (!pair) {
+    const last = ended.data?.results[0]
+    return (
+      <>
+        <PageHeader title="Feedback & progress" />
+        {last ? (
+          <div className="grid gap-6 lg:grid-cols-2">
+            <Card title={`Your mentorship with ${last.student_name ?? 'your mentee'} has ended`}>
+              <p className="text-base-content/65 text-sm">Ended {formatDate(last.closed_at)}. {me?.mentor_profile?.is_available
+                ? 'You are back in the mentor pool, so IIC may ask about a new mentee.' : 'Turn on availability when you are ready for a new mentee.'}</p>
+              <FeedbackPanel pairId={last.id} kinds={['CLOSING']} active={false} closed />
+            </Card>
+            <Card title="Outcomes"><OutcomesPanel pairId={last.id} canRecord={false} /></Card>
+          </div>
+        ) : <EmptyState title="No active mentee" description="Fortnightly progress updates start once a mentorship is active." />}
+      </>
+    )
+  }
   const fb = dashboard.data?.role === 'MENTOR' ? (dashboard.data as MentorDashboard).feedback : null
   return (
     <>

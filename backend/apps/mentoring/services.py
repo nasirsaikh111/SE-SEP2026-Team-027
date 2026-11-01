@@ -151,6 +151,8 @@ def _expire_check(check):
            note='Mentor did not respond within 7 days; IIC will try another mentor.')
     log(None, 'AVAILABILITY_EXPIRED', check)
     inform(req.student, 'Mentoring request waiting', 'Availability check expired; IIC will try another mentor.')
+    inform_iic('Availability check expired', f'Request #{req.pk}: the mentor did not respond within 7 days. '
+               'Send a check to the next suggested mentor, or leave it in the waiting queue.')
 
 
 def expire_overdue_checks(now=None):
@@ -188,6 +190,8 @@ def respond_availability(*, check_id, mentor, decision, reason=''):
                 check.request.save(update_fields=['status', 'updated_at'])
                 record(event='MENTOR_DECLINED', from_status='AVAILABILITY_CHECK_SENT', to_status='WAITING',
                        request=check.request, actor=mentor, note='Mentor unavailable; IIC will try another mentor.')
+                inform_iic('Mentor declined availability', f'Request #{check.request_id}: send a check to the next suggested mentor, '
+                           'or leave it in the waiting queue.')
             else:
                 record(event='MENTOR_CONFIRMED', from_status='AVAILABILITY_CHECK_SENT', to_status='AWAITING_IIC_APPROVAL',
                        request=check.request, actor=mentor, note='Mentor confirmed availability; awaiting IIC approval.')
@@ -252,8 +256,12 @@ def close_mentorship(*, pair_id, actor, reason, closure_type=Mentorship.ClosureT
     log(actor, 'MENTORSHIP_CLOSED', pair, {'closure_type': closure_type})
     record(event='MENTORSHIP_CLOSED', from_status='ACTIVE', to_status='CLOSED', request=pair.request, mentorship=pair,
            actor=actor, note=f'Closure type: {pair.get_closure_type_display()}.')
-    inform(pair.student, 'Mentorship closed', 'Your mentorship has ended.')
-    inform(pair.mentor, 'Mentorship closed', 'Your mentorship has ended.')
+    if closure_type != Mentorship.ClosureType.REASSIGNED:
+        inform(pair.student, 'Mentorship closed', 'Your mentorship has ended. Please send IIC your closing feedback '
+               'and record any outcomes (interviews, offers, admissions) in Sangam.')
+    pool = ('You are back in the mentor pool for new requests.' if pair.mentor.mentor_profile.is_available
+            else 'Turn on availability in Sangam when you are ready for a new mentee.')
+    inform(pair.mentor, 'Mentorship closed', f'Your mentorship has ended. Please send IIC your closing feedback. {pool}')
     return pair
 
 
@@ -278,3 +286,31 @@ def reassign_mentorship(*, pair_id, actor, reason):
 
 def resolve_alerts(pair, kind):
     Alert.objects.filter(mentorship=pair, kind=kind, resolved_at__isnull=True).update(resolved_at=timezone.now())
+
+
+def run_daily_checks(now=None):
+    """Daily monitoring: expire 7-day checks, flag 14-day inactivity and mentor feedback due, refresh priorities.
+
+    Idempotent (alerts are unique per fortnight), so it is safe to run from cron and on demand by IIC.
+    """
+    from .models import Meeting, Feedback
+    from apps.assistant_ai.services import assess_request_priority
+    now = now or timezone.now()
+    today = timezone.localdate(now)
+    period = today - timedelta(days=today.toordinal() % 14)
+    summary = {'expired_checks': expire_overdue_checks(now), 'inactivity_alerts': 0, 'feedback_alerts': 0}
+    for pair in Mentorship.objects.filter(status='ACTIVE').select_related('mentor'):
+        latest = Meeting.objects.filter(mentorship=pair, status='HELD').order_by('-session_date').first()
+        last = latest.session_date if latest else timezone.localdate(pair.started_at)
+        if last <= today - timedelta(days=14):
+            _, created = Alert.objects.get_or_create(mentorship=pair, kind='INACTIVITY', period_start=period)
+            summary['inactivity_alerts'] += created
+        last_feedback = Feedback.objects.filter(mentorship=pair, author=pair.mentor, kind='PROGRESS').order_by('-created_at').first()
+        since = timezone.localdate(last_feedback.created_at) if last_feedback else timezone.localdate(pair.started_at)
+        if since <= today - timedelta(days=14):
+            _, created = Alert.objects.get_or_create(mentorship=pair, kind='FEEDBACK_DUE', period_start=period)
+            if created:
+                summary['feedback_alerts'] += 1
+                inform(pair.mentor, 'Sangam progress update', 'Please send your fortnightly progress feedback to IIC.')
+    summary['priorities_refreshed'] = sum(1 for r in MentoringRequest.objects.filter(status__in=OPEN_STATUSES) if assess_request_priority(r))
+    return summary

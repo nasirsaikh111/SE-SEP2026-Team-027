@@ -287,12 +287,21 @@ export function FeedbackModal({ pairId, kinds, open, onClose }: { pairId: number
   )
 }
 
-export function FeedbackPanel({ pairId, kinds, active }: { pairId: number; kinds: FeedbackKind[]; active: boolean }) {
+/** `closed`: the mentorship has ended, so only one closing note may still be sent. */
+export function FeedbackPanel({ pairId, kinds, active, closed = false }: { pairId: number; kinds: FeedbackKind[]; active: boolean; closed?: boolean }) {
   const list = useFeedback(pairId)
   const [writing, setWriting] = useState(false)
+  const sentClosing = !!list.data?.some((f) => f.kind === 'CLOSING')
+  const available = closed ? (sentClosing ? [] : ['CLOSING' as const]) : kinds.filter((k) => k !== 'CLOSING' || !sentClosing)
   return (
     <div className="flex flex-col gap-3">
-      {active && <button className="btn btn-primary btn-sm self-start" onClick={() => setWriting(true)}><PenLine size={15} />Write to IIC</button>}
+      {active && !closed && <button className="btn btn-primary btn-sm self-start" onClick={() => setWriting(true)}><PenLine size={15} />Write to IIC</button>}
+      {closed && list.isSuccess && (sentClosing ? <p className="text-success text-sm">Thank you. Your closing feedback has reached IIC.</p> : (
+        <div className="bg-accent/15 flex flex-wrap items-center justify-between gap-3 rounded-2xl px-4 py-3 text-sm">
+          <span>This mentorship has ended. Tell IIC how it went and what you achieved.</span>
+          <button className="btn btn-primary btn-sm" onClick={() => setWriting(true)}><PenLine size={15} />Send closing feedback</button>
+        </div>
+      ))}
       {list.isPending ? <Loading /> : list.isError ? <ErrorAlert error={list.error} /> : list.data.length === 0 ? <p className="text-base-content/60 text-sm">You have not written to IIC yet.</p> : (
         <ul className="rows">
           {list.data.map((f) => (
@@ -303,7 +312,7 @@ export function FeedbackPanel({ pairId, kinds, active }: { pairId: number; kinds
           ))}
         </ul>
       )}
-      <FeedbackModal pairId={pairId} kinds={kinds} open={writing} onClose={() => setWriting(false)} />
+      {available.length > 0 && <FeedbackModal key={available.join()} pairId={pairId} kinds={available} open={writing} onClose={() => setWriting(false)} />}
     </div>
   )
 }

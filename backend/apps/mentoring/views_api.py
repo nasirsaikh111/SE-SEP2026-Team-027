@@ -1,5 +1,7 @@
 import csv
+import hmac
 from datetime import datetime, time, timedelta
+from django.conf import settings
 from django.db import transaction
 from django.db.models import Count, Q, Prefetch
 from django.db.models.functions import TruncMonth
@@ -9,8 +11,8 @@ from django.utils import timezone
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, inline_serializer, OpenApiParameter
 from rest_framework import serializers
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError, PermissionDenied
 from apps.accounts.models import StudentProfile, MentorProfile
@@ -24,7 +26,8 @@ from .serializers import (RequestSerializer, RequestDetailSerializer, Availabili
                           MeetingSerializer, FeedbackSerializer, OutcomeSerializer, NotificationSerializer, HistorySerializer,
                           redact_personal_contact)
 from .services import (send_availability, respond_availability, approve_match, close_mentorship, reassign_mentorship,
-                       transition_request, create_request, withdraw_request as withdraw_service, log, inform_iic, resolve_alerts)
+                       transition_request, create_request, withdraw_request as withdraw_service, log, inform_iic, resolve_alerts,
+                       expire_overdue_checks, run_daily_checks)
 from .workflow import OPEN_STATUSES, request_stage
 
 
@@ -189,6 +192,7 @@ def check_availability(request,pk):
 @permission_classes([IsAuthenticated])
 def availability_inbox(request):
     if request.user.role != 'MENTOR' and not iic(request.user):raise PermissionDenied('Mentors only.')
+    expire_overdue_checks()  # 7-day rule holds between daily cron runs
     qs=AvailabilityCheck.objects.select_related('request','mentor__mentor_profile')
     qs=qs if iic(request.user) else qs.filter(mentor=request.user)
     if request.query_params.get('status'):
@@ -373,6 +377,10 @@ def feedback(request,pk):
     author_role='MENTOR' if request.user.pk==pair.mentor_id else 'STUDENT'
     if FEEDBACK_AUTHORS.get(kind,author_role)!=author_role:
         raise ValidationError({'kind':f'{kind} feedback is submitted by the {FEEDBACK_AUTHORS[kind].lower()}.'})
+    if pair.status!='ACTIVE' and kind!='CLOSING':
+        raise ValidationError({'kind':'Only closing feedback can be sent after a mentorship ends.'})
+    if kind=='CLOSING' and pair.feedback.filter(author=request.user,kind='CLOSING').exists():
+        raise ValidationError({'kind':'You have already sent closing feedback for this mentorship.'})
     obj=s.save(mentorship=pair,author=request.user)
     log(request.user,'FEEDBACK_SUBMITTED',obj,{'kind':obj.kind})
     if kind=='PROGRESS':
@@ -486,6 +494,31 @@ def alert_resolve(request, pk):
         alert.resolved_at=timezone.now();alert.save(update_fields=['resolved_at'])
         log(request.user,'ALERT_RESOLVED',alert,{'kind':alert.kind})
     return Response({'id':alert.pk,'resolved_at':alert.resolved_at})
+
+DAILY_SUMMARY=inline_serializer('DailyChecksResult', {'expired_checks': serializers.IntegerField(), 'inactivity_alerts': serializers.IntegerField(),
+                                                     'feedback_alerts': serializers.IntegerField(), 'priorities_refreshed': serializers.IntegerField()})
+
+@doc('reports', 'IIC: run the daily monitoring checks now (7-day expiry, 14-day inactivity, fortnightly feedback)', responses=DAILY_SUMMARY)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def daily_checks(request):
+    require_iic(request.user)
+    summary=run_daily_checks()
+    log(request.user,'DAILY_CHECKS_RUN',request.user,summary)
+    return Response(summary)
+
+
+@doc('reports', 'Scheduler: daily monitoring checks. Requires "Authorization: Bearer <CRON_SECRET>" (sent by Vercel Cron).', responses=DAILY_SUMMARY)
+@api_view(['GET','POST'])
+@authentication_classes([])
+@permission_classes([AllowAny])
+def cron_daily_checks(request):
+    secret=getattr(settings,'CRON_SECRET','')
+    supplied=request.headers.get('Authorization','')
+    if not secret or not hmac.compare_digest(supplied.encode(),f'Bearer {secret}'.encode()):
+        raise PermissionDenied('Invalid scheduler credentials.')
+    return Response(run_daily_checks())
+
 
 @doc('reports', 'IIC: chronological audit trail of approvals and status changes',
      parameters=[OpenApiParameter('action', str), OpenApiParameter('entity_type', str), OpenApiParameter('page', int)])

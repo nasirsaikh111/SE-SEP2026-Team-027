@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useSearchParams } from 'react-router'
-import { CheckCircle2, Download, Plus } from 'lucide-react'
+import { CheckCircle2, Download, Plus, RefreshCw } from 'lucide-react'
 import { downloadFile, errorMessage } from '../../lib/api'
 import { CLOSURE, OUTCOME, PATHWAY, formatDate, formatDateTime, humanize, timeAgo } from '../../lib/format'
 import {
@@ -174,12 +174,18 @@ export function ActiveMentorshipsPage() {
 export function MonitoringPage() {
   const [includeResolved, setIncludeResolved] = useState(false)
   const alerts = useAlerts(includeResolved)
-  const { resolveAlert } = useAdminActions()
+  const { resolveAlert, runDailyChecks } = useAdminActions()
   const [resolving, setResolving] = useState<AlertRow | null>(null)
+  const ran = runDailyChecks.data
   return (
     <>
-      <PageHeader title="Monitoring & alerts" subtitle="Raised every day for mentorships with no meeting in 14 days or an overdue progress update."
-        actions={<label className="bg-base-100 border-base-300 flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm"><input type="checkbox" className="toggle toggle-sm" checked={includeResolved} onChange={(e) => setIncludeResolved(e.target.checked)} />Show resolved</label>} />
+      <PageHeader title="Monitoring & alerts" subtitle="Raised every day for mentorships with no meeting in 14 days or an overdue progress update. Unanswered 7-day availability checks expire at the same time."
+        actions={<>
+          <label className="bg-base-100 border-base-300 flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-sm"><input type="checkbox" className="toggle toggle-sm" checked={includeResolved} onChange={(e) => setIncludeResolved(e.target.checked)} />Show resolved</label>
+          <button className="btn btn-sm" disabled={runDailyChecks.isPending} onClick={() => runDailyChecks.mutate()}>{runDailyChecks.isPending ? <span className="loading loading-spinner loading-xs" /> : <RefreshCw size={15} />}Run checks now</button>
+        </>} />
+      {ran && <div role="status" className="bg-base-200 mb-4 rounded-2xl px-4 py-3 text-sm">Checks complete: {ran.expired_checks} availability checks expired, {ran.inactivity_alerts} new inactivity alerts, {ran.feedback_alerts} new feedback reminders.</div>}
+      <ErrorAlert error={runDailyChecks.error} />
       <Card>
         {alerts.isPending ? <Loading /> : alerts.isError ? <ErrorAlert error={alerts.error} /> : alerts.data.length === 0 ? <EmptyState title="Everything's on track" description="No mentorship needs a nudge right now." /> : (
           <ul className="rows">

@@ -46,3 +46,7 @@ urlpatterns += [
  path('calendar/oauth/callback/',cal.calendar_oauth_callback),
  path('calendar/disconnect/',cal.calendar_disconnect),
 ]
+urlpatterns += [
+ path('admin/daily-checks/',v.daily_checks),
+ path('cron/daily/',v.cron_daily_checks),
+]

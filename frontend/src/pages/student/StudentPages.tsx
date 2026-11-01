@@ -104,7 +104,8 @@ export function MyMentorshipPage() {
             <Card title="Next meeting" actions={<Link to="/meetings-goals" className="link link-hover text-sm">All meetings</Link>}><UpcomingMeeting meeting={pair.progress.next_meeting} /></Card>
             <Card title="Feedback to IIC">
               <p className="text-base-content/65 text-sm">Tell IIC how it's going, ask for a different mentor, or share closing feedback. Your mentor does not see this.</p>
-              <FeedbackPanel pairId={pair.id} kinds={['GENERAL', 'CHANGE_MENTOR', 'CLOSING']} active={pair.status === 'ACTIVE'} />
+              <FeedbackPanel pairId={pair.id} kinds={['GENERAL', 'CHANGE_MENTOR', 'CLOSING']} active={pair.status === 'ACTIVE'} closed={pair.status === 'CLOSED'} />
+              {pair.status === 'CLOSED' && <p className="text-base-content/65 mt-3 text-sm">Got an interview, offer or admission? <Link to="/meetings-goals" className="link link-primary">Record the outcome</Link> so IIC can see what the programme achieved.</p>}
             </Card>
           </div>
           <Card title="Milestones">
