@@ -2,9 +2,82 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Base App Styling */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: #f8fafc;
   color: #0f172a;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ============================================================
+   Dynamic Themes: White & Blue (Default) vs IITM Teal & Slate
+   ============================================================ */
+
+:root, [data-theme="blue"] {
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #172554;
+}
+
+[data-theme="teal"] {
+  --color-primary-50: #f0fdfa;
+  --color-primary-100: #ccfbf1;
+  --color-primary-200: #99f6e4;
+  --color-primary-500: #14b8a6;
+  --color-primary-600: #0d9488;
+  --color-primary-700: #0f766e;
+  --color-primary-800: #115e59;
+  --color-primary-900: #09232f;
+}
+
+/* Global utility theme mapping for Teal mode */
+[data-theme="teal"] .bg-blue-600 {
+  background-color: #0f766e !important;
+}
+[data-theme="teal"] .hover\:bg-blue-700:hover {
+  background-color: #115e59 !important;
+}
+[data-theme="teal"] .bg-blue-700 {
+  background-color: #115e59 !important;
+}
+[data-theme="teal"] .bg-blue-500 {
+  background-color: #14b8a6 !important;
+}
+[data-theme="teal"] .bg-blue-50 {
+  background-color: #f0fdfa !important;
+}
+[data-theme="teal"] .bg-blue-100 {
+  background-color: #ccfbf1 !important;
+}
+[data-theme="teal"] .text-blue-600 {
+  color: #0d9488 !important;
+}
+[data-theme="teal"] .text-blue-700 {
+  color: #0f766e !important;
+}
+[data-theme="teal"] .text-blue-800 {
+  color: #115e59 !important;
+}
+[data-theme="teal"] .text-blue-900 {
+  color: #134e4a !important;
+}
+[data-theme="teal"] .border-blue-200 {
+  border-color: #99f6e4 !important;
+}
+[data-theme="teal"] .border-blue-600 {
+  border-color: #0f766e !important;
+}
+[data-theme="teal"] .focus\:ring-blue-500:focus {
+  --tw-ring-color: #14b8a6 !important;
+}
+[data-theme="teal"] .selection\:bg-blue-100::selection {
+  background-color: #ccfbf1 !important;
+  color: #134e4a !important;
 }

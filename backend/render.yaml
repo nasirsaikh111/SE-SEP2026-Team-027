@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: sangam-backend
+    runtime: python
+    region: singapore
+    plan: free
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt && pip install gunicorn && python manage.py collectstatic --noinput"
+    startCommand: "python manage.py migrate --noinput && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 120"
+    envVars:
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com,localhost,127.0.0.1"
+      - key: DATABASE_SSL_REQUIRE
+        value: "true"
+      - key: SANGAM_FRONTEND_URL
+        value: "https://frontend-orpin-iota-73.vercel.app"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://frontend-orpin-iota-73.vercel.app,https://sangam-step2.vercel.app,https://deploy-full-tau.vercel.app,http://localhost:5173"
+      - key: CSRF_TRUSTED_ORIGINS
+        value: "https://frontend-orpin-iota-73.vercel.app,https://sangam-step2.vercel.app,https://deploy-full-tau.vercel.app"
