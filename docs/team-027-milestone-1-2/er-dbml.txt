@@ -1,13 +1,120 @@
-ER Diagram — DBML (Database Markup Language)
-=============================================
-Team: Team 027
-Project: Sangam — Student Mentoring and Career Support Platform
-Tool: dbdiagram.io
+// ============================================================
+// Sangam — Student Mentoring and Career Support Platform
+// Team: Team 027 · Milestone 1-2 Specification
+// Paste this directly into https://dbdiagram.io
+// ============================================================
 
-// ============================================================
-// Sangam ER Diagram — DBML
-// Paste this into https://dbdiagram.io to generate the visual
-// ============================================================
+// 1. ENUMS
+Enum user_role {
+  STUDENT
+  MENTOR
+  ADMIN
+}
+
+Enum student_level {
+  DIPLOMA
+  DEGREE
+}
+
+Enum profile_approval_status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+Enum request_pathway {
+  JOB
+  HIGHER_STUDIES
+  VENTURE
+  UNSURE
+}
+
+Enum request_status {
+  SUBMITTED
+  UNDER_REVIEW
+  WAITING
+  MATCHED
+  WITHDRAWN
+  CLOSED
+}
+
+Enum check_status {
+  PENDING
+  CONFIRMED
+  DECLINED
+  EXPIRED
+  USED
+}
+
+Enum mentorship_status {
+  ACTIVE
+  CLOSED
+}
+
+Enum closure_type {
+  COMPLETED
+  REASSIGNED
+  STUDENT_WITHDREW
+  MENTOR_UNAVAILABLE
+  OTHER
+}
+
+Enum meeting_status {
+  SCHEDULED
+  HELD
+  CANCELLED
+  NO_SHOW
+}
+
+Enum meeting_format {
+  VIDEO
+  PHONE
+  IN_PERSON
+}
+
+Enum feedback_kind {
+  GENERAL
+  PROGRESS
+  CHANGE_MENTOR
+  CLOSING
+}
+
+Enum outcome_kind {
+  INTERVIEW
+  INTERNSHIP
+  JOB
+  HIGHER_STUDIES
+  VENTURE
+  OTHER
+}
+
+Enum priority_level {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+Enum calendar_status {
+  CONNECTED
+  DISCONNECTED
+  REAUTH_REQUIRED
+}
+
+Enum event_sync_status {
+  SYNCED
+  FAILED
+  CANCELLED
+}
+
+Enum article_audience {
+  ALL
+  STUDENT
+  MENTOR
+  ADMIN
+}
+
+// 2. TABLES
 
 Table User {
   id integer [pk, increment]
@@ -15,7 +122,7 @@ Table User {
   password varchar(128) [not null]
   first_name varchar(150)
   last_name varchar(150)
-  role enum('STUDENT', 'MENTOR', 'ADMIN') [not null, default: 'STUDENT']
+  role user_role [not null, default: 'STUDENT']
   is_active boolean [default: true]
   is_staff boolean [default: false]
   date_joined datetime [not null]
@@ -23,21 +130,21 @@ Table User {
 
 Table StudentProfile {
   id integer [pk, increment]
-  user_id integer [ref: - User.id, not null]
+  user_id integer [not null, unique]
   iitm_roll_number varchar(50) [not null]
-  level enum('DIPLOMA', 'DEGREE') [not null]
-  courses json [default: '[]']
+  level student_level [not null]
+  courses json
   cgpa decimal(4,2)
-  approval_status enum('PENDING', 'APPROVED', 'REJECTED') [default: 'PENDING']
+  approval_status profile_approval_status [default: 'PENDING']
   rejection_reason text
-  approved_by_id integer [ref: > User.id]
+  approved_by_id integer
   approved_at datetime
   created_at datetime [not null]
 }
 
 Table MentorProfile {
   id integer [pk, increment]
-  user_id integer [ref: - User.id, not null]
+  user_id integer [not null, unique]
   alumni_roll_number varchar(50)
   graduation_year integer
   domain varchar(150) [not null]
@@ -48,34 +155,34 @@ Table MentorProfile {
   experience_years integer [default: 0]
   is_verified boolean [default: false]
   is_available boolean [default: true]
-  invited_by_id integer [ref: > User.id]
+  invited_by_id integer
   bio varchar(500)
-  skills json [default: '[]']
+  skills json
   linkedin_url varchar(300)
   is_discoverable boolean [default: false]
-  verified_by_id integer [ref: > User.id]
+  verified_by_id integer
   verified_at datetime
   created_at datetime [not null]
 }
 
 Table MentoringRequest {
   id integer [pk, increment]
-  student_id integer [ref: > User.id, not null]
-  pathway enum('JOB', 'HIGHER_STUDIES', 'VENTURE', 'UNSURE') [not null]
+  student_id integer [not null]
+  pathway request_pathway [not null]
   domain varchar(150) [not null]
   background text
   problem_statement text [not null]
-  status enum('SUBMITTED', 'UNDER_REVIEW', 'WAITING', 'MATCHED', 'WITHDRAWN', 'CLOSED') [default: 'SUBMITTED']
-  preferred_mentor_id integer [ref: > User.id]
+  status request_status [default: 'SUBMITTED']
+  preferred_mentor_id integer
   submitted_at datetime [not null]
   updated_at datetime [not null]
 }
 
 Table AvailabilityCheck {
   id integer [pk, increment]
-  request_id integer [ref: > MentoringRequest.id, not null]
-  mentor_id integer [ref: > User.id, not null]
-  status enum('PENDING', 'CONFIRMED', 'DECLINED', 'EXPIRED', 'USED') [default: 'PENDING']
+  request_id integer [not null]
+  mentor_id integer [not null]
+  status check_status [default: 'PENDING']
   sent_at datetime [not null]
   expires_at datetime [not null]
   responded_at datetime
@@ -84,22 +191,22 @@ Table AvailabilityCheck {
 
 Table Mentorship {
   id integer [pk, increment]
-  request_id integer [ref: > MentoringRequest.id, not null]
-  availability_check_id integer [ref: - AvailabilityCheck.id, not null]
-  student_id integer [ref: > User.id, not null]
-  mentor_id integer [ref: > User.id, not null]
-  approved_by_id integer [ref: > User.id, not null]
-  status enum('ACTIVE', 'CLOSED') [default: 'ACTIVE']
+  request_id integer [not null]
+  availability_check_id integer [not null, unique]
+  student_id integer [not null]
+  mentor_id integer [not null]
+  approved_by_id integer [not null]
+  status mentorship_status [default: 'ACTIVE']
   started_at datetime [not null]
   closed_at datetime
   closing_reason text
-  closure_type enum('COMPLETED', 'REASSIGNED', 'STUDENT_WITHDREW', 'MENTOR_UNAVAILABLE', 'OTHER')
-  closed_by_id integer [ref: > User.id]
+  closure_type closure_type
+  closed_by_id integer
 }
 
 Table Goal {
   id integer [pk, increment]
-  mentorship_id integer [ref: > Mentorship.id, not null]
+  mentorship_id integer [not null]
   slot integer [not null, note: '1 to 3']
   title varchar(250) [not null]
   target_date date [not null]
@@ -109,34 +216,34 @@ Table Goal {
 
 Table Meeting {
   id integer [pk, increment]
-  mentorship_id integer [ref: > Mentorship.id, not null]
+  mentorship_id integer [not null]
   session_date date [not null]
   duration_minutes integer [not null]
-  status enum('SCHEDULED', 'HELD', 'CANCELLED', 'NO_SHOW') [default: 'HELD']
-  logged_by_id integer [ref: > User.id, not null]
+  status meeting_status [default: 'HELD']
+  logged_by_id integer [not null]
   mentor_confirmed boolean [default: false]
   start_at datetime
   end_at datetime
   timezone varchar(64)
   title varchar(120)
-  meeting_format enum('VIDEO', 'PHONE', 'IN_PERSON') [default: 'VIDEO']
+  meeting_format meeting_format [default: 'VIDEO']
   created_at datetime [not null]
   updated_at datetime [not null]
 }
 
 Table Feedback {
   id integer [pk, increment]
-  mentorship_id integer [ref: > Mentorship.id, not null]
-  author_id integer [ref: > User.id, not null]
-  kind enum('GENERAL', 'PROGRESS', 'CHANGE_MENTOR', 'CLOSING') [not null]
+  mentorship_id integer [not null]
+  author_id integer [not null]
+  kind feedback_kind [not null]
   text text [not null]
   created_at datetime [not null]
 }
 
 Table Outcome {
   id integer [pk, increment]
-  mentorship_id integer [ref: > Mentorship.id, not null]
-  kind enum('INTERVIEW', 'INTERNSHIP', 'JOB', 'HIGHER_STUDIES', 'VENTURE', 'OTHER') [not null]
+  mentorship_id integer [not null]
+  kind outcome_kind [not null]
   achieved_on date [not null]
   note varchar(500)
   created_at datetime [not null]
@@ -144,7 +251,7 @@ Table Outcome {
 
 Table Notification {
   id integer [pk, increment]
-  recipient_id integer [ref: > User.id, not null]
+  recipient_id integer [not null]
   title varchar(200) [not null]
   message text [not null]
   is_read boolean [default: false]
@@ -153,18 +260,18 @@ Table Notification {
 
 Table AuditLog {
   id integer [pk, increment]
-  actor_id integer [ref: > User.id]
+  actor_id integer
   action varchar(80) [not null]
   entity_type varchar(80) [not null]
   entity_id integer [not null]
-  details json [default: '{}']
+  details json
   created_at datetime [not null]
 }
 
 Table Alert {
   id integer [pk, increment]
-  mentorship_id integer [ref: > Mentorship.id, not null]
-  kind enum('INACTIVITY', 'FEEDBACK_DUE') [not null]
+  mentorship_id integer [not null]
+  kind varchar(40) [not null, note: 'INACTIVITY | FEEDBACK_DUE']
   period_start date [not null]
   resolved_at datetime
   created_at datetime [not null]
@@ -172,12 +279,12 @@ Table Alert {
 
 Table ActivityStatusHistory {
   id integer [pk, increment]
-  request_id integer [ref: > MentoringRequest.id]
-  mentorship_id integer [ref: > Mentorship.id]
+  request_id integer
+  mentorship_id integer
   event varchar(40) [not null]
   from_status varchar(40)
   to_status varchar(40) [not null]
-  actor_id integer [ref: > User.id]
+  actor_id integer
   actor_role varchar(20)
   note varchar(300)
   visible_to_student boolean [default: true]
@@ -186,8 +293,8 @@ Table ActivityStatusHistory {
 
 Table GoogleCalendarConnection {
   id integer [pk, increment]
-  user_id integer [ref: - User.id, not null]
-  status enum('CONNECTED', 'DISCONNECTED', 'REAUTH_REQUIRED') [default: 'DISCONNECTED']
+  user_id integer [not null, unique]
+  status calendar_status [default: 'DISCONNECTED']
   google_email varchar(254)
   scopes varchar(500)
   token_expires_at datetime
@@ -198,13 +305,13 @@ Table GoogleCalendarConnection {
 
 Table MeetingCalendarEvent {
   id integer [pk, increment]
-  meeting_id integer [ref: - Meeting.id, not null]
+  meeting_id integer [not null, unique]
   provider varchar(20) [default: 'GOOGLE']
-  calendar_owner_id integer [ref: > User.id]
+  calendar_owner_id integer
   event_id varchar(255)
   html_link varchar(500)
   meet_link varchar(500)
-  sync_status enum('SYNCED', 'FAILED', 'CANCELLED') [default: 'SYNCED']
+  sync_status event_sync_status [default: 'SYNCED']
   last_synced_at datetime
   last_error varchar(300)
 }
@@ -213,15 +320,15 @@ Table KnowledgeArticle {
   id integer [pk, increment]
   title varchar(180) [not null]
   content text [not null]
-  audience enum('ALL', 'STUDENT', 'MENTOR', 'ADMIN') [default: 'ALL']
+  audience article_audience [default: 'ALL']
   is_published boolean [default: false]
   updated_at datetime [not null]
 }
 
 Table MatchSuggestionAudit {
   id integer [pk, increment]
-  request_id integer [ref: > MentoringRequest.id, not null]
-  requested_by_id integer [ref: > User.id, not null]
+  request_id integer [not null]
+  requested_by_id integer [not null]
   algorithm varchar(30) [default: 'rules-v1']
   candidate_count integer [default: 0]
   used_local_llm boolean [default: false]
@@ -230,16 +337,104 @@ Table MatchSuggestionAudit {
 
 Table AIRequestAssessment {
   id integer [pk, increment]
-  request_id integer [ref: > MentoringRequest.id, not null]
-  suggested_priority enum('LOW', 'MEDIUM', 'HIGH', 'URGENT') [not null]
+  request_id integer [not null]
+  suggested_priority priority_level [not null]
   explanation varchar(500) [not null]
   confidence decimal(3,2)
-  factors json [default: '{}']
+  factors json
   algorithm varchar(30) [default: 'priority-rules-v1']
-  override_priority enum('LOW', 'MEDIUM', 'HIGH', 'URGENT')
+  override_priority priority_level
   override_reason varchar(300)
-  overridden_by_id integer [ref: > User.id]
+  overridden_by_id integer
   overridden_at datetime
   created_at datetime [not null]
 }
 
+// 3. RELATIONSHIPS
+
+Ref: StudentProfile.user_id - User.id
+Ref: StudentProfile.approved_by_id > User.id
+
+Ref: MentorProfile.user_id - User.id
+Ref: MentorProfile.invited_by_id > User.id
+Ref: MentorProfile.verified_by_id > User.id
+
+Ref: MentoringRequest.student_id > User.id
+Ref: MentoringRequest.preferred_mentor_id > User.id
+
+Ref: AvailabilityCheck.request_id > MentoringRequest.id
+Ref: AvailabilityCheck.mentor_id > User.id
+
+Ref: Mentorship.request_id > MentoringRequest.id
+Ref: Mentorship.availability_check_id - AvailabilityCheck.id
+Ref: Mentorship.student_id > User.id
+Ref: Mentorship.mentor_id > User.id
+Ref: Mentorship.approved_by_id > User.id
+Ref: Mentorship.closed_by_id > User.id
+
+Ref: Goal.mentorship_id > Mentorship.id
+
+Ref: Meeting.mentorship_id > Mentorship.id
+Ref: Meeting.logged_by_id > User.id
+
+Ref: Feedback.mentorship_id > Mentorship.id
+Ref: Feedback.author_id > User.id
+
+Ref: Outcome.mentorship_id > Mentorship.id
+
+Ref: Notification.recipient_id > User.id
+
+Ref: AuditLog.actor_id > User.id
+
+Ref: Alert.mentorship_id > Mentorship.id
+
+Ref: ActivityStatusHistory.request_id > MentoringRequest.id
+Ref: ActivityStatusHistory.mentorship_id > Mentorship.id
+Ref: ActivityStatusHistory.actor_id > User.id
+
+Ref: GoogleCalendarConnection.user_id - User.id
+
+Ref: MeetingCalendarEvent.meeting_id - Meeting.id
+Ref: MeetingCalendarEvent.calendar_owner_id > User.id
+
+Ref: MatchSuggestionAudit.request_id > MentoringRequest.id
+Ref: MatchSuggestionAudit.requested_by_id > User.id
+
+Ref: AIRequestAssessment.request_id > MentoringRequest.id
+Ref: AIRequestAssessment.overridden_by_id > User.id
+
+// 4. TABLE GROUPS (Visual layout in dbdiagram.io)
+
+TableGroup Accounts {
+  User
+  StudentProfile
+  MentorProfile
+}
+
+TableGroup Mentoring_Core {
+  MentoringRequest
+  AvailabilityCheck
+  Mentorship
+}
+
+TableGroup Engagement {
+  Goal
+  Meeting
+  Feedback
+  Outcome
+}
+
+TableGroup Audit_and_Alerts {
+  Notification
+  AuditLog
+  Alert
+  ActivityStatusHistory
+}
+
+TableGroup Integrations_and_AI {
+  GoogleCalendarConnection
+  MeetingCalendarEvent
+  KnowledgeArticle
+  MatchSuggestionAudit
+  AIRequestAssessment
+}
