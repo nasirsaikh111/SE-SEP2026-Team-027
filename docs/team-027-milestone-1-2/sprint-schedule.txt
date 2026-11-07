@@ -1,0 +1,76 @@
+Application: Sangam: Student Mentoring and Career Support Platform
+Team: Studiiai (SE-SEP2026-Team-027) · Problem Statement: Option 2
+Submission Date: 7 November 2026
+
+Team Members and Roles:
+  - Hemant Dhayal       (23f2001646) : Team Leader, Frontend Developer, Tester
+  - Rituparna Bhaumik   (24f1002607) : Product Manager, Code Reviewer
+  - Debshata Choudhury  (23f2005432) : Scrum Master, Backend Developer, AI/ML Integration
+  - Payal Agrawal       (22f3000954) : Tester, Frontend Developer
+  - Nasir               (24f1002474) : Tester, Backend Developer
+
+================================================================================
+4. Sprint Schedule & Agile Management
+================================================================================
+
+The project is divided into two design iterations and three development sprints
+between October and December 2026, managed in Jira with the Timeline view for the
+Gantt chart and the Kanban board for task tracking.
+
+--------------------------------------------------------------------------------
+4.1 Sprint Overview
+--------------------------------------------------------------------------------
+
+Iteration 1 (M1) · 3 Oct – 25 Oct 2026: Identify User Requirements
+  - Goal: Roles, problem selection, 10 qualitative interviews, SMART user stories.
+  - Tasks: KAN-4 to KAN-25 (All Completed).
+  - Deliverables: Milestone 1 Report, Interview transcripts, Project proposal.
+
+Iteration 2 (M2) · 26 Oct – 7 Nov 2026: Scheduling and Design
+  - Goal: Jira setup, components design, class diagrams, database schema, frontend views.
+  - Tasks: KAN-26 to KAN-37 (Current Milestone).
+  - Deliverables: Milestone 2 Report, ER diagram, Class diagram, UI Prototype.
+
+Sprint 1 (M3) · 8 Nov – 22 Nov 2026: Core APIs and Testing
+  - Goal: Auth, profile and discovery APIs, AI matching engine, test cases, pytest suite.
+  - Key Tasks: KAN-38 to KAN-52 (Auth, Profiles, Mentoring need, Match scoring).
+
+Sprint 2 (M4) · 23 Nov – 6 Dec 2026: Relationship APIs and Testing
+  - Goal: Requests lifecycle, sessions logging, notifications, GenAI summaries, admin insights.
+  - Key Tasks: KAN-53 to KAN-66 (Meetings, Calendar sync, Inactivity alerts, Reports).
+
+Final Sprint (M5) · 7 Dec – 20 Dec 2026: Final Report and Prototype
+  - Goal: End-to-end integration, full regression testing, final report, slides, demo video.
+  - Key Tasks: KAN-67 to KAN-75 (Polish, Security audit, Showcase rehearsal).
+
+--------------------------------------------------------------------------------
+4.2 Milestone 2 Detailed Task Breakdown (Jira Kanban State)
+--------------------------------------------------------------------------------
+
+Task ID | Task Name                                                | Assignee            | Status
+--------+----------------------------------------------------------+---------------------+------------
+KAN-30  | Database design (ER diagram and schema)                  | Nasir               | Done
+KAN-29  | Class diagram (UML)                                      | Nasir               | Done
+KAN-26  | Set up Jira: Timeline (Gantt), Kanban board, epics       | Debshata Choudhury  | Done
+KAN-27  | Sprint schedule and scrum meeting cadence                | Debshata Choudhury  | In Review
+KAN-31  | Wireframes for student, mentor and admin flows           | Rituparna Bhaumik   | Done
+KAN-28  | Design of components (per user role)                     | Rituparna Bhaumik   | Done
+KAN-32  | Frontend pages: auth, landing and student views          | Hemant Dhayal       | Done
+KAN-33  | Frontend pages: mentor and admin views                   | Payal Agrawal       | In Progress
+KAN-35  | Code review of frontend PRs                              | Payal Agrawal       | In Progress
+KAN-34  | Connect pages with routing/redirection and write README  | Hemant Dhayal       | In Progress
+KAN-36  | Compile Milestone 2 PDF report (with Gantt & Kanban)     | Debshata Choudhury  | In Progress
+KAN-37  | Build team-027-milestone-1-2.zip, pass validity check    | Hemant Dhayal       | In Progress
+
+--------------------------------------------------------------------------------
+4.3 Scrum Meetings Cadence & Minutes of Meetings (MoM)
+--------------------------------------------------------------------------------
+
+Meetings were held at least once a week on Google Meet, with a weekly TA session on
+Thursdays at 8:00 PM:
+  - MoM 1 (3 Oct 2026): Team formation, milestones review, and role allocation.
+  - MoM 2 (10 Oct 2026): Problem Statement 2 selection, 10 stakeholder interviews plan.
+  - MoM 3 (21 Oct 2026): Milestone 1 review, pain points grouping, findings workbook.
+  - MoM 4 (22 Oct 2026): TA Session 1 (SDLC best practices, Jira setup feedback).
+  - MoM 5 (29 Oct 2026): Milestone 2 planning, database design tasks, frontend pages.
+  - MoM 6 (29 Oct 2026): TA Session 2 (Review of frontend prototype and Gantt schedule).

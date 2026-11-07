@@ -1,0 +1,38 @@
+Application: Sangam: Student Mentoring and Career Support Platform
+Team: Team 027 · Rituparna (Product Manager), Hemant (TL/Frontend), Payal (Tester), Debshata (Scrum Master), Nasir (Backend)
+Problem statement: Option 2, Student Mentoring and Career Support Platform
+
+Objective:
+To help IITM BS students find, reach and keep learning from alumni and recent graduates who have walked a similar career path. The platform does this through structured mentoring requests, administrator-approved matching, goal and session tracking, and outcome reporting that never exposes private conversations.
+
+================================================================================
+1. Identification of Users
+================================================================================
+
+We classify users by whom the platform is built for. Students are the people the platform exists to help. Mentors use it to deliver that help. Administrative users run and oversee the program but are not the ones being mentored.
+
+S.No | Primary Users                          | Secondary Users                       | Tertiary Users
+-----+----------------------------------------+---------------------------------------+---------------------------------------
+1    | Students approaching graduation        | Alumni and recent graduates           | IIC / Placement Cell administrator
+     | (mentees)                              | (mentors)                             |
+
+--------------------------------------------------------------------------------
+User Descriptions
+--------------------------------------------------------------------------------
+
+1. Primary Users: Students (mentees)
+   Students approaching graduation who need guidance on career direction, skills
+   to prioritize, portfolio projects, internships, company interview processes or
+   higher studies. They record their needs, request mentors, agree goals with
+   them and give feedback.
+
+2. Secondary Users: Alumni and recent graduates (mentors)
+   IITM BS graduates working in industry, studying further or running ventures.
+   They volunteer for a limited time (about 2–3 hours per month, usually one
+   mentee at a time) and use the platform to set their capacity, review requests
+   and log sessions.
+
+3. Tertiary Users: IIC / Placement Cell administrator
+   Verifies mentors, reviews system-recommended matches, reconfirms mentor
+   availability, approves or reassigns pairings, monitors engagement and handles
+   reported issues.
