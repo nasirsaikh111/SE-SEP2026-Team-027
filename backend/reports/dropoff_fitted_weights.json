@@ -1,0 +1,11 @@
+{
+  "weights": {
+    "days_since_meeting": 0.275,
+    "frequency_drop": 0.0,
+    "no_shows": 0.037,
+    "feedback_overdue": 0.318,
+    "open_alerts": 0.115,
+    "goals_stale": 0.255
+  },
+  "flag_threshold": 0.262
+}

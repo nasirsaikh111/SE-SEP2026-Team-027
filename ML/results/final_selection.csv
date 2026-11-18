@@ -1,0 +1,6 @@
+Feature,Selected algorithm,Held-out accuracy,Baseline / fallback
+Mentor matching (KAN-46),Hybrid MiniLM + rules (hybrid_v1),P@5 0.55 · MRR 0.82 · nDCG@5 0.81,rule_based_v1: P@5 0.43 · MRR 0.67
+Request priority,Points rubric (priority_points_v1),accuracy 0.76 · macro-F1 0.73,best ML: Decision Tree (depth 4) 0.74
+Drop-off risk (KAN-58),"Weighted risk score, fitted weights (dropoff_weighted_v1)",accuracy 0.97 · F1 0.96 · AUC 0.95,14-day rule only: F1 0.77
+Session summary (KAN-57),Gemini summary_v1 + extractive fallback,PII leak 0.00 · action recall 1.00,extractive always available
+Ask Sangam retrieval,BM25 + refusal guard,top-1 0.84,M2 keyword: 0.34

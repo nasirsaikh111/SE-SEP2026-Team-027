@@ -21,6 +21,7 @@ import AdminInsightsView from '../views/admin/AdminInsightsView.vue';
 import VerifyMentorsView from '../views/admin/VerifyMentorsView.vue';
 import FlagsAuditView from '../views/admin/FlagsAuditView.vue';
 import AuditLogView from '../views/admin/AuditLogView.vue';
+import AdminMatchingView from '../views/admin/AdminMatchingView.vue';
 
 const routes = [
   { path: '/', name: 'welcome', component: WelcomeView },
@@ -43,6 +44,7 @@ const routes = [
   { path: '/admin/verify', name: 'admin-verify', component: VerifyMentorsView },
   { path: '/admin/flags', name: 'admin-flags', component: FlagsAuditView },
   { path: '/admin/audit', name: 'admin-audit', component: AuditLogView },
+  { path: '/admin/matching', name: 'admin-matching', component: AdminMatchingView },
 
   // Catch-all fallback
   { path: '/:pathMatch(.*)*', redirect: '/' }

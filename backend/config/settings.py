@@ -12,6 +12,16 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 
 from pathlib import Path
 import os
+import sys
+
+# Load backend/.env (never committed) so GEMINI_API_KEYS etc. stay out of the code.
+try:
+    from dotenv import load_dotenv
+    load_dotenv(Path(__file__).resolve().parent.parent / '.env')
+except ImportError:
+    pass
+
+TESTING = 'test' in sys.argv or 'pytest' in sys.modules
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,7 +93,7 @@ ASGI_APPLICATION='config.asgi.application'
 AUTH_USER_MODEL='accounts.User'
 
 
-USE_SUPABASE = True
+USE_SUPABASE = os.environ.get('USE_SUPABASE', '1') == '1' and not TESTING  # tests always use local sqlite
 if USE_SUPABASE:
     DATABASES = {
         "default": {
@@ -163,6 +173,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_THROTTLE_RATES": {
         "sangam_ai_chat": "10/minute",
+        "sangam_ai_summary": "10/hour",
     },
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 50,
@@ -179,7 +190,36 @@ AUTH_PASSWORD_VALIDATORS=[
 
 
 # Ollama runs on the SAME computer hosting Django. No student data sent to cloud AI.
-SANGAM_OLLAMA_ENABLED=True
+SANGAM_OLLAMA_ENABLED=True  # used when AI_PROVIDER=ollama
 SANGAM_OLLAMA_URL='http://127.0.0.1:11434/api/chat'
 SANGAM_OLLAMA_MODEL='qwen3:8b'
 SANGAM_FRONTEND_URL='https://sangam-step2.vercel.app'
+
+# ---------------------------------------------------------------- AI / ML (assistant_ai)
+# Provider for generated text: gemini | ollama | none. Tests never call a real model.
+AI_PROVIDER = 'none' if TESTING else os.environ.get('AI_PROVIDER', 'none')
+# One or more Gemini keys, comma-separated; the client rotates to the next key when one is exhausted/expired.
+GEMINI_API_KEYS = [k.strip() for k in (os.environ.get('GEMINI_API_KEYS') or os.environ.get('GEMINI_API_KEY', '')).split(',') if k.strip()]
+GEMINI_API_KEY = GEMINI_API_KEYS[0] if GEMINI_API_KEYS else ''
+GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.5-flash-lite')
+# Tried in order for each key; a 404 (model not enabled for that key) or 503 (overloaded) moves to the next model
+GEMINI_MODELS = [m.strip() for m in os.environ.get('GEMINI_MODELS', GEMINI_MODEL + ',gemini-3.1-flash-lite,gemini-2.5-flash').split(',') if m.strip()]
+GEMINI_EMBED_MODEL = os.environ.get('GEMINI_EMBED_MODEL', 'gemini-embedding-001')
+AI_LLM_TIMEOUT_SECONDS = 15
+# Embeddings for semantic matching: minilm (local sentence-transformers) | gemini | none
+SANGAM_EMBEDDING_BACKEND = 'none' if TESTING else os.environ.get('SANGAM_EMBEDDING_BACKEND', 'minilm')
+SANGAM_EMBEDDING_MODEL = 'sentence-transformers/all-MiniLM-L6-v2'
+SANGAM_EMBEDDING_TIMEOUT_SECONDS = 20
+# KAN-47 tuned weights (see backend/reports/matching_eval.md and ML/ notebook)
+# W2 'semantic-heavy' won the 4-way search on the tuning split (P@5 .474 vs .454 for the plan default).
+SANGAM_MATCH_WEIGHTS = {'semantic': 0.50, 'domain': 0.20, 'skills': 0.15, 'pathway': 0.08, 'experience': 0.04, 'preferred': 0.03}
+SANGAM_PRIORITY_WEIGHTS = {}   # empty = defaults in apps/assistant_ai/ml/priority.py
+# Fitted in the ML notebook (section 3b) on synthetic timelines; see backend/reports/dropoff_fitted_weights.json
+SANGAM_RISK_WEIGHTS = {'days_since_meeting': 0.275, 'frequency_drop': 0.0, 'no_shows': 0.037,
+                       'feedback_overdue': 0.318, 'open_alerts': 0.115, 'goals_stale': 0.255}
+SANGAM_RISK_THRESHOLDS = {'medium': 0.26, 'high': 0.45}  # medium = tuned flag threshold
+# KAN-57: storing user-approved summaries is pending team/TA confirmation -> default is NOT to store.
+SANGAM_STORE_AI_SUMMARIES = os.environ.get('SANGAM_STORE_AI_SUMMARIES', '0') == '1'
+
+if TESTING:
+    PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']

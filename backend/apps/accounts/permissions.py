@@ -9,7 +9,8 @@ class IsApprovedStudent(BasePermission):
     def has_permission(self, request, view):
         u = request.user
         return bool(u and u.is_authenticated and u.is_active and u.role == 'STUDENT' and
-                    hasattr(u, 'student_profile') and u.student_profile.approval_status == 'APPROVED')
+                    hasattr(u, 'student_profile') and u.student_profile.approval_status == 'APPROVED'
+                    and u.student_profile.level == 'DEGREE')   # Degree-level students only
 
 class IsVerifiedMentor(BasePermission):
     def has_permission(self, request, view):

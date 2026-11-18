@@ -1,0 +1,3 @@
+Rewrite these mentor-match reasons as ONE friendly sentence (max 30 words) for an IIC staff member.
+Use only the facts given. Do not invent achievements, names or judgements. Do not say the match is approved.
+Reasons: {{REASONS}}

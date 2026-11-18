@@ -5,6 +5,9 @@
       <div class="text-center">
         <h2 class="text-2xl font-bold text-slate-900">Create an Account</h2>
         <p class="text-xs text-slate-500 mt-1">Join the IITM BS Mentoring Platform</p>
+        <p class="mt-3 text-[11px] px-3 py-2 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">
+          Student accounts are open to IITM BS Degree-level students only.
+        </p>
       </div>
 
       <form @submit.prevent="handleRegister" class="space-y-4">

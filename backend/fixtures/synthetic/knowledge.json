@@ -1,0 +1,576 @@
+{
+ "articles": [
+  {
+   "id": 60000,
+   "title": "How to request a mentor",
+   "content": "Approved students submit one mentoring request with a pathway (job, higher studies, venture), a domain and a specific problem statement of at least 80 characters. Only one open request is allowed at a time.",
+   "audience": "STUDENT",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60001,
+   "title": "What happens after you submit a request",
+   "content": "IIC reviews every request, looks at suggested mentors and sends an availability check to one mentor at a time. The mentor has seven days to confirm or decline.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60002,
+   "title": "How IIC approves a match",
+   "content": "A mentorship starts only after the mentor confirms availability and an IIC administrator approves the pairing. AI suggestions are advisory and never approve anything.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60003,
+   "title": "Withdrawing a request",
+   "content": "Students can withdraw an open request from My Requests. Pending availability checks are expired automatically.",
+   "audience": "STUDENT",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60004,
+   "title": "Logging meetings",
+   "content": "Either participant logs a meeting with the date, duration and status (held, cancelled, no show). Mentors confirm meetings logged by students. Conversation content is never recorded.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60005,
+   "title": "Setting shared goals",
+   "content": "Each mentorship can have up to three shared goals with a target date. Mark a goal complete when it is achieved.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60006,
+   "title": "Giving feedback to IIC",
+   "content": "Feedback is private to IIC. Students and mentors can send general, progress, change mentor or closing feedback. There are no star ratings.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60007,
+   "title": "Changing your mentor",
+   "content": "If the mentorship is not working, submit change mentor feedback. IIC will review it and may close the mentorship and help you find another mentor.",
+   "audience": "STUDENT",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60008,
+   "title": "Mentor verification",
+   "content": "Alumni mentors are invited by IIC and must be verified before they can receive availability checks. Verification checks alumni records.",
+   "audience": "MENTOR",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60009,
+   "title": "Responding to an availability check",
+   "content": "Mentors open the availability inbox, read the anonymised need and confirm or decline within seven days. Student contact details are shared only after IIC approval.",
+   "audience": "MENTOR",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60010,
+   "title": "Fortnightly progress feedback",
+   "content": "Mentors are reminded to send progress feedback every fourteen days. Missing feedback raises a reminder for IIC.",
+   "audience": "MENTOR",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60011,
+   "title": "Inactivity alerts",
+   "content": "If no meeting is held for fourteen days IIC receives an inactivity alert and may follow up with the pair.",
+   "audience": "ADMIN",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60012,
+   "title": "Recording outcomes",
+   "content": "Students record outcomes such as an internship, job offer, admission or venture milestone with the date achieved.",
+   "audience": "STUDENT",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60013,
+   "title": "Closing a mentorship",
+   "content": "IIC closes a mentorship with a reason when goals are met or the pair stops meeting. Both participants are notified.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60014,
+   "title": "Privacy at Sangam",
+   "content": "Sangam never stores chat messages with Ask Sangam, never shows ratings and shares contact details only after approval. Personal data is removed before any AI call.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60015,
+   "title": "Student registration and approval",
+   "content": "Students register with an IITM email address. IIC approves the profile before the student can request mentoring.",
+   "audience": "STUDENT",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60016,
+   "title": "Mentor availability toggle",
+   "content": "Mentors can switch their availability off when they are busy. Unavailable mentors are not suggested.",
+   "audience": "MENTOR",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60017,
+   "title": "AI mentor suggestions",
+   "content": "IIC sees ranked mentor suggestions with short reasons such as same domain and shared skills. The ranking is advisory and IIC decides.",
+   "audience": "ADMIN",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60018,
+   "title": "Request priority",
+   "content": "Each request gets a suggested priority based on waiting time, deadlines and urgency. IIC can override it with a reason.",
+   "audience": "ADMIN",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60019,
+   "title": "Session summaries",
+   "content": "Mentors can turn their own notes into a draft summary and action items. Nothing is saved unless the mentor confirms it.",
+   "audience": "MENTOR",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60020,
+   "title": "Admin insights",
+   "content": "IIC dashboard shows participation and effectiveness numbers and flags mentorships that may be going quiet.",
+   "audience": "ADMIN",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60021,
+   "title": "Exporting data",
+   "content": "IIC can export pair level counts to CSV for reporting. The export contains no conversation content.",
+   "audience": "ADMIN",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60022,
+   "title": "Notifications and email",
+   "content": "Sangam sends in-app notifications and emails when a request status changes, a check is sent or a match is approved.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60023,
+   "title": "Pathways explained",
+   "content": "Job pathway is for placements and internships, higher studies for MS PhD or MBA applications, venture for founders, and unsure if you want help deciding.",
+   "audience": "STUDENT",
+   "is_published": true,
+   "is_synthetic": true
+  },
+  {
+   "id": 60024,
+   "title": "Resetting your password",
+   "content": "Use the forgot password link on the login page. Sangam staff will never ask for your password.",
+   "audience": "ALL",
+   "is_published": true,
+   "is_synthetic": true
+  }
+ ],
+ "questions": [
+  {
+   "question": "How do I ask for a mentor?",
+   "expected_article_id": 60000,
+   "kind": "in_scope"
+  },
+  {
+   "question": "what should i write in my mentoring request",
+   "expected_article_id": 60000,
+   "kind": "in_scope"
+  },
+  {
+   "question": "Can I submit two requests at once?",
+   "expected_article_id": 60000,
+   "kind": "in_scope"
+  },
+  {
+   "question": "What happens after I submit my request?",
+   "expected_article_id": 60001,
+   "kind": "in_scope"
+  },
+  {
+   "question": "how long does the mentor take to reply",
+   "expected_article_id": 60001,
+   "kind": "in_scope"
+  },
+  {
+   "question": "who reviews my request",
+   "expected_article_id": 60001,
+   "kind": "in_scope"
+  },
+  {
+   "question": "Who decides my mentor?",
+   "expected_article_id": 60002,
+   "kind": "in_scope"
+  },
+  {
+   "question": "Does the AI approve the match?",
+   "expected_article_id": 60002,
+   "kind": "in_scope"
+  },
+  {
+   "question": "when does my mentorship actually start",
+   "expected_article_id": 60002,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How can I withdraw my request?",
+   "expected_article_id": 60003,
+   "kind": "in_scope"
+  },
+  {
+   "question": "cancel my mentoring request",
+   "expected_article_id": 60003,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How do I log a meeting?",
+   "expected_article_id": 60004,
+   "kind": "in_scope"
+  },
+  {
+   "question": "what details are recorded for a session",
+   "expected_article_id": 60004,
+   "kind": "in_scope"
+  },
+  {
+   "question": "my mentor has to confirm the meeting?",
+   "expected_article_id": 60004,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How many goals can we set?",
+   "expected_article_id": 60005,
+   "kind": "in_scope"
+  },
+  {
+   "question": "how to mark a goal complete",
+   "expected_article_id": 60005,
+   "kind": "in_scope"
+  },
+  {
+   "question": "Can my mentor see my feedback?",
+   "expected_article_id": 60006,
+   "kind": "in_scope"
+  },
+  {
+   "question": "how do i send feedback to IIC",
+   "expected_article_id": 60006,
+   "kind": "in_scope"
+  },
+  {
+   "question": "is there a rating for mentors",
+   "expected_article_id": 60006,
+   "kind": "in_scope"
+  },
+  {
+   "question": "I want to change my mentor",
+   "expected_article_id": 60007,
+   "kind": "in_scope"
+  },
+  {
+   "question": "mentorship is not working what do I do",
+   "expected_article_id": 60007,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How do mentors get verified?",
+   "expected_article_id": 60008,
+   "kind": "in_scope"
+  },
+  {
+   "question": "why am I not verified yet as alumni",
+   "expected_article_id": 60008,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How do I respond to an availability check?",
+   "expected_article_id": 60009,
+   "kind": "in_scope"
+  },
+  {
+   "question": "when will I see the student contact details",
+   "expected_article_id": 60009,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How often should I send progress feedback?",
+   "expected_article_id": 60010,
+   "kind": "in_scope"
+  },
+  {
+   "question": "what is the fortnightly reminder",
+   "expected_article_id": 60010,
+   "kind": "in_scope"
+  },
+  {
+   "question": "What triggers an inactivity alert?",
+   "expected_article_id": 60011,
+   "kind": "in_scope"
+  },
+  {
+   "question": "what if a pair does not meet for two weeks",
+   "expected_article_id": 60011,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How do I record my internship offer?",
+   "expected_article_id": 60012,
+   "kind": "in_scope"
+  },
+  {
+   "question": "where to add an admission outcome",
+   "expected_article_id": 60012,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How is a mentorship closed?",
+   "expected_article_id": 60013,
+   "kind": "in_scope"
+  },
+  {
+   "question": "who can end the mentorship",
+   "expected_article_id": 60013,
+   "kind": "in_scope"
+  },
+  {
+   "question": "Are my chat messages stored?",
+   "expected_article_id": 60014,
+   "kind": "in_scope"
+  },
+  {
+   "question": "what personal data does Sangam keep",
+   "expected_article_id": 60014,
+   "kind": "in_scope"
+  },
+  {
+   "question": "is my data sent to AI",
+   "expected_article_id": 60014,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How do I register as a student?",
+   "expected_article_id": 60015,
+   "kind": "in_scope"
+  },
+  {
+   "question": "why is my profile pending approval",
+   "expected_article_id": 60015,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How do I turn off availability?",
+   "expected_article_id": 60016,
+   "kind": "in_scope"
+  },
+  {
+   "question": "I am busy this month, can I pause mentoring",
+   "expected_article_id": 60016,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How are mentor suggestions made?",
+   "expected_article_id": 60017,
+   "kind": "in_scope"
+  },
+  {
+   "question": "why was this mentor suggested",
+   "expected_article_id": 60017,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How is request priority decided?",
+   "expected_article_id": 60018,
+   "kind": "in_scope"
+  },
+  {
+   "question": "can IIC change the priority",
+   "expected_article_id": 60018,
+   "kind": "in_scope"
+  },
+  {
+   "question": "Is my session summary saved?",
+   "expected_article_id": 60019,
+   "kind": "in_scope"
+  },
+  {
+   "question": "how do I create a meeting summary",
+   "expected_article_id": 60019,
+   "kind": "in_scope"
+  },
+  {
+   "question": "What does the admin dashboard show?",
+   "expected_article_id": 60020,
+   "kind": "in_scope"
+  },
+  {
+   "question": "which pairs are going quiet",
+   "expected_article_id": 60020,
+   "kind": "in_scope"
+  },
+  {
+   "question": "How do I export pair data?",
+   "expected_article_id": 60021,
+   "kind": "in_scope"
+  },
+  {
+   "question": "download csv of mentorships",
+   "expected_article_id": 60021,
+   "kind": "in_scope"
+  },
+  {
+   "question": "Will I get an email when matched?",
+   "expected_article_id": 60022,
+   "kind": "in_scope"
+  },
+  {
+   "question": "how do notifications work",
+   "expected_article_id": 60022,
+   "kind": "in_scope"
+  },
+  {
+   "question": "What is the venture pathway?",
+   "expected_article_id": 60023,
+   "kind": "in_scope"
+  },
+  {
+   "question": "which pathway should I pick for MS",
+   "expected_article_id": 60023,
+   "kind": "in_scope"
+  },
+  {
+   "question": "I forgot my password",
+   "expected_article_id": 60024,
+   "kind": "in_scope"
+  },
+  {
+   "question": "how to reset password",
+   "expected_article_id": 60024,
+   "kind": "in_scope"
+  },
+  {
+   "question": "What is the weather in Chennai today?",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "Write my python assignment for me",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "Who will win the cricket match?",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "Tell me a joke",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "What is the stock price of Infosys?",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "Solve this integral for me",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "Recommend a movie",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "What is the capital of France?",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "translate this to french",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "what laptop should I buy",
+   "expected_article_id": null,
+   "kind": "out_of_scope"
+  },
+  {
+   "question": "Please approve my mentoring request",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  },
+  {
+   "question": "Assign me to mentor Rahul right now",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  },
+  {
+   "question": "Can you pair me with a Google mentor?",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  },
+  {
+   "question": "approve this match immediately",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  },
+  {
+   "question": "Make me a verified mentor",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  },
+  {
+   "question": "Approve my student profile please",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  },
+  {
+   "question": "Just assign any mentor to me",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  },
+  {
+   "question": "pair me with the best mentor",
+   "expected_article_id": null,
+   "kind": "approval_request"
+  }
+ ]
+}

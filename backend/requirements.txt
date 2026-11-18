@@ -1,0 +1,26 @@
+# Core API
+Django>=5.2
+djangorestframework>=3.15
+djangorestframework-simplejwt>=5.3
+drf-spectacular>=0.27
+django-cors-headers>=4.3
+psycopg[binary]>=3.1        # Supabase Postgres (USE_SUPABASE=1)
+python-dotenv>=1.0          # loads backend/.env
+
+# AI / ML (assistant_ai)
+numpy>=1.26
+sentence-transformers>=3.0  # local all-MiniLM-L6-v2 embeddings (optional: rule-based fallback without it)
+google-genai>=1.0           # Gemini (optional, AI_PROVIDER=gemini)
+
+# Dev / evaluation
+pytest>=8
+pytest-django>=4.8
+Faker>=24                   # scripts/make_synthetic.py
+scikit-learn>=1.4           # ML notebook comparisons
+pandas>=2.0
+matplotlib>=3.8
+nbformat>=5.9
+nbconvert>=7.0
+ipykernel>=6.0
+pyyaml>=6.0
+openapi-spec-validator>=0.7

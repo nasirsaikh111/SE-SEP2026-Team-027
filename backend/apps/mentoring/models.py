@@ -27,6 +27,8 @@ class MentoringRequest(models.Model):
     domain = models.CharField(max_length=150)
     background = models.TextField(blank=True)
     problem_statement = models.TextField()
+    preferred_mentor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                         related_name='preferred_by_requests', help_text='Advisory only')
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.SUBMITTED, db_index=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

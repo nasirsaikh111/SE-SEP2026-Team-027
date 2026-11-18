@@ -1,0 +1,7 @@
+,precision@3,precision@5,mrr,ndcg@5,ms/request
+Legacy M2 rules,0.2556,0.2467,0.4068,0.5303,0.2
+Rule-based v1,0.5,0.4267,0.6719,0.6965,7.6
+TF-IDF cosine,0.7,0.54,0.8074,0.7824,0.7
+BM25,0.6889,0.5267,0.8093,0.7699,0.2
+MiniLM semantic only,0.6222,0.52,0.7756,0.7363,16.1
+Hybrid (MiniLM + rules),0.6778,0.5467,0.8214,0.8137,26.2

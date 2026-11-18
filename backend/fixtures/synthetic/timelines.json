@@ -1,0 +1,5448 @@
+[
+ {
+  "id": 30000,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-08",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-15",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-10-15"
+  ],
+  "goal_updates": [
+   "2026-09-05",
+   "2026-10-05"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30001,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-10",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-11",
+   "2026-10-02",
+   "2026-10-23",
+   "2026-11-13"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30002,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-14",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-27",
+   "2026-10-27"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30003,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-10-22"
+  ],
+  "goal_updates": [
+   "2026-09-15",
+   "2026-09-29",
+   "2026-10-13"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30004,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-27",
+   "2026-10-27"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30005,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-10-15"
+  ],
+  "goal_updates": [
+   "2026-09-04",
+   "2026-09-18",
+   "2026-10-02",
+   "2026-10-16"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30006,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-11",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-16",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-07",
+   "2026-10-07",
+   "2026-11-06"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30007,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-15",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-29",
+   "2026-10-20",
+   "2026-11-10"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30008,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03"
+  ],
+  "goal_updates": [
+   "2026-10-06",
+   "2026-10-20"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30009,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-08-31",
+   "2026-09-14",
+   "2026-09-28",
+   "2026-10-12",
+   "2026-10-26",
+   "2026-11-09"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30010,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-25",
+   "2026-10-25"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30011,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-11",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-03",
+   "2026-09-17",
+   "2026-10-01",
+   "2026-10-15",
+   "2026-10-29",
+   "2026-11-12"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30012,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-04",
+   "2026-10-04",
+   "2026-11-03"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30013,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-15",
+   "2026-10-15",
+   "2026-11-14"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30014,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-05",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-24"
+  ],
+  "goal_updates": [
+   "2026-10-01"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30015,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-08",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-11-12"
+  ],
+  "goal_updates": [
+   "2026-10-08"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30016,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-16",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-10-01",
+   "2026-10-22",
+   "2026-11-12"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30017,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-08-31",
+   "2026-09-30",
+   "2026-10-30"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30018,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-13",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-19",
+   "2026-10-19"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30019,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-10-01"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30020,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-24",
+   "2026-10-24"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30021,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-11",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-09",
+   "2026-09-30",
+   "2026-10-21",
+   "2026-11-11"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30022,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-13",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-11",
+   "2026-10-02",
+   "2026-10-23",
+   "2026-11-13"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30023,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-10-10"
+  ],
+  "goal_updates": [
+   "2026-09-14",
+   "2026-10-14"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30024,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-22",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26"
+  ],
+  "goal_updates": [
+   "2026-09-22",
+   "2026-10-13",
+   "2026-11-03"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30025,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-10"
+  ],
+  "goal_updates": [
+   "2026-09-23",
+   "2026-10-07"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30026,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-10-22"
+  ],
+  "goal_updates": [
+   "2026-09-14",
+   "2026-10-05"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30027,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-09",
+   "2026-09-30",
+   "2026-10-21",
+   "2026-11-11"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30028,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03"
+  ],
+  "goal_updates": [
+   "2026-09-28",
+   "2026-10-19",
+   "2026-11-09"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30029,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-15",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-14",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-04",
+   "2026-10-04",
+   "2026-11-03"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30030,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-10-03",
+   "2026-10-24",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-07",
+   "2026-10-07",
+   "2026-11-06"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30031,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-08",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-13",
+   "2026-10-13",
+   "2026-11-12"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30032,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-10",
+   "2026-09-24",
+   "2026-10-08",
+   "2026-10-22",
+   "2026-11-05"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30033,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30034,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-08",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-17"
+  ],
+  "goal_updates": [
+   "2026-09-20",
+   "2026-10-04",
+   "2026-10-18"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30035,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-10-22"
+  ],
+  "goal_updates": [
+   "2026-09-09",
+   "2026-09-23",
+   "2026-10-07",
+   "2026-10-21",
+   "2026-11-04"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30036,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-28",
+   "2026-10-28"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30037,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-15",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-16",
+   "2026-10-16",
+   "2026-11-15"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30038,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-02",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30039,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-25",
+   "2026-10-09",
+   "2026-10-23",
+   "2026-11-06"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30040,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-30",
+   "2026-10-14",
+   "2026-10-28",
+   "2026-11-11"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30041,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30042,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-10-04",
+   "2026-10-25",
+   "2026-11-15"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30043,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-11",
+   "2026-10-11",
+   "2026-11-10"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30044,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-03",
+   "2026-10-03",
+   "2026-11-02"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30045,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-15",
+   "2026-09-29",
+   "2026-10-13",
+   "2026-10-27",
+   "2026-11-10"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30046,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-24",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-16",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-28",
+   "2026-10-28"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30047,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-14",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-30",
+   "2026-10-21",
+   "2026-11-11"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30048,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-06",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-16",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-03",
+   "2026-09-17",
+   "2026-10-01",
+   "2026-10-15",
+   "2026-10-29",
+   "2026-11-12"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30049,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-24",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-26",
+   "2026-10-17"
+  ],
+  "goal_updates": [
+   "2026-09-02",
+   "2026-09-23",
+   "2026-10-14"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30050,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-28",
+   "2026-10-12",
+   "2026-10-26",
+   "2026-11-09"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30051,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-10-15"
+  ],
+  "goal_updates": [
+   "2026-09-05",
+   "2026-09-26",
+   "2026-10-17"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30052,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-22",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-07",
+   "2026-09-21",
+   "2026-10-05",
+   "2026-10-19",
+   "2026-11-02",
+   "2026-11-16"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30053,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-24",
+   "2026-10-15",
+   "2026-11-05"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30054,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-29",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-11-12"
+  ],
+  "goal_updates": [
+   "2026-10-06",
+   "2026-10-20"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30055,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-10-03"
+  ],
+  "goal_updates": [
+   "2026-09-06",
+   "2026-09-27",
+   "2026-10-18"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30056,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-08",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-05",
+   "2026-09-26",
+   "2026-10-17",
+   "2026-11-07"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30057,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-24"
+  ],
+  "goal_updates": [
+   "2026-09-22",
+   "2026-10-06",
+   "2026-10-20",
+   "2026-11-03",
+   "2026-11-17"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30058,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-17",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-10-01"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30059,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-29",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-10-04",
+   "2026-10-18"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30060,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-24"
+  ],
+  "goal_updates": [
+   "2026-10-01",
+   "2026-10-15"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30061,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-10-10",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-17",
+   "2026-10-01",
+   "2026-10-15"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30062,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-21",
+   "2026-10-05",
+   "2026-10-19",
+   "2026-11-02",
+   "2026-11-16"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30063,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-10-02",
+   "2026-10-16",
+   "2026-10-30",
+   "2026-11-13"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30064,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-03",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-24"
+  ],
+  "goal_updates": [
+   "2026-09-27",
+   "2026-10-27"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30065,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-23",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-10",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-09-15",
+   "2026-09-29",
+   "2026-10-13"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30066,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-07",
+   "2026-09-21",
+   "2026-10-05",
+   "2026-10-19",
+   "2026-11-02",
+   "2026-11-16"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30067,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-26",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-10",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-22",
+   "2026-10-22"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30068,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-27",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-11",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-11",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-01",
+   "2026-10-01",
+   "2026-10-31"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30069,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-11",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-26",
+   "2026-10-17"
+  ],
+  "goal_updates": [
+   "2026-09-09",
+   "2026-10-09"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30070,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-05",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-13",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-24",
+   "2026-10-08",
+   "2026-10-22",
+   "2026-11-05"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30071,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-27",
+   "2026-10-27"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30072,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-23",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-10",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-09-15",
+   "2026-10-06"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30073,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-13",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-29",
+   "2026-10-29"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30074,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-10",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-14",
+   "2026-10-14",
+   "2026-11-13"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30075,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-18",
+   "2026-10-18",
+   "2026-11-17"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30076,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-10-05",
+   "2026-11-04"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30077,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-26",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-10-02",
+   "2026-10-23",
+   "2026-11-13"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30078,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-08",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-10-02"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30079,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-05",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-17",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-30",
+   "2026-10-14",
+   "2026-10-28",
+   "2026-11-11"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30080,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-07",
+   "2026-10-07",
+   "2026-11-06"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30081,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-14",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-02",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-26",
+   "2026-10-17",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-09",
+   "2026-10-09",
+   "2026-11-08"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30082,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-15",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-29",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-10-07",
+   "2026-10-21",
+   "2026-11-04"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30083,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-10-04",
+   "2026-10-18",
+   "2026-11-01",
+   "2026-11-15"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30084,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-03",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-12",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-10-02",
+   "2026-11-01"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30085,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-03",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-15",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-29",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-10-15"
+  ],
+  "goal_updates": [
+   "2026-09-05",
+   "2026-09-26",
+   "2026-10-17"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30086,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-24",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-19",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26"
+  ],
+  "goal_updates": [
+   "2026-09-25",
+   "2026-10-25"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30087,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-17",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-24",
+   "2026-10-08",
+   "2026-10-22",
+   "2026-11-05"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30088,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19"
+  ],
+  "goal_updates": [
+   "2026-09-23"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30089,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-10-15"
+  ],
+  "goal_updates": [
+   "2026-09-06",
+   "2026-10-06",
+   "2026-11-05"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30090,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-11",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-11",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-31",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-14",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-19",
+   "2026-10-10",
+   "2026-10-31"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30091,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-09",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-22",
+   "2026-10-13",
+   "2026-11-03"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30092,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-29",
+   "2026-10-29"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30093,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-10-03",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-09-07",
+   "2026-10-07"
+  ],
+  "goals_total": 3,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30094,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-16",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-29"
+  ],
+  "goal_updates": [
+   "2026-09-20",
+   "2026-10-20"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30095,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-24"
+  ],
+  "goal_updates": [
+   "2026-09-25"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30096,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-02",
+   "2026-10-02",
+   "2026-11-01"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30097,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-08-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-27",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-03",
+   "2026-10-03",
+   "2026-11-02"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30098,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-07",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-11-05"
+  ],
+  "goal_updates": [
+   "2026-09-30"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30099,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-17"
+  ],
+  "goal_updates": [
+   "2026-09-16",
+   "2026-09-30",
+   "2026-10-14",
+   "2026-10-28",
+   "2026-11-11"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30100,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-08",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-15",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-12",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-09",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-08",
+   "2026-10-08",
+   "2026-11-07"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30101,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-01",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-15",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-12",
+   "2026-10-12",
+   "2026-11-11"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30102,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-14",
+   "2026-10-14",
+   "2026-11-13"
+  ],
+  "goals_total": 3,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30103,
+  "started_at": "2026-08-26",
+  "as_of": "2026-11-18",
+  "pattern": "recovered",
+  "meetings": [
+   {
+    "date": "2026-08-26",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-14",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-11",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-05",
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30104,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "sudden_stop",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-15",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-09-21",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-29",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-05",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-19",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-27",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-17"
+  ],
+  "goal_updates": [
+   "2026-09-17",
+   "2026-10-17",
+   "2026-11-16"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30105,
+  "started_at": "2026-09-23",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "NO_SHOW"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-10-03",
+   "2026-10-31"
+  ],
+  "goal_updates": [
+   "2026-10-03"
+  ],
+  "goals_total": 2,
+  "at_risk": true,
+  "is_synthetic": true
+ },
+ {
+  "id": 30106,
+  "started_at": "2026-09-02",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-03",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-17",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-15",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-28",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-04",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-11-10",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-17",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-12",
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-16",
+   "2026-10-07",
+   "2026-10-28"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30107,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-22",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-06",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-13",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-20",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-05",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-03",
+   "2026-10-17",
+   "2026-10-31",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-24",
+   "2026-10-24"
+  ],
+  "goals_total": 1,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30108,
+  "started_at": "2026-09-16",
+  "as_of": "2026-11-18",
+  "pattern": "healthy",
+  "meetings": [
+   {
+    "date": "2026-09-18",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-25",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-23",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-30",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-11-06",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-26",
+   "2026-10-10",
+   "2026-10-24",
+   "2026-11-07"
+  ],
+  "goal_updates": [
+   "2026-09-30",
+   "2026-10-30"
+  ],
+  "goals_total": 2,
+  "at_risk": false,
+  "is_synthetic": true
+ },
+ {
+  "id": 30109,
+  "started_at": "2026-09-09",
+  "as_of": "2026-11-18",
+  "pattern": "fading",
+  "meetings": [
+   {
+    "date": "2026-09-09",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-09-16",
+    "status": "NO_SHOW"
+   },
+   {
+    "date": "2026-10-02",
+    "status": "HELD"
+   },
+   {
+    "date": "2026-10-23",
+    "status": "HELD"
+   }
+  ],
+  "mentor_feedback": [
+   "2026-09-19",
+   "2026-10-17",
+   "2026-11-14"
+  ],
+  "goal_updates": [
+   "2026-09-16",
+   "2026-09-30",
+   "2026-10-14",
+   "2026-10-28",
+   "2026-11-11"
+  ],
+  "goals_total": 1,
+  "at_risk": true,
+  "is_synthetic": true
+ }
+]

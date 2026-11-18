@@ -89,6 +89,13 @@
                 Program Insights
               </router-link>
               <router-link 
+                to="/admin/matching" 
+                class="px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                :class="$route.path === '/admin/matching' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'"
+              >
+                AI Matching
+              </router-link>
+              <router-link 
                 to="/admin/verify" 
                 class="px-3 py-2 rounded-md text-sm font-medium transition-colors relative"
                 :class="$route.path === '/admin/verify' ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'"
@@ -120,7 +127,8 @@
         <div class="flex items-center space-x-3">
           
           <!-- Quick Role Switcher for Milestone Evaluation -->
-          <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
+          <span v-if="auth.isLive" class="text-[10px] font-bold px-2 py-1 rounded bg-emerald-100 text-emerald-800">LIVE API</span>
+          <div v-else class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
             <span class="text-xs font-semibold text-slate-500 uppercase px-2 hidden lg:inline">View as:</span>
             <button
               v-for="role in auth.availableRoles"
@@ -142,6 +150,8 @@
               <div class="text-xs font-bold text-slate-900">{{ auth.currentUser.name.split(' ')[0] }}</div>
               <div class="text-[10px] text-slate-500 capitalize">{{ auth.currentRole }}</div>
             </div>
+            <button v-if="auth.isLive" @click="signOut" class="ml-2 text-[11px] text-slate-500 hover:text-slate-900 underline">Sign out</button>
+            <router-link v-else to="/login" class="ml-2 text-[11px] text-blue-600 hover:underline">Sign in</router-link>
           </div>
 
         </div>
@@ -158,6 +168,11 @@ import { useRouter } from 'vue-router';
 const auth = useAuthStore();
 const store = useMentorshipStore();
 const router = useRouter();
+
+function signOut() {
+  auth.logout();
+  router.push('/login');
+}
 
 function handleRoleChange(role) {
   auth.switchRole(role.id);

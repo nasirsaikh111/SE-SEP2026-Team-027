@@ -13,7 +13,6 @@ from rest_framework.exceptions import ValidationError, PermissionDenied
 from apps.accounts.permissions import iic
 from apps.accounts.models import MentorProfile
 from apps.assistant_ai.models import MatchSuggestionAudit
-from apps.assistant_ai.services import ranked_candidates, explain_candidates
 from .models import MentoringRequest, AvailabilityCheck, Mentorship, Goal, Meeting, Feedback, Outcome, Notification, AuditLog, Alert
 from .serializers import RequestSerializer, AvailabilitySerializer, PairSerializer, GoalSerializer, MeetingSerializer, FeedbackSerializer, OutcomeSerializer, NotificationSerializer
 from .services import send_availability, respond_availability, approve_match, close_mentorship, log, inform
@@ -25,6 +24,9 @@ def require_iic(u):
 def require_student(u):
     if u.role != 'STUDENT' or not hasattr(u,'student_profile') or u.student_profile.approval_status != 'APPROVED':
         raise PermissionDenied('IIC-approved student only.')
+    # Only Degree-level students can request mentoring
+    if u.student_profile.level != 'DEGREE':
+        raise PermissionDenied('Sangam mentoring is open to IITM BS Degree-level students only.')
 
 def pair_for_user(pk,u,only_active=False):
     pair=get_object_or_404(Mentorship,pk=pk)
@@ -66,14 +68,10 @@ def withdraw_request(request,pk):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def suggestions(request,pk):
+    """Legacy route; same engine as GET /api/v1/requests/{id}/suggestions/ (KAN-46)."""
     require_iic(request.user)
-    obj=get_object_or_404(MentoringRequest,pk=pk)
-    candidates=ranked_candidates(obj, limit=10)
-    candidates,local_ai=explain_candidates(obj,candidates,top_n=5)
-    MatchSuggestionAudit.objects.create(request=obj,requested_by=request.user,
-          candidate_count=len(candidates),algorithm='rules-v1',used_local_llm=local_ai)
-    return Response({'request_id':obj.pk,'candidates':candidates,'ai_explanation_used':local_ai,
-        'approval_required':True,'student_cannot_choose':True})
+    from apps.assistant_ai.views import suggestions_response
+    return suggestions_response(request,pk)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -204,14 +202,10 @@ def notification_read(request,pk):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def insights(request):
+    """KAN-58: participation, effectiveness and at-risk count (aggregates only)."""
     require_iic(request.user)
-    return Response({'requests':MentoringRequest.objects.count(),
-        'waiting':MentoringRequest.objects.filter(status='WAITING').count(),
-        'active_pairs':Mentorship.objects.filter(status='ACTIVE').count(),
-        'meetings_held':Meeting.objects.filter(status='HELD').count(),
-        'outcomes':Outcome.objects.count(),
-        'alerts_open':Alert.objects.filter(resolved_at__isnull=True).count(),
-        'domain_demand':list(MentoringRequest.objects.values('domain').annotate(count=Count('id')).order_by('-count')[:20])})
+    from apps.assistant_ai.views import insights as ai_insights
+    return ai_insights(request._request)
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])

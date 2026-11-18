@@ -35,7 +35,7 @@
 
         <!-- Role Selector for Login Flow (From Wireframe: Which role? from JWT) -->
         <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-          <label class="block text-xs font-bold text-slate-700 mb-1.5">Sign in as (Simulated JWT Claim):</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">Demo mode only (used if the backend is not running):</label>
           <div class="grid grid-cols-3 gap-2 text-xs">
             <button 
               type="button" 
@@ -64,11 +64,16 @@
           </div>
         </div>
 
+        <div v-if="error" class="p-2.5 rounded-lg bg-amber-50 border border-amber-200 text-[11px] text-amber-800">
+          {{ error }}
+          <button type="button" @click="enterDemo" class="ml-1 font-semibold underline">Continue in demo mode</button>
+        </div>
+
         <button 
-          type="submit" 
+          type="submit" :disabled="loading"
           class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-xs transition-colors"
         >
-          Sign In →
+          {{ loading ? 'Signing in…' : 'Sign In →' }}
         </button>
       </form>
 
@@ -91,18 +96,31 @@ import { useRouter } from 'vue-router';
 const auth = useAuthStore();
 const router = useRouter();
 
-const email = ref('hemant@study.iitm.ac.in');
-const password = ref('password123');
+const email = ref('');
+const password = ref('');
 const selectedRole = ref('student');
+const loading = ref(false);
+const error = ref('');
 
-function handleLogin() {
-  auth.login(email.value, selectedRole.value);
-  if (selectedRole.value === 'student') {
-    router.push('/student/dashboard');
-  } else if (selectedRole.value === 'mentor') {
-    router.push('/mentor/dashboard');
-  } else {
-    router.push('/admin/insights');
+const HOME = { student: '/student/dashboard', mentor: '/mentor/dashboard', admin: '/admin/insights' };
+
+// Try the real Django login first; the role comes from the backend, not from the buttons
+async function handleLogin() {
+  error.value = '';
+  loading.value = true;
+  try {
+    const role = await auth.loginLive(email.value, password.value);
+    router.push(HOME[role]);
+  } catch (e) {
+    error.value = e.status === 401 ? 'Email or password is incorrect.' : 'Could not reach the Sangam API.';
+  } finally {
+    loading.value = false;
   }
+}
+
+// Old simulated login, kept for walkthroughs without a backend
+function enterDemo() {
+  auth.login(email.value || 'demo@study.iitm.ac.in', selectedRole.value);
+  router.push(HOME[selectedRole.value]);
 }
 </script>
