@@ -42,9 +42,49 @@ class StudentRegistrationSerializer(serializers.Serializer):
 
 class MeSerializer(serializers.ModelSerializer):
     student_profile = StudentProfileSerializer(read_only=True)
+    mentor_profile = serializers.SerializerMethodField()
+    is_iic = serializers.SerializerMethodField()
+    effective_role = serializers.SerializerMethodField()
+    display_name = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ('id','email','first_name','last_name','role','student_profile')
+        fields = (
+            'id', 'email', 'first_name', 'last_name', 'role',
+            'student_profile', 'mentor_profile', 'is_iic',
+            'effective_role', 'display_name'
+        )
+        read_only_fields = ('id', 'email', 'role')
+
+    def get_mentor_profile(self, obj):
+        profile = getattr(obj, 'mentor_profile', None) if obj.role == 'MENTOR' else None
+        if not profile:
+            return None
+        return {
+            'id': profile.id,
+            'user': obj.id,
+            'alumni_roll_number': profile.alumni_roll_number,
+            'graduation_year': profile.graduation_year,
+            'domain': profile.domain,
+            'specialty': profile.specialty,
+            'current_role': profile.current_role,
+            'company': profile.company,
+            'career_path': getattr(profile, 'career_path', ''),
+            'experience_years': profile.experience_years,
+            'is_verified': profile.is_verified,
+            'is_available': profile.is_available,
+        }
+
+    def get_is_iic(self, obj):
+        return bool(obj.is_authenticated and (obj.is_superuser or obj.role == 'ADMIN' or obj.is_staff))
+
+    def get_effective_role(self, obj):
+        if obj.role == 'ADMIN' or obj.is_superuser or obj.is_staff:
+            return 'ADMIN'
+        return obj.role if obj.role in ('STUDENT', 'MENTOR') else None
+
+    def get_display_name(self, obj):
+        return obj.get_full_name() or obj.email.split('@')[0]
 
 class StudentReviewSerializer(serializers.Serializer):
     decision = serializers.ChoiceField(choices=['APPROVED','REJECTED'])

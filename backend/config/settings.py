@@ -169,7 +169,8 @@ MAILERS = {
     },
 }
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     'https://frontend-orpin-iota-73.vercel.app',
     'https://team-027-frontend.vercel.app',
@@ -179,12 +180,17 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:3000',
 ]
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+]
 CSRF_TRUSTED_ORIGINS = [
     'https://frontend-orpin-iota-73.vercel.app',
     'https://team-027-frontend.vercel.app',
     'https://deploy-full-tau.vercel.app',
     'https://sangam-step2.vercel.app',
     'https://*.vercel.app',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
 ]
 
 
