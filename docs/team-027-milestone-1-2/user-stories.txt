@@ -1,0 +1,131 @@
+Application: Sangam: Student Mentoring and Career Support Platform
+Team: Team 027 · Rituparna (Product Manager), Hemant (TL/Frontend), Payal (Tester), Debshata (Scrum Master), Nasir (Backend)
+Problem statement: Option 2, Student Mentoring and Career Support Platform
+
+================================================================================
+3. User Stories
+================================================================================
+
+The stories below come from the user research pain points. Each one names a single
+user and action (Specific), includes a number or limit that can be tested
+(Measurable), fits the course timeline (Achievable), links to a pain point
+(Relevant), and states a time limit where timing matters (Time-bound).
+
+--------------------------------------------------------------------------------
+Epic 1: Student Needs and Mentor Discovery
+--------------------------------------------------------------------------------
+
+Story 1.1: Record a Mentoring Need
+As a student, I want to record my need by choosing a pathway (job, higher studies,
+venture or unsure) and domain and writing a specific question of at least 80
+characters, so that the right mentor can be found for my situation.
+Addresses pain points: 1, 3, 4
+
+Story 1.2: Browse and Filter Mentors
+As a student, I want to filter verified mentor profiles by domain, current role,
+company and career path, so that I can find mentors whose experience matches my goal.
+Addresses pain points: 1, 3
+
+Story 1.3: Submit a Mentorship Request
+As a student, I want to submit a request for my needs, naming up to three preferred
+mentors, with at most three open requests at a time, so that I no longer have to
+cold-message strangers.
+Addresses pain points: 2, 4
+
+Story 1.4: Track Request Status
+As a student, I want to be notified within 5 minutes whenever my request changes
+status (Submitted, Under review, Matched, Declined or Expired, which happens after
+7 days without a decision), so that I know whether to wait or look elsewhere.
+Addresses pain point: 2
+
+--------------------------------------------------------------------------------
+Epic 2: Mentor Profile and Capacity
+--------------------------------------------------------------------------------
+
+Story 2.1: Mentor Profile
+As a mentor, I want to list my domain, current role, company, career path and the
+topics I can help with, kept hidden from students until an administrator verifies me,
+so that I am matched only with students whose needs fit my experience.
+Addresses pain points: 1, 3
+
+Story 2.2: Capacity and Pause
+As a mentor, I want to set how many mentees I take at a time (default one) and pause
+new requests, so that I am shown as "Full" and receive no new requests, so that
+mentoring fits the 2–3 hours I can realistically give.
+Addresses pain points: 4, 5
+
+Story 2.3: Review Before Accepting
+As a mentor, I want to read a student’s need and question and accept, or decline
+with a reason, within 7 days, so that I only take on requests I can genuinely
+help with.
+Addresses pain point: 4
+
+--------------------------------------------------------------------------------
+Epic 3: Matching and Administrator Approval
+--------------------------------------------------------------------------------
+
+Story 3.1: Mentor Recommendations
+As a program administrator, I want the system to recommend the top five verified
+mentors with spare capacity for each new request, ranked by domain match and showing
+the reasons, so that I no longer match students manually.
+Addresses pain points: 1, 7
+
+Story 3.2: Confirm Availability and Approve
+As a program administrator, I want to send the mentor an availability check and
+approve or reassign the pairing before the student and mentor are introduced, so
+that students are not assigned to mentors who are no longer available.
+Addresses pain points: 5, 7
+
+Story 3.3: Mentor Verification
+As a program administrator, I want to verify a mentor’s roll number and graduation
+year against the program’s graduate list before their profile goes live, so that
+students can trust the people they contact.
+Addresses pain point: 9
+
+--------------------------------------------------------------------------------
+Epic 4: Mentoring Journey
+--------------------------------------------------------------------------------
+
+Story 4.1: Shared Goals
+As a student, I want to agree two or three goals with my mentor, each with a target
+date, and mark them done, so that our mentoring stays focused alongside my coursework.
+Addresses pain points: 3, 6
+
+Story 4.2: Private Session Log
+As a student or mentor, I want to log each session’s date, duration and status
+(held, cancelled or no-show) with no field for what was discussed, so that our
+progress is tracked while our conversation stays private.
+Addresses pain points: 6, 9
+
+Story 4.3: Mentee Overview
+As a mentor, I want to see all my mentees with their goal progress and next
+session date in one list, so that I no longer mix students up across WhatsApp and
+LinkedIn.
+Addresses pain point: 6
+
+--------------------------------------------------------------------------------
+Epic 5: Feedback, Outcomes and Insights
+--------------------------------------------------------------------------------
+
+Story 5.1: Closing Feedback
+As a student or mentor, I want to give a 1–5 rating and an optional comment when
+a mentorship closes, with the mentor able to see the student’s rating, so that
+mentors learn whether their guidance helped.
+Addresses pain point: 8
+
+Story 5.2: Record Outcomes
+As a student, I want to record outcomes such as an interview cleared or an
+internship secured, each with a date, so that the impact of mentoring is captured.
+Addresses pain point: 8
+
+Story 5.3: Inactivity Alerts
+As a program administrator, I want to be alerted when an active pair has logged
+no session for 14 days, so that I can follow up or reassign the student.
+Addresses pain point: 6
+
+Story 5.4: Program Dashboard
+As a program administrator, I want a dashboard for each term showing requests,
+approved pairs, sessions per pair, completion rate, average rating and outcomes,
+with no conversation content and an option to export as CSV, so that I can show
+the institute whether mentoring is working.
+Addresses pain points: 8, 9

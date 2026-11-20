@@ -27,6 +27,8 @@ class MentoringRequest(models.Model):
     domain = models.CharField(max_length=150)
     background = models.TextField(blank=True)
     problem_statement = models.TextField()
+    preferred_mentor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
+                                         related_name='preferred_by_requests', help_text='Advisory only')
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.SUBMITTED, db_index=True)
     # Student preference from Discover Mentors. Advisory only: it never creates a check or a mentorship.
     preferred_mentor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True, related_name='preferred_in_requests')

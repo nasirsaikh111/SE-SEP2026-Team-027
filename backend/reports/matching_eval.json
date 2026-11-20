@@ -1,0 +1,70 @@
+{
+  "embedder": "all-MiniLM-L6-v2",
+  "eligible_mentors": 63,
+  "tuning_requests": 70,
+  "gold_requests": 30,
+  "weight_search_on_tuning": {
+    "W1 plan default": {
+      "precision@3": 0.5952,
+      "precision@5": 0.4543,
+      "mrr": 0.7688,
+      "ndcg@5": 0.7651,
+      "avg_ms_per_request": 34.7
+    },
+    "W2 semantic-heavy": {
+      "precision@3": 0.6238,
+      "precision@5": 0.4714,
+      "mrr": 0.7919,
+      "ndcg@5": 0.7851,
+      "avg_ms_per_request": 20.5
+    },
+    "W3 domain-heavy": {
+      "precision@3": 0.5905,
+      "precision@5": 0.4543,
+      "mrr": 0.7578,
+      "ndcg@5": 0.7629,
+      "avg_ms_per_request": 20.6
+    },
+    "W4 balanced-skills": {
+      "precision@3": 0.6143,
+      "precision@5": 0.4686,
+      "mrr": 0.7874,
+      "ndcg@5": 0.7827,
+      "avg_ms_per_request": 20.3
+    }
+  },
+  "chosen_weights": "W2 semantic-heavy",
+  "weights": {
+    "semantic": 0.5,
+    "domain": 0.2,
+    "skills": 0.15,
+    "pathway": 0.08,
+    "experience": 0.04,
+    "preferred": 0.03
+  },
+  "gold_results": {
+    "legacy rules-v1 (M2)": {
+      "precision@3": 0.2556,
+      "precision@5": 0.2467,
+      "mrr": 0.4068,
+      "ndcg@5": 0.5303,
+      "avg_ms_per_request": 0.1
+    },
+    "rule_based_v1": {
+      "precision@3": 0.5,
+      "precision@5": 0.4267,
+      "mrr": 0.6719,
+      "ndcg@5": 0.6965,
+      "avg_ms_per_request": 5.9
+    },
+    "hybrid_v1": {
+      "precision@3": 0.6778,
+      "precision@5": 0.5467,
+      "mrr": 0.8214,
+      "ndcg@5": 0.8137,
+      "avg_ms_per_request": 20.7
+    }
+  },
+  "hybrid_beats_baseline_p5": true,
+  "note": "All data synthetic; relevance labels from a written rubric (fixtures/synthetic). Relevant = label 2 (good fit)."
+}

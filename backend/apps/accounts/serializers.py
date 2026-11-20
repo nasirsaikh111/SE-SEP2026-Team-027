@@ -53,6 +53,11 @@ class StudentRegistrationSerializer(serializers.Serializer):
     level = serializers.ChoiceField(choices=StudentProfile.Level.choices)
     courses = serializers.ListField(child=serializers.CharField(max_length=120), allow_empty=False)
     cgpa = serializers.DecimalField(max_digits=4, decimal_places=2, min_value=0, max_value=10, required=False, allow_null=True)
+    # Sangam is open to IITM BS Degree-level students only
+    def validate_level(self, level):
+        if level != StudentProfile.Level.DEGREE:
+            raise serializers.ValidationError('Sangam is open to IITM BS Degree-level students only.')
+        return level
     def validate_email(self, email):
         domain = email.lower().split('@')[-1]
         if domain != 'iitm.ac.in' and not domain.endswith('.iitm.ac.in'):

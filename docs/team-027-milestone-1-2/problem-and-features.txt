@@ -1,0 +1,92 @@
+Application: Sangam: Student Mentoring and Career Support Platform
+Team: Team 027 · Rituparna (Product Manager), Hemant (TL/Frontend), Payal (Tester), Debshata (Scrum Master), Nasir (Backend)
+Problem statement: Option 2, Student Mentoring and Career Support Platform
+
+Objective:
+To help IITM BS students find, reach and keep learning from alumni and recent
+graduates who have walked a similar career path. The platform does this through
+structured mentoring requests, administrator-approved matching, goal and session
+tracking, and outcome reporting that never exposes private conversations.
+
+================================================================================
+1. Problem Statement
+================================================================================
+IITM BS degree students approaching graduation lack a structured, trustworthy
+channel to find, reach, and learn from alumni mentors. Career advice comes from
+scattered, unverified sources (YouTube, peer groups, LinkedIn). Students
+hesitate to cold-message seniors, and when they do, messages often go
+unanswered. Mentors are overwhelmed by vague "please guide me" requests and
+repetitive questions. The IIC/Placement Cell has no system-supported process
+for matching, tracking, or measuring mentoring outcomes.
+
+Key insight: The problem is not a shortage of willing mentors. It is the difficulty
+of discovering, reaching and staying connected with the right person at the right
+time, without overloading volunteers or compromising privacy.
+
+================================================================================
+2. Key Pain Points Identified (from 10 Qualitative Interviews)
+================================================================================
+1. Finding a relevant mentor is hard:
+   Students struggle to find someone with the right background; no system support
+   for matching mentors to specialized needs.
+2. Cold outreach goes unanswered, and students hesitate to ask:
+   Messages to seniors on LinkedIn get mixed responses; students fear questions
+   are too basic.
+3. Students lack practical, specific guidance:
+   General advice exists, but students cannot find out company-specific interview
+   rounds or skill priorities.
+4. Vague, unstructured requests overload mentors:
+   Mentors receive open-ended "please guide me" asks and repetitive questions.
+5. Mentor time is limited and availability changes:
+   Volunteers have limited hours (2-3 hrs/month), and availability goes out of date.
+6. Mentoring rarely continues beyond one conversation:
+   Communication breaks after a single chat without shared records or goals.
+7. There is no formal mentoring process or channel:
+   Informal outreach across WhatsApp/LinkedIn with no formal institutional workflow.
+8. Nobody can see whether mentoring works:
+   No visibility into meeting counts, goal progress, or tangible outcomes.
+9. Trust and privacy are hard to balance:
+   Mentors cannot verify student identities easily, and program oversight must
+   never read private conversations.
+
+================================================================================
+3. Core System Features
+================================================================================
+F1. Accounts & Access (Role-Based JWT Authentication)
+    - Three distinct roles: Student (Mentee), Mentor (Alumni), and IIC Admin.
+    - Verified IITM email domain check for student registrations.
+    - IIC approves students and verifies alumni roll numbers against graduate records.
+
+F2. Discover Mentors Directory
+    - Curated directory of verified alumni with domain, role, company, and skills.
+    - Student can name a preferred mentor (advisory preference, no auto-pairing).
+    - Contact details (email/phone) remain hidden until IIC match approval.
+
+F3. Structured Mentoring Request Lifecycle
+    - Student records need with pathway (Job, Higher Studies, Venture, Unsure),
+      domain, background, and a specific problem statement (80+ characters).
+    - Enforced constraint: One open request per student at a time.
+    - Status lifecycle: SUBMITTED -> UNDER_REVIEW -> WAITING -> MATCHED / CLOSED.
+
+F4. Administrator-Approved Matching & Availability Checks
+    - System suggests ranked mentor candidates with match scores and explanations.
+    - IIC sends availability check to shortlisted mentor (7-day response window).
+    - Match activates only after mentor confirms and IIC officially approves.
+
+F5. Mentorship Workspace (Goals, Sessions & Privacy-First Telemetry)
+    - 1 to 3 agreed goals per mentorship with target dates and progress tracking.
+    - Private meeting logging: session date, duration (minutes), and status only.
+    - Zero chat transcript storage; conversations remain strictly private.
+
+F6. Scheduling & Google Calendar Integration
+    - Mentors connect Google Calendar via OAuth to schedule sessions.
+    - Auto-generated Google Meet video conference links.
+
+F7. Feedback, Outcomes & Program Monitoring
+    - Bi-weekly mentor feedback to IIC; closing 1-5 rating and qualitative review.
+    - Tangible outcome tracking: interviews cleared, internships secured, job offers.
+    - 14-day inactivity alerts and CSV export for institutional reporting.
+
+F8. Advisory AI Assistant & Knowledge Base
+    - Rule-based mentor suggestions and request priority triage (advisory to IIC).
+    - "Ask Sangam" helpdesk chatbot grounded strictly in published IIC articles.

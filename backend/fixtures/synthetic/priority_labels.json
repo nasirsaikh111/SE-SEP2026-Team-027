@@ -1,0 +1,905 @@
+{
+ "rubric": "High >= 3 points, Medium 1-2, Low <= 0.\n+2 waiting >= 14 days, +1 waiting 7-13 days; +2 deadline/interview within 14 days, +1 within 30 days;\n+1 urgency words; -1 two or more prior withdrawals. (All students are Degree level, so level is not scored.)",
+ "labels": [
+  {
+   "request_id": 20000,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20001,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20002,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20003,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20004,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20005,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20006,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20007,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20008,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20009,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20010,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20011,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20012,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20013,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20014,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20015,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20016,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20017,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20018,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20019,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20020,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20021,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20022,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20023,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20024,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20025,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20026,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20027,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20028,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20029,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20030,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20031,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20032,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20033,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20034,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20035,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20036,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20037,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20038,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20039,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20040,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20041,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20042,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20043,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20044,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20045,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20046,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20047,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20048,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20049,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20050,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20051,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20052,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20053,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20054,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20055,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20056,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20057,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20058,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20059,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20060,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20061,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20062,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20063,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20064,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20065,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20066,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20067,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20068,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20069,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20070,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20071,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20072,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20073,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20074,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20075,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20076,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20077,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20078,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20079,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20080,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20081,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20082,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20083,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20084,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20085,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20086,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20087,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20088,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20089,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20090,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20091,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20092,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20093,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20094,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20095,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20096,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20097,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20098,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20099,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20100,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20101,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20102,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20103,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20104,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20105,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20106,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20107,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20108,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20109,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20110,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20111,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20112,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20113,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20114,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20115,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20116,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20117,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20118,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20119,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20120,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20121,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20122,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20123,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20124,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20125,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20126,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20127,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20128,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20129,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20130,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20131,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20132,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20133,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20134,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20135,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20136,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20137,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20138,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20139,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20140,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20141,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20142,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20143,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20144,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20145,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20146,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20147,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20148,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20149,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20150,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20151,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20152,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20153,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20154,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20155,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20156,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20157,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20158,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20159,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20160,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20161,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20162,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20163,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20164,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20165,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20166,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20167,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20168,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20169,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20170,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20171,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20172,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20173,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20174,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20175,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20176,
+   "label": "HIGH",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20177,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20178,
+   "label": "LOW",
+   "is_synthetic": true
+  },
+  {
+   "request_id": 20179,
+   "label": "MEDIUM",
+   "is_synthetic": true
+  }
+ ]
+}

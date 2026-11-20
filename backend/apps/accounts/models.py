@@ -90,6 +90,10 @@ class MentorProfile(models.Model):
     experience_years = models.PositiveIntegerField(default=0)
     is_verified = models.BooleanField(default=False)
     is_available = models.BooleanField(default=True)
+    # Matching inputs (KAN-46)
+    skills = models.JSONField(default=list, blank=True, help_text='5-10 short skill tags')
+    bio = models.TextField(blank=True)
+    is_discoverable = models.BooleanField(default=True, help_text='Hidden mentors are never suggested')
     invited_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.SET_NULL,null=True,blank=True,related_name="invited_mentors")
     created_at = models.DateTimeField(auto_now_add=True)
     # Professional details shown in the IIC-curated Discover Mentors directory (no private contact data).

@@ -4,19 +4,24 @@ from rest_framework import serializers, viewsets
 from rest_framework.decorators import api_view,permission_classes,throttle_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
 from rest_framework.throttling import SimpleRateThrottle
 from apps.accounts.permissions import IsIIC
 from apps.mentoring.services import log
 from .models import KnowledgeArticle
 from .services import chat_answer
 
-class ChatThrottle(SimpleRateThrottle):
-    scope='sangam_ai_chat'
-    def get_cache_key(self,request,view):
+from apps.accounts.permissions import IsIIC
+from apps.mentoring.models import MentoringRequest, Mentorship, Meeting
+from apps.mentoring.services import log
+from .models import KnowledgeArticle, AIRequestAssessment, MeetingSummary
+from . import services
+
+
+class _UserThrottle(SimpleRateThrottle):
+    def get_cache_key(self, request, view):
         if not request.user or not request.user.is_authenticated:
             return None
-        return self.cache_format % {'scope':self.scope,'ident':request.user.pk}
+        return self.cache_format % {'scope': self.scope, 'ident': request.user.pk}
 
 @extend_schema(tags=['ai'], summary='Helpdesk chatbot grounded in published knowledge. Messages are never stored.',
                request=inline_serializer('ChatRequest', {'message': serializers.CharField(min_length=2, max_length=1000)}),
@@ -27,13 +32,14 @@ class ChatThrottle(SimpleRateThrottle):
 @permission_classes([IsAuthenticated])
 @throttle_classes([ChatThrottle])
 def chat(request):
-    question=request.data.get('message','')
-    if not isinstance(question,str) or not 2 <= len(question.strip()) <= 1000:
-        raise ValidationError({'message':'Message must be 2–1000 characters.'})
+    question = request.data.get('message', '')
+    if not isinstance(question, str) or not 2 <= len(question.strip()) <= 1000:
+        raise ValidationError({'message': 'Message must be 2–1000 characters.'})
     # Deliberately NEVER save the question or answer in DB/audit logs.
-    answer,sources,used_local_llm=chat_answer(question,request.user.role)
-    return Response({'answer':answer,'sources':sources,'local_ai_used':used_local_llm,
-                     'message_stored':False,'human_approval_required_for_matches':True})
+    answer, sources, used_llm, scope = services.chat_answer(question, request.user.role)
+    return Response({'answer': answer, 'sources': sources, 'local_ai_used': used_llm, 'llm_used': used_llm, 'scope': scope,
+                     'fallback': not used_llm, 'message_stored': False, 'human_approval_required_for_matches': True})
+
 
 @extend_schema(tags=['ai'], summary='Published knowledge articles for my role', responses=OpenApiTypes.OBJECT)
 @api_view(['GET'])

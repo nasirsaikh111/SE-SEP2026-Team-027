@@ -43,6 +43,9 @@ def require_iic(u):
 def require_student(u):
     if not approved_student(u):
         raise PermissionDenied('IIC-approved student only.')
+    # Only Degree-level students can request mentoring
+    if u.student_profile.level != 'DEGREE':
+        raise PermissionDenied('Sangam mentoring is open to IITM BS Degree-level students only.')
 
 def pair_for_user(pk,u,only_active=False):
     pair=get_object_or_404(Mentorship,pk=pk)
@@ -165,6 +168,7 @@ def priority_override(request, pk):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def suggestions(request,pk):
+    """Legacy route; same engine as GET /api/v1/requests/{id}/suggestions/ (KAN-46)."""
     require_iic(request.user)
     obj=get_object_or_404(MentoringRequest,pk=pk)
     candidates=ranked_candidates(obj, limit=10)
@@ -446,6 +450,7 @@ def monthly_series(qs, field, months=6):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def insights(request):
+    """KAN-58: participation, effectiveness and at-risk count (aggregates only)."""
     require_iic(request.user)
     now=timezone.now()
     return Response({'requests':MentoringRequest.objects.count(),

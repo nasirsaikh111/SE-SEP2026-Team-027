@@ -1,0 +1,827 @@
+[
+ {
+  "id": 40000,
+  "notes": "Met Yadavi Puri today, roll 8pes206.\nWe talked about dsa and coding interview preparation and getting better at leetcode style problems.\nStudent has made decent progress since last time.\nContact if needed: 8pes206@ds.study.iitm.ac.in / +91 9989699292.\n- Solve three graph problems every day\n- Revise dynamic programming patterns\n- Take one mock online assessment\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8pes206@ds.study.iitm.ac.in",
+   "phone": "+91 9989699292",
+   "roll": "8pes206",
+   "full_name": "Yadavi Puri"
+  },
+  "reference_summary": "Discussed progress on dsa and coding interview preparation. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Solve three graph problems every day",
+   "Revise dynamic programming patterns",
+   "Take one mock online assessment"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40001,
+  "notes": "Met Baghyawati Chandran today, roll 4ugz628.\nWe talked about product management and moving from engineering to product.\nStudent is a bit stuck on where to begin.\nContact if needed: 4ugz628@ds.study.iitm.ac.in / +91 9626549967.\n- Interview five students about their pain points\n- Prepare two product case answers\n- Write a one page PRD for a campus app\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "4ugz628@ds.study.iitm.ac.in",
+   "phone": "+91 9626549967",
+   "roll": "4ugz628",
+   "full_name": "Baghyawati Chandran"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Prepare two product case answers",
+   "Write a one page PRD for a campus app"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40002,
+  "notes": "Met Damyanti Sunder today, roll 7fqv771.\nWe talked about backend engineering and apis and database design and slow queries.\nStudent has made decent progress since last time.\nContact if needed: 7fqv771@ds.study.iitm.ac.in / +91 9144834649.\n- Practise SQL joins on a sample schema\n- Build a REST API with Django and deploy it\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7fqv771@ds.study.iitm.ac.in",
+   "phone": "+91 9144834649",
+   "roll": "7fqv771",
+   "full_name": "Damyanti Sunder"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise SQL joins on a sample schema",
+   "Build a REST API with Django and deploy it"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40003,
+  "notes": "Met Sanya Khurana today, roll 5pwq590.\nWe talked about business analytics and bi dashboards and analyst roles in consulting.\nStudent is a bit stuck on where to begin.\nbahut time waste ho raha hai - main point was time management.\nContact if needed: 5pwq590@ds.study.iitm.ac.in / +91 9626283609.\n- Practise twenty SQL interview questions\n- Build a Power BI dashboard on sales data\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "5pwq590@ds.study.iitm.ac.in",
+   "phone": "+91 9626283609",
+   "roll": "5pwq590",
+   "full_name": "Sanya Khurana"
+  },
+  "reference_summary": "Discussed progress on business analytics and bi dashboards. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise twenty SQL interview questions",
+   "Build a Power BI dashboard on sales data"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40004,
+  "notes": "Met Daksh Shan today, roll 8hts951.\nWe talked about product management and moving from engineering to product.\nStudent is a bit stuck on where to begin.\nContact if needed: 8hts951@ds.study.iitm.ac.in / +91 9303140991.\n- Interview five students about their pain points\n- Write a one page PRD for a campus app\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8hts951@ds.study.iitm.ac.in",
+   "phone": "+91 9303140991",
+   "roll": "8hts951",
+   "full_name": "Daksh Shan"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Write a one page PRD for a campus app"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40005,
+  "notes": "Met Turvi Lad today, roll 7mpm591.\nWe talked about product management and apm program interviews.\nStudent is a bit stuck on where to begin.\nplease guide karo - main point was time management.\nContact if needed: 7mpm591@ds.study.iitm.ac.in / +91 9963596101.\n- Interview five students about their pain points\n- Prepare two product case answers\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7mpm591@ds.study.iitm.ac.in",
+   "phone": "+91 9963596101",
+   "roll": "7mpm591",
+   "full_name": "Turvi Lad"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Prepare two product case answers"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40006,
+  "notes": "Met Maanav Behl today, roll 8tdb357.\nWe talked about product management and deciding what features to build.\nStudent is a bit stuck on where to begin.\nContact if needed: 8tdb357@ds.study.iitm.ac.in / +91 9413267884.\n- Interview five students about their pain points\n- Write a one page PRD for a campus app\n- Prepare two product case answers\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8tdb357@ds.study.iitm.ac.in",
+   "phone": "+91 9413267884",
+   "roll": "8tdb357",
+   "full_name": "Maanav Behl"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Write a one page PRD for a campus app",
+   "Prepare two product case answers"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40007,
+  "notes": "Met Vinaya Guha today, roll 7agx227.\nWe talked about nlp and large language models and text classification and summarisation.\nStudent has made decent progress since last time.\nContact if needed: 7agx227@ds.study.iitm.ac.in / +91 9257216920.\n- Fine tune a small transformer on a review dataset\n- Write a short blog post on the project\n- Read the Hugging Face course chapter 3\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7agx227@ds.study.iitm.ac.in",
+   "phone": "+91 9257216920",
+   "roll": "7agx227",
+   "full_name": "Vinaya Guha"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Fine tune a small transformer on a review dataset",
+   "Write a short blog post on the project",
+   "Read the Hugging Face course chapter 3"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40008,
+  "notes": "Met Yash Agarwal today, roll 7cka662.\nWe talked about product management and becoming a product manager.\nStudent is a bit stuck on where to begin.\nContact if needed: 7cka662@ds.study.iitm.ac.in / +91 9757271612.\n- Write a one page PRD for a campus app\n- Prepare two product case answers\n- Interview five students about their pain points\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7cka662@ds.study.iitm.ac.in",
+   "phone": "+91 9757271612",
+   "roll": "7cka662",
+   "full_name": "Yash Agarwal"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Write a one page PRD for a campus app",
+   "Prepare two product case answers",
+   "Interview five students about their pain points"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40009,
+  "notes": "Met Imaran Bajaj today, roll 3urm803.\nWe talked about product management and deciding what features to build.\nStudent is a bit stuck on where to begin.\nContact if needed: 3urm803@ds.study.iitm.ac.in / +91 9272211736.\n- Write a one page PRD for a campus app\n- Interview five students about their pain points\n- Prepare two product case answers\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "3urm803@ds.study.iitm.ac.in",
+   "phone": "+91 9272211736",
+   "roll": "3urm803",
+   "full_name": "Imaran Bajaj"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Write a one page PRD for a campus app",
+   "Interview five students about their pain points",
+   "Prepare two product case answers"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40010,
+  "notes": "Met Hemani Pathak today, roll 1hfq290.\nWe talked about product management and apm program interviews.\nStudent is a bit stuck on where to begin.\nContact if needed: 1hfq290@ds.study.iitm.ac.in / +91 9291883420.\n- Interview five students about their pain points\n- Prepare two product case answers\n- Write a one page PRD for a campus app\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "1hfq290@ds.study.iitm.ac.in",
+   "phone": "+91 9291883420",
+   "roll": "1hfq290",
+   "full_name": "Hemani Pathak"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Prepare two product case answers",
+   "Write a one page PRD for a campus app"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40011,
+  "notes": "Met Anirudh Mangal today, roll 7mzt299.\nWe talked about backend engineering and apis and backend developer roles.\nStudent is a bit stuck on where to begin.\nthoda confusion hai - main point was time management.\nContact if needed: 7mzt299@ds.study.iitm.ac.in / +91 9814448498.\n- Practise SQL joins on a sample schema\n- Read the system design primer chapter on caching\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7mzt299@ds.study.iitm.ac.in",
+   "phone": "+91 9814448498",
+   "roll": "7mzt299",
+   "full_name": "Anirudh Mangal"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise SQL joins on a sample schema",
+   "Read the system design primer chapter on caching"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40012,
+  "notes": "Met Banjeet Ghosh today, roll 8hcu999.\nWe talked about ms admissions abroad and applying for masters in the US or Germany.\nStudent is a bit stuck on where to begin.\nContact if needed: 8hcu999@ds.study.iitm.ac.in / +91 9880603523.\n- Shortlist eight universities\n- Draft the first version of the SOP\n- Ask two professors for recommendation letters\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8hcu999@ds.study.iitm.ac.in",
+   "phone": "+91 9880603523",
+   "roll": "8hcu999",
+   "full_name": "Banjeet Ghosh"
+  },
+  "reference_summary": "Discussed progress on ms admissions abroad. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Shortlist eight universities",
+   "Draft the first version of the SOP",
+   "Ask two professors for recommendation letters"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40013,
+  "notes": "Met Aahana Tak today, roll 7dnw815.\nWe talked about ms admissions abroad and recommendation letters and GRE scores.\nStudent has made decent progress since last time.\nContact if needed: 7dnw815@ds.study.iitm.ac.in / +91 9916495400.\n- Draft the first version of the SOP\n- Shortlist eight universities\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7dnw815@ds.study.iitm.ac.in",
+   "phone": "+91 9916495400",
+   "roll": "7dnw815",
+   "full_name": "Aahana Tak"
+  },
+  "reference_summary": "Discussed progress on ms admissions abroad. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Draft the first version of the SOP",
+   "Shortlist eight universities"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40014,
+  "notes": "Met Isaac Choudhury today, roll 3xpa123.\nWe talked about dsa and coding interview preparation and online assessments for placements.\nStudent is a bit stuck on where to begin.\nContact if needed: 3xpa123@ds.study.iitm.ac.in / +91 9134713796.\n- Take one mock online assessment\n- Revise dynamic programming patterns\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "3xpa123@ds.study.iitm.ac.in",
+   "phone": "+91 9134713796",
+   "roll": "3xpa123",
+   "full_name": "Isaac Choudhury"
+  },
+  "reference_summary": "Discussed progress on dsa and coding interview preparation. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Take one mock online assessment",
+   "Revise dynamic programming patterns"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40015,
+  "notes": "Met Damyanti Sunder today, roll 7fqv771.\nWe talked about nlp and large language models and sentiment analysis on reviews.\nStudent is a bit stuck on where to begin.\nContact if needed: 7fqv771@ds.study.iitm.ac.in / +91 9806370483.\n- Read the Hugging Face course chapter 3\n- Write a short blog post on the project\n- Fine tune a small transformer on a review dataset\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7fqv771@ds.study.iitm.ac.in",
+   "phone": "+91 9806370483",
+   "roll": "7fqv771",
+   "full_name": "Damyanti Sunder"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Read the Hugging Face course chapter 3",
+   "Write a short blog post on the project",
+   "Fine tune a small transformer on a review dataset"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40016,
+  "notes": "Met Sathvik Sule today, roll 4uhr918.\nWe talked about business analytics and bi dashboards and excel and visualisation skills.\nStudent has made decent progress since last time.\nthoda confusion hai - main point was time management.\nContact if needed: 4uhr918@ds.study.iitm.ac.in / +91 9431411035.\n- Practise twenty SQL interview questions\n- Update the resume with metrics\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "4uhr918@ds.study.iitm.ac.in",
+   "phone": "+91 9431411035",
+   "roll": "4uhr918",
+   "full_name": "Sathvik Sule"
+  },
+  "reference_summary": "Discussed progress on business analytics and bi dashboards. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise twenty SQL interview questions",
+   "Update the resume with metrics"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40017,
+  "notes": "Met Garima Gola today, roll 1mgd821.\nWe talked about product management and moving from engineering to product.\nStudent is a bit stuck on where to begin.\nmujhe samajh nahi aa raha ki kaise start karu - main point was time management.\nContact if needed: 1mgd821@ds.study.iitm.ac.in / +91 9892139175.\n- Interview five students about their pain points\n- Prepare two product case answers\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "1mgd821@ds.study.iitm.ac.in",
+   "phone": "+91 9892139175",
+   "roll": "1mgd821",
+   "full_name": "Garima Gola"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Prepare two product case answers"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40018,
+  "notes": "Met Krisha Walla today, roll 9pnc646.\nWe talked about product management and writing product requirement documents.\nStudent has made decent progress since last time.\nContact if needed: 9pnc646@ds.study.iitm.ac.in / +91 9141859333.\n- Write a one page PRD for a campus app\n- Prepare two product case answers\n- Interview five students about their pain points\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "9pnc646@ds.study.iitm.ac.in",
+   "phone": "+91 9141859333",
+   "roll": "9pnc646",
+   "full_name": "Krisha Walla"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Write a one page PRD for a campus app",
+   "Prepare two product case answers",
+   "Interview five students about their pain points"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40019,
+  "notes": "Met Gayathri Doctor today, roll 6vxv131.\nWe talked about product management and deciding what features to build.\nStudent is a bit stuck on where to begin.\nthoda confusion hai - main point was time management.\nContact if needed: 6vxv131@ds.study.iitm.ac.in / +91 9212071599.\n- Interview five students about their pain points\n- Write a one page PRD for a campus app\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "6vxv131@ds.study.iitm.ac.in",
+   "phone": "+91 9212071599",
+   "roll": "6vxv131",
+   "full_name": "Gayathri Doctor"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Write a one page PRD for a campus app"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40020,
+  "notes": "Met Anirudh Mangal today, roll 7mzt299.\nWe talked about ms admissions abroad and applying for masters in the US or Germany.\nStudent has made decent progress since last time.\nContact if needed: 7mzt299@ds.study.iitm.ac.in / +91 9664130572.\n- Shortlist eight universities\n- Ask two professors for recommendation letters\n- Draft the first version of the SOP\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7mzt299@ds.study.iitm.ac.in",
+   "phone": "+91 9664130572",
+   "roll": "7mzt299",
+   "full_name": "Anirudh Mangal"
+  },
+  "reference_summary": "Discussed progress on ms admissions abroad. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Shortlist eight universities",
+   "Ask two professors for recommendation letters",
+   "Draft the first version of the SOP"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40021,
+  "notes": "Met Raksha Swaminathan today, roll 5xpt220.\nWe talked about dsa and coding interview preparation and technical interview practice.\nStudent is a bit stuck on where to begin.\nContact if needed: 5xpt220@ds.study.iitm.ac.in / +91 9571547008.\n- Solve three graph problems every day\n- Take one mock online assessment\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "5xpt220@ds.study.iitm.ac.in",
+   "phone": "+91 9571547008",
+   "roll": "5xpt220",
+   "full_name": "Raksha Swaminathan"
+  },
+  "reference_summary": "Discussed progress on dsa and coding interview preparation. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Solve three graph problems every day",
+   "Take one mock online assessment"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40022,
+  "notes": "Met Xiti Maharaj today, roll 3cwn526.\nWe talked about business analytics and bi dashboards and writing queries to answer business questions.\nStudent is a bit stuck on where to begin.\nContact if needed: 3cwn526@ds.study.iitm.ac.in / +91 9996166127.\n- Practise twenty SQL interview questions\n- Update the resume with metrics\n- Build a Power BI dashboard on sales data\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "3cwn526@ds.study.iitm.ac.in",
+   "phone": "+91 9996166127",
+   "roll": "3cwn526",
+   "full_name": "Xiti Maharaj"
+  },
+  "reference_summary": "Discussed progress on business analytics and bi dashboards. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise twenty SQL interview questions",
+   "Update the resume with metrics",
+   "Build a Power BI dashboard on sales data"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40023,
+  "notes": "Met Sara Bail today, roll 6efh483.\nWe talked about backend engineering and apis and how large websites handle millions of users.\nStudent has made decent progress since last time.\nContact if needed: 6efh483@ds.study.iitm.ac.in / +91 9235452004.\n- Practise SQL joins on a sample schema\n- Build a REST API with Django and deploy it\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "6efh483@ds.study.iitm.ac.in",
+   "phone": "+91 9235452004",
+   "roll": "6efh483",
+   "full_name": "Sara Bail"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise SQL joins on a sample schema",
+   "Build a REST API with Django and deploy it"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40024,
+  "notes": "Met Indrajit Dua today, roll 4hug615.\nWe talked about ms admissions abroad and applying for masters in the US or Germany.\nStudent has made decent progress since last time.\nmujhe samajh nahi aa raha ki kaise start karu - main point was time management.\nContact if needed: 4hug615@ds.study.iitm.ac.in / +91 9154378019.\n- Ask two professors for recommendation letters\n- Draft the first version of the SOP\n- Shortlist eight universities\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "4hug615@ds.study.iitm.ac.in",
+   "phone": "+91 9154378019",
+   "roll": "4hug615",
+   "full_name": "Indrajit Dua"
+  },
+  "reference_summary": "Discussed progress on ms admissions abroad. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Ask two professors for recommendation letters",
+   "Draft the first version of the SOP",
+   "Shortlist eight universities"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40025,
+  "notes": "Met Baghyawati Chandran today, roll 4ugz628.\nWe talked about nlp and large language models and building chatbots.\nStudent is a bit stuck on where to begin.\nContact if needed: 4ugz628@ds.study.iitm.ac.in / +91 9847845347.\n- Fine tune a small transformer on a review dataset\n- Write a short blog post on the project\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "4ugz628@ds.study.iitm.ac.in",
+   "phone": "+91 9847845347",
+   "roll": "4ugz628",
+   "full_name": "Baghyawati Chandran"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Fine tune a small transformer on a review dataset",
+   "Write a short blog post on the project"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40026,
+  "notes": "Met Triya Walla today, roll 4eyk172.\nWe talked about nlp and large language models and building chatbots.\nStudent is a bit stuck on where to begin.\nContact if needed: 4eyk172@ds.study.iitm.ac.in / +91 9434460054.\n- Fine tune a small transformer on a review dataset\n- Read the Hugging Face course chapter 3\n- Write a short blog post on the project\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "4eyk172@ds.study.iitm.ac.in",
+   "phone": "+91 9434460054",
+   "roll": "4eyk172",
+   "full_name": "Triya Walla"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Fine tune a small transformer on a review dataset",
+   "Read the Hugging Face course chapter 3",
+   "Write a short blog post on the project"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40027,
+  "notes": "Met Zayyan Arora today, roll 5jdz522.\nWe talked about backend engineering and apis and backend developer roles.\nStudent is a bit stuck on where to begin.\nthoda confusion hai - main point was time management.\nContact if needed: 5jdz522@ds.study.iitm.ac.in / +91 9171699300.\n- Practise SQL joins on a sample schema\n- Read the system design primer chapter on caching\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "5jdz522@ds.study.iitm.ac.in",
+   "phone": "+91 9171699300",
+   "roll": "5jdz522",
+   "full_name": "Zayyan Arora"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise SQL joins on a sample schema",
+   "Read the system design primer chapter on caching"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40028,
+  "notes": "Met Raksha Swaminathan today, roll 5xpt220.\nWe talked about product management and becoming a product manager.\nStudent is a bit stuck on where to begin.\nContact if needed: 5xpt220@ds.study.iitm.ac.in / +91 9570371741.\n- Prepare two product case answers\n- Write a one page PRD for a campus app\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "5xpt220@ds.study.iitm.ac.in",
+   "phone": "+91 9570371741",
+   "roll": "5xpt220",
+   "full_name": "Raksha Swaminathan"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Prepare two product case answers",
+   "Write a one page PRD for a campus app"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40029,
+  "notes": "Met Triveni Wason today, roll 8hqm366.\nWe talked about nlp and large language models and generative AI projects.\nStudent has made decent progress since last time.\nplease guide karo - main point was time management.\nContact if needed: 8hqm366@ds.study.iitm.ac.in / +91 9479624759.\n- Write a short blog post on the project\n- Fine tune a small transformer on a review dataset\n- Read the Hugging Face course chapter 3\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8hqm366@ds.study.iitm.ac.in",
+   "phone": "+91 9479624759",
+   "roll": "8hqm366",
+   "full_name": "Triveni Wason"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Write a short blog post on the project",
+   "Fine tune a small transformer on a review dataset",
+   "Read the Hugging Face course chapter 3"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40030,
+  "notes": "Met Oeshi Chaudhari today, roll 1zaz115.\nWe talked about backend engineering and apis and writing APIs for a mobile app.\nStudent is a bit stuck on where to begin.\nContact if needed: 1zaz115@ds.study.iitm.ac.in / +91 9997448758.\n- Read the system design primer chapter on caching\n- Practise SQL joins on a sample schema\n- Build a REST API with Django and deploy it\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "1zaz115@ds.study.iitm.ac.in",
+   "phone": "+91 9997448758",
+   "roll": "1zaz115",
+   "full_name": "Oeshi Chaudhari"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Read the system design primer chapter on caching",
+   "Practise SQL joins on a sample schema",
+   "Build a REST API with Django and deploy it"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40031,
+  "notes": "Met Isaac Choudhury today, roll 3xpa123.\nWe talked about dsa and coding interview preparation and online assessments for placements.\nStudent is a bit stuck on where to begin.\nContact if needed: 3xpa123@ds.study.iitm.ac.in / +91 9408157926.\n- Take one mock online assessment\n- Solve three graph problems every day\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "3xpa123@ds.study.iitm.ac.in",
+   "phone": "+91 9408157926",
+   "roll": "3xpa123",
+   "full_name": "Isaac Choudhury"
+  },
+  "reference_summary": "Discussed progress on dsa and coding interview preparation. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Take one mock online assessment",
+   "Solve three graph problems every day"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40032,
+  "notes": "Met Damini Sidhu today, roll 4yhh191.\nWe talked about business analytics and bi dashboards and excel and visualisation skills.\nStudent has made decent progress since last time.\nthoda confusion hai - main point was time management.\nContact if needed: 4yhh191@ds.study.iitm.ac.in / +91 9773445889.\n- Update the resume with metrics\n- Practise twenty SQL interview questions\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "4yhh191@ds.study.iitm.ac.in",
+   "phone": "+91 9773445889",
+   "roll": "4yhh191",
+   "full_name": "Damini Sidhu"
+  },
+  "reference_summary": "Discussed progress on business analytics and bi dashboards. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Update the resume with metrics",
+   "Practise twenty SQL interview questions"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40033,
+  "notes": "Met Yashvi Lala today, roll 2tgy830.\nWe talked about nlp and large language models and working with language models like GPT.\nStudent is a bit stuck on where to begin.\nContact if needed: 2tgy830@ds.study.iitm.ac.in / +91 9563585644.\n- Write a short blog post on the project\n- Read the Hugging Face course chapter 3\n- Fine tune a small transformer on a review dataset\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "2tgy830@ds.study.iitm.ac.in",
+   "phone": "+91 9563585644",
+   "roll": "2tgy830",
+   "full_name": "Yashvi Lala"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Write a short blog post on the project",
+   "Read the Hugging Face course chapter 3",
+   "Fine tune a small transformer on a review dataset"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40034,
+  "notes": "Met Warhi Reddy today, roll 8mnz684.\nWe talked about backend engineering and apis and writing APIs for a mobile app.\nStudent has made decent progress since last time.\nContact if needed: 8mnz684@ds.study.iitm.ac.in / +91 9267973810.\n- Build a REST API with Django and deploy it\n- Read the system design primer chapter on caching\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8mnz684@ds.study.iitm.ac.in",
+   "phone": "+91 9267973810",
+   "roll": "8mnz684",
+   "full_name": "Warhi Reddy"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Build a REST API with Django and deploy it",
+   "Read the system design primer chapter on caching"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40035,
+  "notes": "Met Ekiya Narain today, roll 3vmr986.\nWe talked about product management and apm program interviews.\nStudent is a bit stuck on where to begin.\nContact if needed: 3vmr986@ds.study.iitm.ac.in / +91 9628187999.\n- Write a one page PRD for a campus app\n- Prepare two product case answers\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "3vmr986@ds.study.iitm.ac.in",
+   "phone": "+91 9628187999",
+   "roll": "3vmr986",
+   "full_name": "Ekiya Narain"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Write a one page PRD for a campus app",
+   "Prepare two product case answers"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40036,
+  "notes": "Met Champak Suri today, roll 6tst122.\nWe talked about backend engineering and apis and how large websites handle millions of users.\nStudent is a bit stuck on where to begin.\nContact if needed: 6tst122@ds.study.iitm.ac.in / +91 9142105451.\n- Build a REST API with Django and deploy it\n- Read the system design primer chapter on caching\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "6tst122@ds.study.iitm.ac.in",
+   "phone": "+91 9142105451",
+   "roll": "6tst122",
+   "full_name": "Champak Suri"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Build a REST API with Django and deploy it",
+   "Read the system design primer chapter on caching"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40037,
+  "notes": "Met Sara Bail today, roll 6efh483.\nWe talked about dsa and coding interview preparation and graphs and dynamic programming questions.\nStudent has made decent progress since last time.\nthoda confusion hai - main point was time management.\nContact if needed: 6efh483@ds.study.iitm.ac.in / +91 9816273771.\n- Take one mock online assessment\n- Revise dynamic programming patterns\n- Solve three graph problems every day\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "6efh483@ds.study.iitm.ac.in",
+   "phone": "+91 9816273771",
+   "roll": "6efh483",
+   "full_name": "Sara Bail"
+  },
+  "reference_summary": "Discussed progress on dsa and coding interview preparation. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Take one mock online assessment",
+   "Revise dynamic programming patterns",
+   "Solve three graph problems every day"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40038,
+  "notes": "Met Abeer Sur today, roll 7qmy263.\nWe talked about ms admissions abroad and applying for masters in the US or Germany.\nStudent is a bit stuck on where to begin.\nContact if needed: 7qmy263@ds.study.iitm.ac.in / +91 9963205632.\n- Shortlist eight universities\n- Ask two professors for recommendation letters\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7qmy263@ds.study.iitm.ac.in",
+   "phone": "+91 9963205632",
+   "roll": "7qmy263",
+   "full_name": "Abeer Sur"
+  },
+  "reference_summary": "Discussed progress on ms admissions abroad. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Shortlist eight universities",
+   "Ask two professors for recommendation letters"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40039,
+  "notes": "Met Ekaraj Dasgupta today, roll 6ukp674.\nWe talked about backend engineering and apis and how large websites handle millions of users.\nStudent is a bit stuck on where to begin.\nContact if needed: 6ukp674@ds.study.iitm.ac.in / +91 9893486385.\n- Read the system design primer chapter on caching\n- Practise SQL joins on a sample schema\n- Build a REST API with Django and deploy it\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "6ukp674@ds.study.iitm.ac.in",
+   "phone": "+91 9893486385",
+   "roll": "6ukp674",
+   "full_name": "Ekaraj Dasgupta"
+  },
+  "reference_summary": "Discussed progress on backend engineering and apis. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Read the system design primer chapter on caching",
+   "Practise SQL joins on a sample schema",
+   "Build a REST API with Django and deploy it"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40040,
+  "notes": "Met Damyanti Sunder today, roll 7fqv771.\nWe talked about business analytics and bi dashboards and excel and visualisation skills.\nStudent has made decent progress since last time.\nContact if needed: 7fqv771@ds.study.iitm.ac.in / +91 9948986645.\n- Update the resume with metrics\n- Build a Power BI dashboard on sales data\n- Practise twenty SQL interview questions\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "7fqv771@ds.study.iitm.ac.in",
+   "phone": "+91 9948986645",
+   "roll": "7fqv771",
+   "full_name": "Damyanti Sunder"
+  },
+  "reference_summary": "Discussed progress on business analytics and bi dashboards. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Update the resume with metrics",
+   "Build a Power BI dashboard on sales data",
+   "Practise twenty SQL interview questions"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40041,
+  "notes": "Met Warhi Reddy today, roll 8mnz684.\nWe talked about nlp and large language models and generative AI projects.\nStudent has made decent progress since last time.\nContact if needed: 8mnz684@ds.study.iitm.ac.in / +91 9511163749.\n- Fine tune a small transformer on a review dataset\n- Read the Hugging Face course chapter 3\n- Write a short blog post on the project\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8mnz684@ds.study.iitm.ac.in",
+   "phone": "+91 9511163749",
+   "roll": "8mnz684",
+   "full_name": "Warhi Reddy"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Fine tune a small transformer on a review dataset",
+   "Read the Hugging Face course chapter 3",
+   "Write a short blog post on the project"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40042,
+  "notes": "Met Logan Sani today, roll 8msn478.\nWe talked about nlp and large language models and generative AI projects.\nStudent is a bit stuck on where to begin.\nContact if needed: 8msn478@ds.study.iitm.ac.in / +91 9611797973.\n- Fine tune a small transformer on a review dataset\n- Read the Hugging Face course chapter 3\n- Write a short blog post on the project\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "8msn478@ds.study.iitm.ac.in",
+   "phone": "+91 9611797973",
+   "roll": "8msn478",
+   "full_name": "Logan Sani"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Fine tune a small transformer on a review dataset",
+   "Read the Hugging Face course chapter 3",
+   "Write a short blog post on the project"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40043,
+  "notes": "Met Pahal Gala today, roll 9xpv220.\nWe talked about product management and becoming a product manager.\nStudent has made decent progress since last time.\nContact if needed: 9xpv220@ds.study.iitm.ac.in / +91 9862799341.\n- Interview five students about their pain points\n- Write a one page PRD for a campus app\n- Prepare two product case answers\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "9xpv220@ds.study.iitm.ac.in",
+   "phone": "+91 9862799341",
+   "roll": "9xpv220",
+   "full_name": "Pahal Gala"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Interview five students about their pain points",
+   "Write a one page PRD for a campus app",
+   "Prepare two product case answers"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40044,
+  "notes": "Met Gayathri Doctor today, roll 6vxv131.\nWe talked about nlp and large language models and building chatbots.\nStudent has made decent progress since last time.\nContact if needed: 6vxv131@ds.study.iitm.ac.in / +91 9110463581.\n- Read the Hugging Face course chapter 3\n- Fine tune a small transformer on a review dataset\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "6vxv131@ds.study.iitm.ac.in",
+   "phone": "+91 9110463581",
+   "roll": "6vxv131",
+   "full_name": "Gayathri Doctor"
+  },
+  "reference_summary": "Discussed progress on nlp and large language models. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Read the Hugging Face course chapter 3",
+   "Fine tune a small transformer on a review dataset"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40045,
+  "notes": "Met Anthony Prakash today, roll 5uqw140.\nWe talked about dsa and coding interview preparation and cracking coding rounds at product companies.\nStudent has made decent progress since last time.\nthoda confusion hai - main point was time management.\nContact if needed: 5uqw140@ds.study.iitm.ac.in / +91 9620077829.\n- Take one mock online assessment\n- Solve three graph problems every day\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "5uqw140@ds.study.iitm.ac.in",
+   "phone": "+91 9620077829",
+   "roll": "5uqw140",
+   "full_name": "Anthony Prakash"
+  },
+  "reference_summary": "Discussed progress on dsa and coding interview preparation. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Take one mock online assessment",
+   "Solve three graph problems every day"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40046,
+  "notes": "Met Ansh Mohanty today, roll 3aqj164.\nWe talked about dsa and coding interview preparation and graphs and dynamic programming questions.\nStudent has made decent progress since last time.\nContact if needed: 3aqj164@ds.study.iitm.ac.in / +91 9299079460.\n- Revise dynamic programming patterns\n- Solve three graph problems every day\n- Take one mock online assessment\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "3aqj164@ds.study.iitm.ac.in",
+   "phone": "+91 9299079460",
+   "roll": "3aqj164",
+   "full_name": "Ansh Mohanty"
+  },
+  "reference_summary": "Discussed progress on dsa and coding interview preparation. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Revise dynamic programming patterns",
+   "Solve three graph problems every day",
+   "Take one mock online assessment"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40047,
+  "notes": "Met Oeshi Chaudhari today, roll 1zaz115.\nWe talked about business analytics and bi dashboards and excel and visualisation skills.\nStudent is a bit stuck on where to begin.\nContact if needed: 1zaz115@ds.study.iitm.ac.in / +91 9563096531.\n- Practise twenty SQL interview questions\n- Build a Power BI dashboard on sales data\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "1zaz115@ds.study.iitm.ac.in",
+   "phone": "+91 9563096531",
+   "roll": "1zaz115",
+   "full_name": "Oeshi Chaudhari"
+  },
+  "reference_summary": "Discussed progress on business analytics and bi dashboards. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Practise twenty SQL interview questions",
+   "Build a Power BI dashboard on sales data"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40048,
+  "notes": "Met Qabil Gara today, roll 2rfh397.\nWe talked about ms admissions abroad and applying for masters in the US or Germany.\nStudent has made decent progress since last time.\nthoda confusion hai - main point was time management.\nContact if needed: 2rfh397@ds.study.iitm.ac.in / +91 9618594061.\n- Ask two professors for recommendation letters\n- Shortlist eight universities\n- Draft the first version of the SOP\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "2rfh397@ds.study.iitm.ac.in",
+   "phone": "+91 9618594061",
+   "roll": "2rfh397",
+   "full_name": "Qabil Gara"
+  },
+  "reference_summary": "Discussed progress on ms admissions abroad. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Ask two professors for recommendation letters",
+   "Shortlist eight universities",
+   "Draft the first version of the SOP"
+  ],
+  "is_synthetic": true
+ },
+ {
+  "id": 40049,
+  "notes": "Met Girik Chaudhuri today, roll 9bef157.\nWe talked about product management and apm program interviews.\nStudent is a bit stuck on where to begin.\nplease guide karo - main point was time management.\nContact if needed: 9bef157@ds.study.iitm.ac.in / +91 9594909424.\n- Prepare two product case answers\n- Write a one page PRD for a campus app\nNext meeting in two weeks.",
+  "planted_pii": {
+   "email": "9bef157@ds.study.iitm.ac.in",
+   "phone": "+91 9594909424",
+   "roll": "9bef157",
+   "full_name": "Girik Chaudhuri"
+  },
+  "reference_summary": "Discussed progress on product management. The student shared current preparation and blockers. We agreed on a focused plan for the next two weeks.",
+  "reference_action_items": [
+   "Prepare two product case answers",
+   "Write a one page PRD for a campus app"
+  ],
+  "is_synthetic": true
+ }
+]

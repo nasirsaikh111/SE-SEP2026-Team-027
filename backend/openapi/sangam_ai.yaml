@@ -1,0 +1,443 @@
+openapi: 3.0.3
+info:
+  title: Sangam AI/ML API (KAN-44 / KAN-61 AI part)
+  version: 1.1.0
+  description: |
+    Advisory AI endpoints of Sangam (Django app `assistant_ai`). AI never approves, rejects or creates anything:
+    only `mentoring.services.approve_match()` creates a mentorship, after the mentor confirms and IIC approves.
+    Every endpoint works without an LLM or embedding model (rule-based fallback, flagged in the response).
+
+    **APIs integrated**
+    * **sentence-transformers `all-MiniLM-L6-v2`** (local embedding model): semantic similarity between a problem statement
+      and mentor profiles in `/requests/{id}/suggestions/`. Vectors are cached per mentor profile.
+    * **Google Gemini API** (`google-genai`, models `gemini-3.5-flash-lite` → `gemini-3.1-flash-lite` → `gemini-2.5-flash`,
+      several keys rotated on quota/expiry): session summaries (prompt `summary_v1`), one-sentence match explanations
+      (prompt `explain_v1`), Ask Sangam answers grounded in KnowledgeArticles (prompt `chat_v1`). Optional.
+    * **Ollama** (optional local LLM, `qwen3:8b`): same uses as Gemini when `AI_PROVIDER=ollama`; local URL only.
+
+    Personal data (emails, phone numbers, roll numbers, surnames) is stripped before any model call.
+    All evaluation used synthetic data.
+
+    User stories (Milestone 1): US-IIC-03 suggested mentors, US-IIC-04 request priority, US-STU-07 help assistant,
+    US-MEN-05 session summary, US-IIC-08 programme insights, US-IIC-09 at-risk pairs.
+servers:
+  - url: http://127.0.0.1:8000/api/v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Sprint 1 - Matching
+  - name: Sprint 1 - Priority
+  - name: Sprint 1 - Assistant
+  - name: Sprint 2 - Summaries
+  - name: Sprint 2 - Insights
+  - name: Health
+paths:
+  /requests/{id}/suggestions/:
+    get:
+      tags: [Sprint 1 - Matching]
+      summary: Ranked mentor suggestions for a request (KAN-46)
+      description: |
+        IIC only. Hard filters: verified, available, discoverable, not in an active mentorship, no pending availability check
+        for this request. score = 0.50·semantic + 0.20·domain + 0.15·skills + 0.08·pathway + 0.04·experience + 0.03·preferred
+        (weights tuned in KAN-47). If the embedding model is unavailable the semantic weight is 0, the rest are re-normalised,
+        `algorithm` is `rule_based_v1` and `fallback` is true. Deterministic; ties broken by mentor id.
+        Legacy alias: `GET /admin/requests/{id}/suggestions/`. User story: US-IIC-03.
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - name: k
+          in: query
+          schema: {type: integer, minimum: 1, maximum: 20, default: 5}
+      responses:
+        '200':
+          description: Suggestions (advisory)
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/SuggestionResponse'}
+              example:
+                request_id: 42
+                algorithm: hybrid_v1
+                embedding_model_used: true
+                fallback: false
+                fallback_reason: null
+                llm_explanations_used: false
+                k: 2
+                advisory_only: true
+                approval_required: true
+                student_cannot_choose: true
+                candidates:
+                  - mentor_id: 17
+                    name: Priya
+                    headline: Data Scientist at Razorpay
+                    domain: Data & ML
+                    specialty: NLP and large language models
+                    experience_years: 6
+                    score: 0.81
+                    reasons: ['Same domain: Data & ML', '3 shared skills: llm, nlp, transformer', "6 years' experience"]
+                    explanation: 'Same domain: Data & ML; 3 shared skills: llm, nlp, transformer; 6 years'' experience'
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /requests/{id}/priority/:
+    get:
+      tags: [Sprint 1 - Priority]
+      summary: Advisory priority for a request
+      description: IIC only. Creates an assessment if none exists (or `refresh=1`). Algorithm `priority_points_v1`. US-IIC-04.
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+        - name: refresh
+          in: query
+          schema: {type: string, enum: ['0', '1']}
+      responses:
+        '200':
+          description: Assessment
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PriorityAssessment'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    patch:
+      tags: [Sprint 1 - Priority]
+      summary: IIC override of the AI priority
+      description: Stores override_priority, override_reason, overridden_by; written to the audit log. US-IIC-04.
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [override_priority, override_reason]
+              properties:
+                override_priority: {type: string, enum: [HIGH, MEDIUM, LOW]}
+                override_reason: {type: string, maxLength: 500}
+      responses:
+        '200':
+          description: Updated assessment
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PriorityAssessment'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /assistant/chat/:
+    post:
+      tags: [Sprint 1 - Assistant]
+      summary: Ask Sangam helpdesk (messages are never stored)
+      description: |
+        Any logged-in user. BM25 retrieval over published KnowledgeArticles for the user's audience; the LLM (if configured)
+        answers only from those articles. Requests to approve / assign / pair are refused before any model call, and questions that are
+        not about the Sangam app (weather, homework, general career advice) are declined by a domain guardrail (scope: out_of_scope).
+        Available to students, mentors and IIC admins.
+        Throttled 10/minute per user. Alias `/ai/chat/`. US-STU-07.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [message]
+              properties:
+                message: {type: string, minLength: 2, maxLength: 1000}
+      responses:
+        '200':
+          description: Answer
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/ChatResponse'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '429': {$ref: '#/components/responses/Throttled'}
+  /mentorships/{id}/meetings/{mid}/summary/:
+    post:
+      tags: [Sprint 2 - Summaries]
+      summary: Draft summary and action items from the mentor's own notes (KAN-57)
+      description: |
+        Mentor of this mentorship only. PII is stripped and input capped at 2,000 words before the LLM call (prompt `summary_v1`,
+        15 s timeout, one retry on invalid JSON). Falls back to an extractive summary. **Nothing is stored.** Throttled 10/hour. US-MEN-05.
+      parameters:
+        - $ref: '#/components/parameters/MentorshipId'
+        - $ref: '#/components/parameters/MeetingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [notes]
+              properties:
+                notes: {type: string, minLength: 20}
+      responses:
+        '200':
+          description: Draft for review
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/SummaryDraft'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+        '429': {$ref: '#/components/responses/Throttled'}
+        '503':
+          description: LLM timed out; the extractive draft is returned with fallback=true
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/SummaryDraft'}
+  /mentorships/{id}/meetings/{mid}/summary/confirm/:
+    post:
+      tags: [Sprint 2 - Summaries]
+      summary: Confirm (save) a user-edited summary
+      description: |
+        Saves only if `SANGAM_STORE_AI_SUMMARIES=1` (pending team/TA decision; default off → returns stored=false and keeps nothing).
+        Prompt version is recorded with every saved summary. Discarding = simply not calling this endpoint. US-MEN-05.
+      parameters:
+        - $ref: '#/components/parameters/MentorshipId'
+        - $ref: '#/components/parameters/MeetingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [summary]
+              properties:
+                summary: {type: string}
+                action_items: {type: array, maxItems: 5, items: {type: string}}
+                prompt_version: {type: string, example: summary_v1}
+      responses:
+        '200':
+          description: Not stored (storage disabled)
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/SummaryConfirm'}
+        '201':
+          description: Stored
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/SummaryConfirm'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /admin/insights/:
+    get:
+      tags: [Sprint 2 - Insights]
+      summary: Participation and effectiveness metrics (aggregates only, KAN-58)
+      description: IIC only. Counts and rates, never chat or note content. Also keeps the Milestone-2 keys. US-IIC-08.
+      responses:
+        '200':
+          description: Insights
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Insights'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/insights/at-risk/:
+    get:
+      tags: [Sprint 2 - Insights]
+      summary: Mentorships likely to go quiet (advisory)
+      description: |
+        IIC only. Transparent weighted risk score (`dropoff_weighted_v1`, weights fitted on synthetic timelines) on days since last
+        meeting, meeting-frequency drop, no-shows, overdue feedback, open alerts and stale goals. The 14-day inactivity rule lifts
+        LOW to MEDIUM. Every flag has reasons; flags never change any status. US-IIC-09.
+      parameters:
+        - name: min_level
+          in: query
+          schema: {type: string, enum: [LOW, MEDIUM, HIGH], default: MEDIUM}
+      responses:
+        '200':
+          description: Flagged mentorships
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AtRiskResponse'}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '422': {$ref: '#/components/responses/Unprocessable'}
+  /ai/health/:
+    get:
+      tags: [Health]
+      summary: Is the embedding model / LLM available?
+      responses:
+        '200':
+          description: Health
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  embedding_backend: {type: string, enum: [minilm, gemini, none]}
+                  embedding_available: {type: boolean}
+                  fallbacks_ready: {type: boolean}
+                  llm:
+                    type: object
+                    properties:
+                      provider: {type: string, enum: [gemini, ollama, none]}
+                      available: {type: boolean}
+                      keys_configured: {type: integer}
+                      keys_marked_unusable: {type: integer}
+                      error: {type: string, nullable: true}
+        '401': {$ref: '#/components/responses/Unauthorized'}
+components:
+  securitySchemes:
+    bearerAuth: {type: http, scheme: bearer, bearerFormat: JWT}
+  parameters:
+    RequestId: {name: id, in: path, required: true, schema: {type: integer}}
+    MentorshipId: {name: id, in: path, required: true, schema: {type: integer}}
+    MeetingId: {name: mid, in: path, required: true, schema: {type: integer}}
+  responses:
+    BadRequest:
+      description: Invalid input
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    Unauthorized:
+      description: Missing or invalid JWT
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    Forbidden:
+      description: Wrong role (e.g. student or mentor calling an IIC endpoint)
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    NotFound:
+      description: Request, mentorship or meeting not found
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    Unprocessable:
+      description: Semantically invalid value (e.g. k outside 1–20, missing override reason)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              detail: {type: string}
+              field: {type: string}
+    Throttled:
+      description: Rate limit exceeded
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+  schemas:
+    Error:
+      type: object
+      properties:
+        detail: {type: string}
+    Candidate:
+      type: object
+      properties:
+        mentor_id: {type: integer}
+        name: {type: string, description: First name only}
+        headline: {type: string}
+        domain: {type: string}
+        specialty: {type: string}
+        experience_years: {type: integer}
+        score: {type: number, format: float, minimum: 0, maximum: 1}
+        reasons: {type: array, items: {type: string}}
+        explanation: {type: string}
+        features: {type: object, additionalProperties: {type: number}}
+    SuggestionResponse:
+      type: object
+      properties:
+        request_id: {type: integer}
+        algorithm: {type: string, enum: [hybrid_v1, rule_based_v1]}
+        embedding_model_used: {type: boolean}
+        fallback: {type: boolean}
+        fallback_reason: {type: string, nullable: true}
+        llm_explanations_used: {type: boolean}
+        k: {type: integer}
+        candidates: {type: array, items: {$ref: '#/components/schemas/Candidate'}}
+        advisory_only: {type: boolean}
+        approval_required: {type: boolean}
+        student_cannot_choose: {type: boolean}
+    PriorityAssessment:
+      type: object
+      properties:
+        request_id: {type: integer}
+        assessment_id: {type: integer}
+        suggested_priority: {type: string, enum: [HIGH, MEDIUM, LOW]}
+        effective_priority: {type: string, enum: [HIGH, MEDIUM, LOW]}
+        explanation: {type: string, example: waiting 15 days; deadline in about 5 days}
+        confidence: {type: number}
+        factors: {type: object}
+        algorithm: {type: string, example: priority_points_v1}
+        override_priority: {type: string, nullable: true}
+        override_reason: {type: string, nullable: true}
+        overridden_by: {type: integer, nullable: true}
+        overridden_at: {type: string, format: date-time, nullable: true}
+        created_at: {type: string, format: date-time}
+        advisory_only: {type: boolean}
+    ChatResponse:
+      type: object
+      properties:
+        answer: {type: string}
+        sources: {type: array, items: {type: object, properties: {id: {type: integer}, title: {type: string}}}}
+        llm_used: {type: boolean}
+        scope: {type: string, enum: [answered, refused_decision, out_of_scope, no_article], description: 'out_of_scope = not about the Sangam app, declined'}
+        local_ai_used: {type: boolean}
+        fallback: {type: boolean}
+        message_stored: {type: boolean, enum: [false]}
+        human_approval_required_for_matches: {type: boolean}
+    SummaryDraft:
+      type: object
+      properties:
+        meeting_id: {type: integer}
+        summary: {type: string}
+        action_items: {type: array, maxItems: 5, items: {type: string}}
+        generated: {type: boolean}
+        fallback: {type: boolean}
+        provider: {type: string, enum: [gemini, ollama, extractive]}
+        prompt_version: {type: string, example: summary_v1}
+        pii_removed: {type: object, additionalProperties: {type: integer}}
+        input_truncated: {type: boolean}
+        stored: {type: boolean, enum: [false]}
+        review_required: {type: boolean}
+        detail: {type: string}
+    SummaryConfirm:
+      type: object
+      properties:
+        stored: {type: boolean}
+        id: {type: integer}
+        summary: {type: string}
+        action_items: {type: array, items: {type: string}}
+        prompt_version: {type: string}
+        detail: {type: string}
+    Insights:
+      type: object
+      properties:
+        participation:
+          type: object
+          properties:
+            approved_students: {type: integer}
+            verified_mentors: {type: integer}
+            open_requests: {type: integer}
+            total_requests: {type: integer}
+            active_mentorships: {type: integer}
+            meetings_held: {type: integer}
+            request_acceptance_rate: {type: number}
+            request_match_rate: {type: number}
+            avg_days_request_to_match: {type: number, nullable: true}
+            popular_domains: {type: array, items: {type: object}}
+            popular_pathways: {type: array, items: {type: object}}
+            outcomes_recorded: {type: integer}
+        effectiveness:
+          type: object
+          properties:
+            meetings_per_mentorship: {type: number}
+            goals_completed_share: {type: number}
+            feedback_on_time_share: {type: number}
+            outcomes_by_pathway: {type: array, items: {type: object}}
+        at_risk_count: {type: integer}
+        aggregate_only: {type: boolean}
+    AtRiskResponse:
+      type: object
+      properties:
+        algorithm: {type: string, example: dropoff_weighted_v1}
+        count: {type: integer}
+        advisory_only: {type: boolean}
+        status_changed: {type: boolean, enum: [false]}
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              mentorship_id: {type: integer}
+              risk_score: {type: number}
+              risk_level: {type: string, enum: [LOW, MEDIUM, HIGH]}
+              reasons: {type: array, items: {type: string}, example: ['no meeting in 19 days', 'mentor feedback overdue by 6 days']}
+              inactivity_rule_triggered: {type: boolean}
+              features: {type: object}

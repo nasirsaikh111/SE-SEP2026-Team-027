@@ -1,0 +1,2212 @@
+[
+ {
+  "id": 5000,
+  "first_name": "Hamsini",
+  "last_name": "Bhatti",
+  "email": "3gyj607@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3gyj607",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "DL",
+   "MLP",
+   "PDSA"
+  ],
+  "cgpa": 8.3,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5001,
+  "first_name": "Yash",
+  "last_name": "Borah",
+  "email": "8xac980@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8xac980",
+  "level": "DEGREE",
+  "courses": [
+   "MLF",
+   "MLP",
+   "Python",
+   "SE"
+  ],
+  "cgpa": 6.29,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5002,
+  "first_name": "Chanakya",
+  "last_name": "De",
+  "email": "6unw591@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6unw591",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MAD-II",
+   "DL",
+   "MLF"
+  ],
+  "cgpa": 7.91,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5003,
+  "first_name": "Champak",
+  "last_name": "Suri",
+  "email": "6tst122@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6tst122",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "DBMS",
+   "MAD-II",
+   "BDM"
+  ],
+  "cgpa": 9.39,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5004,
+  "first_name": "Girik",
+  "last_name": "Sem",
+  "email": "1qkg758@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1qkg758",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-I",
+   "MLT",
+   "MLF",
+   "MAD-II"
+  ],
+  "cgpa": 7.88,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5005,
+  "first_name": "Hemang",
+  "last_name": "Desai",
+  "email": "2gpu344@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2gpu344",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "MAD-II",
+   "DL",
+   "SE"
+  ],
+  "cgpa": 7.98,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5006,
+  "first_name": "Damyanti",
+  "last_name": "Sunder",
+  "email": "7fqv771@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7fqv771",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "DBMS",
+   "MLP",
+   "Stats-II"
+  ],
+  "cgpa": 7.73,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5007,
+  "first_name": "Garima",
+  "last_name": "Wagle",
+  "email": "3tvh736@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3tvh736",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "MLP",
+   "MAD-I",
+   "Python"
+  ],
+  "cgpa": 8.71,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5008,
+  "first_name": "Lavanya",
+  "last_name": "Nayar",
+  "email": "5vyh613@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5vyh613",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "MLF",
+   "SE",
+   "MLP"
+  ],
+  "cgpa": 7.83,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5009,
+  "first_name": "Dev",
+  "last_name": "Tata",
+  "email": "2kqg327@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2kqg327",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "Python",
+   "SE",
+   "MAD-II"
+  ],
+  "cgpa": 7.88,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5010,
+  "first_name": "Hemani",
+  "last_name": "Pathak",
+  "email": "1hfq290@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1hfq290",
+  "level": "DEGREE",
+  "courses": [
+   "MLF",
+   "DL",
+   "DBMS",
+   "SE"
+  ],
+  "cgpa": 6.96,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5011,
+  "first_name": "Vasatika",
+  "last_name": "Mitra",
+  "email": "4xcz705@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4xcz705",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MAD-I",
+   "MLF",
+   "SE"
+  ],
+  "cgpa": 8.53,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5012,
+  "first_name": "Vinaya",
+  "last_name": "Guha",
+  "email": "7agx227@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7agx227",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "Python",
+   "Stats-II",
+   "BDM"
+  ],
+  "cgpa": 9.48,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5013,
+  "first_name": "Timothy",
+  "last_name": "Wable",
+  "email": "1waj227@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1waj227",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "MAD-II",
+   "DL",
+   "MLT"
+  ],
+  "cgpa": 7.68,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5014,
+  "first_name": "Wriddhish",
+  "last_name": "Kapoor",
+  "email": "5zzk862@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5zzk862",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "Python",
+   "BDM",
+   "DBMS"
+  ],
+  "cgpa": 7.53,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5015,
+  "first_name": "Ikshita",
+  "last_name": "Chokshi",
+  "email": "3tyc327@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3tyc327",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "MLP",
+   "DL",
+   "MLT"
+  ],
+  "cgpa": 8.04,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5016,
+  "first_name": "Darika",
+  "last_name": "Merchant",
+  "email": "9jnn618@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9jnn618",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "DBMS",
+   "MAD-I",
+   "SE"
+  ],
+  "cgpa": 7.08,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5017,
+  "first_name": "Nitesh",
+  "last_name": "Rau",
+  "email": "2hfu923@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2hfu923",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "PDSA",
+   "MAD-I",
+   "MLP"
+  ],
+  "cgpa": 7.42,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5018,
+  "first_name": "Vrinda",
+  "last_name": "Lata",
+  "email": "7bva901@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7bva901",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MLP",
+   "MLT",
+   "Stats-II"
+  ],
+  "cgpa": 6.78,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5019,
+  "first_name": "Osha",
+  "last_name": "Lala",
+  "email": "5dju863@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5dju863",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "MAD-II",
+   "SE",
+   "MAD-I"
+  ],
+  "cgpa": 7.63,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5020,
+  "first_name": "Ayush",
+  "last_name": "Gole",
+  "email": "7rns171@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7rns171",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "MLF",
+   "MAD-I",
+   "BDM"
+  ],
+  "cgpa": 7.71,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5021,
+  "first_name": "Imaran",
+  "last_name": "Vyas",
+  "email": "3gzs755@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3gzs755",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "MLF",
+   "MAD-II",
+   "MLT"
+  ],
+  "cgpa": 6.17,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5022,
+  "first_name": "Triya",
+  "last_name": "Walla",
+  "email": "4eyk172@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4eyk172",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "MAD-I",
+   "DBMS",
+   "PDSA"
+  ],
+  "cgpa": 7.25,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5023,
+  "first_name": "Benjamin",
+  "last_name": "Bhandari",
+  "email": "5yhd143@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5yhd143",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "PDSA",
+   "BDM",
+   "MAD-II"
+  ],
+  "cgpa": 8.67,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5024,
+  "first_name": "Sanya",
+  "last_name": "Khurana",
+  "email": "5pwq590@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5pwq590",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "BDM",
+   "MAD-II",
+   "MAD-I"
+  ],
+  "cgpa": 7.75,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5025,
+  "first_name": "Adya",
+  "last_name": "Chaudhary",
+  "email": "2zew363@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2zew363",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "PDSA",
+   "DL",
+   "BDM"
+  ],
+  "cgpa": 9.61,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5026,
+  "first_name": "Indrajit",
+  "last_name": "Dua",
+  "email": "4hug615@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4hug615",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "BDM",
+   "SE",
+   "DBMS"
+  ],
+  "cgpa": 7.12,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5027,
+  "first_name": "Yash",
+  "last_name": "Mishra",
+  "email": "8nge648@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8nge648",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MLT",
+   "MLF",
+   "MAD-I"
+  ],
+  "cgpa": 6.74,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5028,
+  "first_name": "Rachita",
+  "last_name": "Kuruvilla",
+  "email": "9huq582@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9huq582",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "MLP",
+   "DBMS",
+   "MAD-II"
+  ],
+  "cgpa": 6.8,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5029,
+  "first_name": "Anusha",
+  "last_name": "Warrior",
+  "email": "3nad592@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3nad592",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "Stats-II",
+   "MLP",
+   "DL"
+  ],
+  "cgpa": 7.68,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5030,
+  "first_name": "Banjeet",
+  "last_name": "Ghosh",
+  "email": "8hcu999@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8hcu999",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "Python",
+   "MLT",
+   "DBMS"
+  ],
+  "cgpa": 6.09,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5031,
+  "first_name": "Daksh",
+  "last_name": "Shan",
+  "email": "8hts951@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8hts951",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "MLT",
+   "SE",
+   "Python"
+  ],
+  "cgpa": 6.62,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5032,
+  "first_name": "Jatin",
+  "last_name": "Chada",
+  "email": "6gsq943@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6gsq943",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "BDM",
+   "DL",
+   "Stats-II"
+  ],
+  "cgpa": 6.24,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5033,
+  "first_name": "Yash",
+  "last_name": "Zacharia",
+  "email": "1huk915@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1huk915",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "DL",
+   "Stats-II",
+   "MAD-II"
+  ],
+  "cgpa": 6.25,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5034,
+  "first_name": "Gayathri",
+  "last_name": "Doctor",
+  "email": "6vxv131@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6vxv131",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "MAD-II",
+   "PDSA",
+   "DBMS"
+  ],
+  "cgpa": 9.03,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5035,
+  "first_name": "Imaran",
+  "last_name": "Bajaj",
+  "email": "3urm803@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3urm803",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "MLT",
+   "Python",
+   "Stats-II"
+  ],
+  "cgpa": 9.07,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5036,
+  "first_name": "Vedant",
+  "last_name": "Bakshi",
+  "email": "9qgw196@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9qgw196",
+  "level": "DEGREE",
+  "courses": [
+   "MLF",
+   "MLT",
+   "Python",
+   "MLP"
+  ],
+  "cgpa": 8.64,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5037,
+  "first_name": "Aahana",
+  "last_name": "Tak",
+  "email": "7dnw815@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7dnw815",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "BDM",
+   "MAD-I",
+   "MLF"
+  ],
+  "cgpa": 7.21,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5038,
+  "first_name": "Harinakshi",
+  "last_name": "Agate",
+  "email": "3yng923@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3yng923",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "MLF",
+   "Stats-II",
+   "DL"
+  ],
+  "cgpa": 9.73,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5039,
+  "first_name": "Pavani",
+  "last_name": "Chada",
+  "email": "7mcz828@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7mcz828",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "DL",
+   "Python",
+   "Stats-II"
+  ],
+  "cgpa": 6.74,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5040,
+  "first_name": "Anthony",
+  "last_name": "Prakash",
+  "email": "5uqw140@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5uqw140",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "Stats-II",
+   "MLF",
+   "MLP"
+  ],
+  "cgpa": 6.89,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5041,
+  "first_name": "Baghyawati",
+  "last_name": "Chandran",
+  "email": "4ugz628@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4ugz628",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-I",
+   "DBMS",
+   "Python",
+   "SE"
+  ],
+  "cgpa": 6.77,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5042,
+  "first_name": "Jeet",
+  "last_name": "Gokhale",
+  "email": "3gpz218@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3gpz218",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "MLF",
+   "DBMS",
+   "MAD-I"
+  ],
+  "cgpa": 7.97,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5043,
+  "first_name": "Mason",
+  "last_name": "Goda",
+  "email": "9szz965@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9szz965",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "Stats-II",
+   "PDSA",
+   "SE"
+  ],
+  "cgpa": 8.86,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5044,
+  "first_name": "Anirudh",
+  "last_name": "Mangal",
+  "email": "7mzt299@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7mzt299",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "MLP",
+   "MLF",
+   "BDM"
+  ],
+  "cgpa": 9.35,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5045,
+  "first_name": "Vidhi",
+  "last_name": "Bath",
+  "email": "8zqp172@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8zqp172",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "SE",
+   "MLT",
+   "MAD-II"
+  ],
+  "cgpa": 6.59,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5046,
+  "first_name": "Kashish",
+  "last_name": "Dasgupta",
+  "email": "1dkg854@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1dkg854",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "DL",
+   "Stats-II",
+   "SE"
+  ],
+  "cgpa": 8.34,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5047,
+  "first_name": "Waida",
+  "last_name": "Dora",
+  "email": "4bze860@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4bze860",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "SE",
+   "PDSA",
+   "MLP"
+  ],
+  "cgpa": 6.27,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5048,
+  "first_name": "Falguni",
+  "last_name": "Shroff",
+  "email": "7bur721@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7bur721",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "SE",
+   "MAD-II",
+   "PDSA"
+  ],
+  "cgpa": 7.42,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5049,
+  "first_name": "Geetika",
+  "last_name": "Mand",
+  "email": "8kkb440@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8kkb440",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "MLP",
+   "DL",
+   "BDM"
+  ],
+  "cgpa": 7.26,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5050,
+  "first_name": "Ryan",
+  "last_name": "Nath",
+  "email": "4faz826@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4faz826",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-I",
+   "MAD-II",
+   "MLF",
+   "MLT"
+  ],
+  "cgpa": 8.05,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5051,
+  "first_name": "Aashi",
+  "last_name": "Hans",
+  "email": "1wun125@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1wun125",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MAD-I",
+   "DL",
+   "Stats-II"
+  ],
+  "cgpa": 7.33,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5052,
+  "first_name": "Nirja",
+  "last_name": "Thakkar",
+  "email": "3kan597@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3kan597",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "PDSA",
+   "MAD-I",
+   "DL"
+  ],
+  "cgpa": 6.51,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5053,
+  "first_name": "Triveni",
+  "last_name": "Wason",
+  "email": "8hqm366@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8hqm366",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "SE",
+   "Python",
+   "MAD-I"
+  ],
+  "cgpa": 8.3,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5054,
+  "first_name": "Krishna",
+  "last_name": "Bhattacharyya",
+  "email": "4jud353@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4jud353",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "DL",
+   "SE",
+   "MLP"
+  ],
+  "cgpa": 6.43,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5055,
+  "first_name": "Raagini",
+  "last_name": "Saran",
+  "email": "3bgn516@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3bgn516",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "MAD-II",
+   "MLF",
+   "MLT"
+  ],
+  "cgpa": 8.66,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5056,
+  "first_name": "Manya",
+  "last_name": "Rajan",
+  "email": "2kzn843@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2kzn843",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "SE",
+   "MLF",
+   "MLP"
+  ],
+  "cgpa": 6.27,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5057,
+  "first_name": "Harita",
+  "last_name": "Saran",
+  "email": "6mxg651@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6mxg651",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "MAD-I",
+   "BDM",
+   "DL"
+  ],
+  "cgpa": 6.69,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5058,
+  "first_name": "Rajata",
+  "last_name": "Dyal",
+  "email": "1ttc448@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1ttc448",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "MAD-I",
+   "PDSA",
+   "DBMS"
+  ],
+  "cgpa": 7.84,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5059,
+  "first_name": "Ekaraj",
+  "last_name": "Dasgupta",
+  "email": "6ukp674@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6ukp674",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "BDM",
+   "PDSA",
+   "Python"
+  ],
+  "cgpa": 7.84,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5060,
+  "first_name": "Logan",
+  "last_name": "Sani",
+  "email": "8msn478@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8msn478",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "SE",
+   "DBMS",
+   "MLF"
+  ],
+  "cgpa": 7.74,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5061,
+  "first_name": "Raghav",
+  "last_name": "Dhar",
+  "email": "9mya462@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9mya462",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "SE",
+   "PDSA",
+   "MLF"
+  ],
+  "cgpa": 8.77,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5062,
+  "first_name": "Barkha",
+  "last_name": "Swaminathan",
+  "email": "2rnz969@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2rnz969",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "DBMS",
+   "MLF",
+   "SE"
+  ],
+  "cgpa": 6.78,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5063,
+  "first_name": "Yashodhara",
+  "last_name": "Ramachandran",
+  "email": "5ksb104@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5ksb104",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "DBMS",
+   "BDM",
+   "Stats-II"
+  ],
+  "cgpa": 8.2,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5064,
+  "first_name": "Garima",
+  "last_name": "Gola",
+  "email": "1mgd821@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1mgd821",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-I",
+   "SE",
+   "MLT",
+   "MLF"
+  ],
+  "cgpa": 7.06,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5065,
+  "first_name": "Amrita",
+  "last_name": "Natt",
+  "email": "8suj145@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8suj145",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "MLP",
+   "Stats-II",
+   "SE"
+  ],
+  "cgpa": 6.37,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5066,
+  "first_name": "Girik",
+  "last_name": "Chaudhuri",
+  "email": "9bef157@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9bef157",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "MLT",
+   "MLF",
+   "SE"
+  ],
+  "cgpa": 6.36,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5067,
+  "first_name": "Ekavir",
+  "last_name": "Talwar",
+  "email": "8ehw202@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8ehw202",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "MLF",
+   "Stats-II",
+   "MAD-I"
+  ],
+  "cgpa": 8.87,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5068,
+  "first_name": "Noah",
+  "last_name": "Sahota",
+  "email": "8swb619@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8swb619",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "MLT",
+   "PDSA",
+   "MLF"
+  ],
+  "cgpa": 8.62,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5069,
+  "first_name": "Ayaan",
+  "last_name": "Venkatesh",
+  "email": "8fjc224@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8fjc224",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "Stats-II",
+   "MLT",
+   "DL"
+  ],
+  "cgpa": 8.19,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5070,
+  "first_name": "Alexander",
+  "last_name": "Anne",
+  "email": "3wsp153@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3wsp153",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "MAD-II",
+   "Stats-II",
+   "MLF"
+  ],
+  "cgpa": 7.8,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5071,
+  "first_name": "Qarin",
+  "last_name": "Kumar",
+  "email": "7mrk975@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7mrk975",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "BDM",
+   "MLT",
+   "SE"
+  ],
+  "cgpa": 7.27,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5072,
+  "first_name": "Yashasvi",
+  "last_name": "Sura",
+  "email": "9uht662@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9uht662",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "PDSA",
+   "MAD-II",
+   "DL"
+  ],
+  "cgpa": 8.65,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5073,
+  "first_name": "Ansh",
+  "last_name": "Mohanty",
+  "email": "3aqj164@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3aqj164",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "MLP",
+   "DBMS",
+   "BDM"
+  ],
+  "cgpa": 8.08,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5074,
+  "first_name": "Veda",
+  "last_name": "Das",
+  "email": "8pxd600@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8pxd600",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "Stats-II",
+   "SE",
+   "MLT"
+  ],
+  "cgpa": 7.31,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5075,
+  "first_name": "Warhi",
+  "last_name": "Reddy",
+  "email": "8mnz684@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8mnz684",
+  "level": "DEGREE",
+  "courses": [
+   "MLF",
+   "MLP",
+   "DBMS",
+   "BDM"
+  ],
+  "cgpa": 7.44,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5076,
+  "first_name": "Manya",
+  "last_name": "Ramachandran",
+  "email": "2frv834@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2frv834",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "BDM",
+   "MAD-II",
+   "MLP"
+  ],
+  "cgpa": 8.94,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5077,
+  "first_name": "Ekiya",
+  "last_name": "Narain",
+  "email": "3vmr986@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3vmr986",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "Python",
+   "MLF",
+   "DL"
+  ],
+  "cgpa": 9.06,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5078,
+  "first_name": "Yash",
+  "last_name": "Agarwal",
+  "email": "7cka662@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7cka662",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "BDM",
+   "DBMS",
+   "Stats-II"
+  ],
+  "cgpa": 9.01,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5079,
+  "first_name": "Zayyan",
+  "last_name": "Arora",
+  "email": "5jdz522@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5jdz522",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "BDM",
+   "MAD-I",
+   "DBMS"
+  ],
+  "cgpa": 9.34,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5080,
+  "first_name": "Sara",
+  "last_name": "Bail",
+  "email": "6efh483@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6efh483",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MAD-II",
+   "MLP",
+   "DL"
+  ],
+  "cgpa": 6.8,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5081,
+  "first_name": "Pahal",
+  "last_name": "Gala",
+  "email": "9xpv220@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9xpv220",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "MAD-II",
+   "MLT",
+   "BDM"
+  ],
+  "cgpa": 8.67,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5082,
+  "first_name": "Yadavi",
+  "last_name": "Puri",
+  "email": "8pes206@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8pes206",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "SE",
+   "MAD-II",
+   "MLP"
+  ],
+  "cgpa": 9.37,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5083,
+  "first_name": "Dakshesh",
+  "last_name": "Kannan",
+  "email": "6mmd554@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6mmd554",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "DL",
+   "MAD-II",
+   "MAD-I"
+  ],
+  "cgpa": 7.64,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5084,
+  "first_name": "Osha",
+  "last_name": "Bassi",
+  "email": "5zrq836@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5zrq836",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "DL",
+   "DBMS",
+   "PDSA"
+  ],
+  "cgpa": 7.57,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5085,
+  "first_name": "Xiti",
+  "last_name": "Maharaj",
+  "email": "3cwn526@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3cwn526",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "Python",
+   "SE",
+   "DL"
+  ],
+  "cgpa": 9.1,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5086,
+  "first_name": "Raghav",
+  "last_name": "Datta",
+  "email": "9ddg121@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9ddg121",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "SE",
+   "MLT",
+   "BDM"
+  ],
+  "cgpa": 7.98,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5087,
+  "first_name": "Kai",
+  "last_name": "Thaker",
+  "email": "9zzz184@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9zzz184",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "MLF",
+   "SE",
+   "DBMS"
+  ],
+  "cgpa": 9.28,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5088,
+  "first_name": "Vinaya",
+  "last_name": "Hans",
+  "email": "8gha373@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8gha373",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MLF",
+   "MLP",
+   "DL"
+  ],
+  "cgpa": 6.95,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5089,
+  "first_name": "Aditya",
+  "last_name": "Tara",
+  "email": "5cge659@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5cge659",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "DL",
+   "MAD-I",
+   "Python"
+  ],
+  "cgpa": 9.22,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5090,
+  "first_name": "Raksha",
+  "last_name": "Swaminathan",
+  "email": "5xpt220@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5xpt220",
+  "level": "DEGREE",
+  "courses": [
+   "MLF",
+   "Python",
+   "SE",
+   "BDM"
+  ],
+  "cgpa": 6.59,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5091,
+  "first_name": "Reyansh",
+  "last_name": "Bumb",
+  "email": "7axq729@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7axq729",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "Python",
+   "MAD-II",
+   "MLF"
+  ],
+  "cgpa": 9.49,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5092,
+  "first_name": "Leela",
+  "last_name": "Dutta",
+  "email": "2rex323@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2rex323",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "Stats-II",
+   "MAD-II",
+   "MAD-I"
+  ],
+  "cgpa": 6.89,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5093,
+  "first_name": "Sathvik",
+  "last_name": "Sule",
+  "email": "4uhr918@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4uhr918",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "DBMS",
+   "MLF",
+   "Python"
+  ],
+  "cgpa": 7.75,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5094,
+  "first_name": "Amruta",
+  "last_name": "Keer",
+  "email": "8zxf278@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8zxf278",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MAD-II",
+   "Python",
+   "PDSA"
+  ],
+  "cgpa": 9.09,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5095,
+  "first_name": "Damini",
+  "last_name": "Sidhu",
+  "email": "4yhh191@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4yhh191",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "MLT",
+   "PDSA",
+   "SE"
+  ],
+  "cgpa": 6.38,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5096,
+  "first_name": "Zarna",
+  "last_name": "Sahni",
+  "email": "9jtd793@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9jtd793",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "MAD-II",
+   "MAD-I",
+   "Stats-II"
+  ],
+  "cgpa": 9.32,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5097,
+  "first_name": "Chandran",
+  "last_name": "Sur",
+  "email": "5bvh327@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5bvh327",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MLP",
+   "BDM",
+   "MAD-II"
+  ],
+  "cgpa": 6.88,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5098,
+  "first_name": "Lajita",
+  "last_name": "Sathe",
+  "email": "9wft797@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9wft797",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "MAD-II",
+   "MLP",
+   "Python"
+  ],
+  "cgpa": 8.03,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5099,
+  "first_name": "Samuel",
+  "last_name": "Chandran",
+  "email": "1yek587@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1yek587",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-I",
+   "MLP",
+   "MLT",
+   "DBMS"
+  ],
+  "cgpa": 7.01,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5100,
+  "first_name": "Chanchal",
+  "last_name": "Mand",
+  "email": "4dnc291@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4dnc291",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "MAD-I",
+   "MLF",
+   "DBMS"
+  ],
+  "cgpa": 8.78,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5101,
+  "first_name": "Maanav",
+  "last_name": "Behl",
+  "email": "8tdb357@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8tdb357",
+  "level": "DEGREE",
+  "courses": [
+   "MLF",
+   "DBMS",
+   "Stats-II",
+   "MAD-II"
+  ],
+  "cgpa": 7.15,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5102,
+  "first_name": "Isaac",
+  "last_name": "Choudhury",
+  "email": "3xpa123@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3xpa123",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "Python",
+   "SE",
+   "DBMS"
+  ],
+  "cgpa": 9.52,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5103,
+  "first_name": "Jeevika",
+  "last_name": "Shanker",
+  "email": "7kqk664@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7kqk664",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "Stats-II",
+   "BDM",
+   "MLP"
+  ],
+  "cgpa": 7.98,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5104,
+  "first_name": "Nimrat",
+  "last_name": "Sood",
+  "email": "2cee173@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2cee173",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "Python",
+   "SE",
+   "MAD-II"
+  ],
+  "cgpa": 7.16,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5105,
+  "first_name": "Neelima",
+  "last_name": "Kannan",
+  "email": "7qbb690@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7qbb690",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "DL",
+   "PDSA",
+   "MLF"
+  ],
+  "cgpa": 6.3,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5106,
+  "first_name": "Nirja",
+  "last_name": "Dhillon",
+  "email": "8khg378@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8khg378",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "MAD-II",
+   "DL",
+   "PDSA"
+  ],
+  "cgpa": 6.43,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5107,
+  "first_name": "Dayamai",
+  "last_name": "Bir",
+  "email": "4run609@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4run609",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "Python",
+   "MLF",
+   "BDM"
+  ],
+  "cgpa": 6.08,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5108,
+  "first_name": "Turvi",
+  "last_name": "Lad",
+  "email": "7mpm591@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7mpm591",
+  "level": "DEGREE",
+  "courses": [
+   "BDM",
+   "MLT",
+   "Stats-II",
+   "MAD-II"
+  ],
+  "cgpa": 7.1,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5109,
+  "first_name": "Rajeshri",
+  "last_name": "Tank",
+  "email": "3uxh771@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3uxh771",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "DBMS",
+   "MAD-I",
+   "MLF"
+  ],
+  "cgpa": 8.45,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5110,
+  "first_name": "Balendra",
+  "last_name": "Upadhyay",
+  "email": "7vyh566@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7vyh566",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "DBMS",
+   "BDM",
+   "MLF"
+  ],
+  "cgpa": 7.78,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5111,
+  "first_name": "Bachittar",
+  "last_name": "Tak",
+  "email": "4zvf251@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4zvf251",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "MAD-I",
+   "MAD-II",
+   "PDSA"
+  ],
+  "cgpa": 7.92,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5112,
+  "first_name": "Abeer",
+  "last_name": "Sur",
+  "email": "7qmy263@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7qmy263",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "PDSA",
+   "MLP",
+   "MAD-II"
+  ],
+  "cgpa": 9.28,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5113,
+  "first_name": "Farhan",
+  "last_name": "Krishnan",
+  "email": "4raa246@ds.study.iitm.ac.in",
+  "iitm_roll_number": "4raa246",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "MAD-I",
+   "Python",
+   "SE"
+  ],
+  "cgpa": 7.24,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5114,
+  "first_name": "Qabil",
+  "last_name": "Gara",
+  "email": "2rfh397@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2rfh397",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "MLP",
+   "MLT",
+   "BDM"
+  ],
+  "cgpa": 7.25,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5115,
+  "first_name": "Avni",
+  "last_name": "Taneja",
+  "email": "2pev274@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2pev274",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-I",
+   "BDM",
+   "SE",
+   "DBMS"
+  ],
+  "cgpa": 7.02,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5116,
+  "first_name": "Shivani",
+  "last_name": "Tak",
+  "email": "6rpa196@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6rpa196",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "MLT",
+   "DBMS",
+   "SE"
+  ],
+  "cgpa": 8.11,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5117,
+  "first_name": "Lakshmi",
+  "last_name": "Samra",
+  "email": "3ata693@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3ata693",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "PDSA",
+   "MLF",
+   "MLT"
+  ],
+  "cgpa": 7.04,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5118,
+  "first_name": "Girish",
+  "last_name": "Shan",
+  "email": "7rcu564@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7rcu564",
+  "level": "DEGREE",
+  "courses": [
+   "MLF",
+   "MAD-II",
+   "Stats-II",
+   "MLT"
+  ],
+  "cgpa": 8.24,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5119,
+  "first_name": "Yuvraj",
+  "last_name": "Solanki",
+  "email": "5ntx201@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5ntx201",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-I",
+   "MLF",
+   "MLP",
+   "MLT"
+  ],
+  "cgpa": 6.74,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5120,
+  "first_name": "Andrew",
+  "last_name": "Sahota",
+  "email": "5vvc160@ds.study.iitm.ac.in",
+  "iitm_roll_number": "5vvc160",
+  "level": "DEGREE",
+  "courses": [
+   "SE",
+   "PDSA",
+   "MLT",
+   "MAD-II"
+  ],
+  "cgpa": 6.49,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5121,
+  "first_name": "Tarak",
+  "last_name": "Basu",
+  "email": "8zpn858@ds.study.iitm.ac.in",
+  "iitm_roll_number": "8zpn858",
+  "level": "DEGREE",
+  "courses": [
+   "MAD-II",
+   "PDSA",
+   "Stats-II",
+   "DBMS"
+  ],
+  "cgpa": 9.56,
+  "approval_status": "PENDING",
+  "is_synthetic": true
+ },
+ {
+  "id": 5122,
+  "first_name": "Krisha",
+  "last_name": "Walla",
+  "email": "9pnc646@ds.study.iitm.ac.in",
+  "iitm_roll_number": "9pnc646",
+  "level": "DEGREE",
+  "courses": [
+   "MLT",
+   "BDM",
+   "MAD-II",
+   "Python"
+  ],
+  "cgpa": 9.52,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5123,
+  "first_name": "Falak",
+  "last_name": "Chakrabarti",
+  "email": "3bfr522@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3bfr522",
+  "level": "DEGREE",
+  "courses": [
+   "PDSA",
+   "SE",
+   "MLT",
+   "MAD-II"
+  ],
+  "cgpa": 6.68,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5124,
+  "first_name": "Yashvi",
+  "last_name": "Lala",
+  "email": "2tgy830@ds.study.iitm.ac.in",
+  "iitm_roll_number": "2tgy830",
+  "level": "DEGREE",
+  "courses": [
+   "DL",
+   "MAD-I",
+   "MLF",
+   "Python"
+  ],
+  "cgpa": 8.39,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5125,
+  "first_name": "Bhavani",
+  "last_name": "Swamy",
+  "email": "3nju286@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3nju286",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "MAD-I",
+   "Stats-II",
+   "MLF"
+  ],
+  "cgpa": 7.53,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5126,
+  "first_name": "Jasmit",
+  "last_name": "Kibe",
+  "email": "6hwu528@ds.study.iitm.ac.in",
+  "iitm_roll_number": "6hwu528",
+  "level": "DEGREE",
+  "courses": [
+   "Python",
+   "DBMS",
+   "MLP",
+   "DL"
+  ],
+  "cgpa": 7.57,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5127,
+  "first_name": "Oeshi",
+  "last_name": "Chaudhari",
+  "email": "1zaz115@ds.study.iitm.ac.in",
+  "iitm_roll_number": "1zaz115",
+  "level": "DEGREE",
+  "courses": [
+   "Stats-II",
+   "SE",
+   "MLT",
+   "BDM"
+  ],
+  "cgpa": 7.11,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5128,
+  "first_name": "Indira",
+  "last_name": "Kadakia",
+  "email": "3tgm675@ds.study.iitm.ac.in",
+  "iitm_roll_number": "3tgm675",
+  "level": "DEGREE",
+  "courses": [
+   "MLP",
+   "MLF",
+   "PDSA",
+   "DL"
+  ],
+  "cgpa": 6.46,
+  "approval_status": "REJECTED",
+  "is_synthetic": true
+ },
+ {
+  "id": 5129,
+  "first_name": "Teerth",
+  "last_name": "Radhakrishnan",
+  "email": "7bmh127@ds.study.iitm.ac.in",
+  "iitm_roll_number": "7bmh127",
+  "level": "DEGREE",
+  "courses": [
+   "DBMS",
+   "BDM",
+   "MAD-II",
+   "DL"
+  ],
+  "cgpa": 7.86,
+  "approval_status": "APPROVED",
+  "is_synthetic": true
+ }
+]

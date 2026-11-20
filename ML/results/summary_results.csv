@@ -1,0 +1,3 @@
+,pii_leak_rate,action_item_recall,summary_token_f1,json_valid_rate
+Extractive fallback (50 notes),0.0,1.0,0.2884519094895246,1.0
+Gemini gemini-3.5-flash-lite (10 notes),0.0,1.0,0.28784212505364754,1.0
