@@ -93,7 +93,22 @@ ASGI_APPLICATION='config.asgi.application'
 AUTH_USER_MODEL='accounts.User'
 
 
-USE_SUPABASE = os.environ.get('USE_SUPABASE', '0') == '1' and not TESTING  # default to local sqlite unless explicit
+IS_SERVERLESS = bool(os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get("NOW_REGION"))
+
+if IS_SERVERLESS:
+    tmp_db = Path("/tmp/db.sqlite3")
+    src_db = BASE_DIR / "db.sqlite3"
+    if src_db.exists() and (not tmp_db.exists() or tmp_db.stat().st_size == 0):
+        try:
+            import shutil
+            shutil.copy2(src_db, tmp_db)
+        except Exception:
+            pass
+    DB_FILE = tmp_db if tmp_db.exists() else src_db
+else:
+    DB_FILE = BASE_DIR / "db.sqlite3"
+
+USE_SUPABASE = os.environ.get('USE_SUPABASE', '0') == '1' and not TESTING and not IS_SERVERLESS
 if USE_SUPABASE:
     DATABASES = {
         "default": {
@@ -113,7 +128,7 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+            "NAME": DB_FILE,
         }
     }
 
@@ -157,6 +172,8 @@ MAILERS = {
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     'https://frontend-orpin-iota-73.vercel.app',
+    'https://team-027-frontend.vercel.app',
+    'https://deploy-full-tau.vercel.app',
     'https://sangam-step2.vercel.app',
     'http://localhost:5173',
     'http://127.0.0.1:5173',
@@ -164,6 +181,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 CSRF_TRUSTED_ORIGINS = [
     'https://frontend-orpin-iota-73.vercel.app',
+    'https://team-027-frontend.vercel.app',
+    'https://deploy-full-tau.vercel.app',
     'https://sangam-step2.vercel.app',
     'https://*.vercel.app',
 ]

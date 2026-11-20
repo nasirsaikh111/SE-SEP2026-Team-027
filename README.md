@@ -3,11 +3,17 @@
 **Option 2: Student Mentoring and Career Support Platform**  
 **IITM BS Degree Program — Software Engineering Course (Sep 2026 Term)**
 
-## Live Deployment
+## Live Deployment (Vercel)
 
 - **Production Frontend:** [https://frontend-orpin-iota-73.vercel.app](https://frontend-orpin-iota-73.vercel.app)
-- **Login URL:** [https://frontend-orpin-iota-73.vercel.app/login](https://frontend-orpin-iota-73.vercel.app/login)
-- **Backend API:** [https://sangam-backend-s53q.onrender.com/api/v1/](https://sangam-backend-s53q.onrender.com/api/v1/)
+- **Frontend Login:** [https://frontend-orpin-iota-73.vercel.app/login](https://frontend-orpin-iota-73.vercel.app/login)
+- **Production Backend API:** [https://team-027-backend.vercel.app/api/v1/](https://team-027-backend.vercel.app/api/v1/)
+- **API Documentation (Swagger):** [https://team-027-backend.vercel.app/api/v1/docs/](https://team-027-backend.vercel.app/api/v1/docs/)
+
+### Demo Credentials (Pre-seeded)
+- **Admin:** `iic.admin@iitm.ac.in` / `SangamDemo!2026`
+- **Mentor:** `arjun.k@alumni.example.org` / `SangamDemo!2026`
+- **Student:** `hemant@ds.study.iitm.ac.in` / `SangamDemo!2026`
 
 ## Frontend Application (Branch: `frountend`)
 
