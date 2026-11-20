@@ -154,8 +154,19 @@ MAILERS = {
     },
 }
 
-CORS_ALLOWED_ORIGINS=['https://sangam-step2.vercel.app','http://localhost:5173','http://127.0.0.1:5173']
-CSRF_TRUSTED_ORIGINS=['https://sangam-step2.vercel.app']
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'https://frontend-orpin-iota-73.vercel.app',
+    'https://sangam-step2.vercel.app',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'http://localhost:3000',
+]
+CSRF_TRUSTED_ORIGINS = [
+    'https://frontend-orpin-iota-73.vercel.app',
+    'https://sangam-step2.vercel.app',
+    'https://*.vercel.app',
+]
 
 
 REST_FRAMEWORK = {

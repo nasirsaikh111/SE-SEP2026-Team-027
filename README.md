@@ -3,6 +3,12 @@
 **Option 2: Student Mentoring and Career Support Platform**  
 **IITM BS Degree Program — Software Engineering Course (Sep 2026 Term)**
 
+## Live Deployment
+
+- **Production Frontend:** [https://frontend-orpin-iota-73.vercel.app](https://frontend-orpin-iota-73.vercel.app)
+- **Login URL:** [https://frontend-orpin-iota-73.vercel.app/login](https://frontend-orpin-iota-73.vercel.app/login)
+- **Backend API:** [https://sangam-backend-s53q.onrender.com/api/v1/](https://sangam-backend-s53q.onrender.com/api/v1/)
+
 ## Frontend Application (Branch: `frountend`)
 
 The complete frontend implementation for Milestone 2 is located in the [`frontend/`](./frontend) directory.
