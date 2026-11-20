@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sangam Project Report</title>
+<style>
+  :root { --bg:#f8fafc; --surface:#fff; --text:#0f172a; --muted:#64748b; --border:#e2e8f0; --accent:#4f46e5; --code:#f1f5f9; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#0b1120; --surface:#111827; --text:#e5e7eb; --muted:#94a3b8; --border:#1f2937; --accent:#818cf8; --code:#1e293b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  header { position:sticky; top:0; background:var(--surface); border-bottom:1px solid var(--border); padding:10px 20px; display:flex; gap:16px; align-items:center; z-index:2; }
+  header strong { font-size:16px; }
+  header a { color:var(--accent); text-decoration:none; font-size:14px; }
+  .layout { display:grid; grid-template-columns:240px minmax(0,1fr); gap:24px; max-width:1200px; margin:0 auto; padding:20px; }
+  nav { position:sticky; top:64px; align-self:start; font-size:14px; }
+  nav a { display:block; padding:4px 8px; color:var(--muted); text-decoration:none; border-radius:6px; }
+  nav a:hover { background:var(--code); color:var(--text); }
+  section { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:4px 24px 16px; margin-bottom:20px; }
+  h1 { font-size:22px; } h2 { font-size:18px; margin-top:28px; } h3 { font-size:16px; }
+  table { border-collapse:collapse; width:100%; font-size:13px; display:block; overflow-x:auto; }
+  th, td { border:1px solid var(--border); padding:6px 8px; text-align:left; vertical-align:top; }
+  th { background:var(--code); }
+  code, pre { background:var(--code); border-radius:4px; font-size:12.5px; }
+  code { padding:1px 4px; } pre { padding:10px; overflow-x:auto; } pre code { padding:0; }
+  .method { font-weight:600; font-family:ui-monospace,monospace; }
+  .muted { color:var(--muted); }
+  @media (max-width: 800px) { .layout { grid-template-columns:1fr; padding:16px; } nav { position:static; } }
+</style>
+</head>
+<body>
+<header><strong>Sangam · Project Report</strong><a href="/api/docs/">Swagger UI</a><a href="/api/redoc/">ReDoc</a><a href="/api/schema/">OpenAPI schema</a></header>
+<div class="layout">
+  <nav aria-label="Report sections">
+    {% for s in sections %}<a href="#{{ s.id }}">{{ s.title }}</a>{% endfor %}
+    <a href="#endpoint-index">Live endpoint index</a>
+  </nav>
+  <main>
+    {% if not docs_dir_found %}<section><p class="muted">The docs/ directory was not found next to the backend; only the live endpoint index is shown.</p></section>{% endif %}
+    {% for s in sections %}<section id="{{ s.id }}">{{ s.html|safe }}</section>{% endfor %}
+    <section id="endpoint-index">
+      <h1>Live endpoint index</h1>
+      <p class="muted">Generated from the OpenAPI schema ({{ endpoints|length }} operations). Request and response bodies are in Swagger UI.</p>
+      <table>
+        <thead><tr><th>Group</th><th>Method</th><th>Path</th><th>Summary</th></tr></thead>
+        <tbody>
+        {% for e in endpoints %}<tr><td>{{ e.tag }}</td><td class="method">{{ e.method }}</td><td><code>{{ e.path }}</code></td><td>{{ e.summary }}</td></tr>{% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</div>
+</body>
+</html>

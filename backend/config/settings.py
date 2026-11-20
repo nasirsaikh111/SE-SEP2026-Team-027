@@ -93,7 +93,7 @@ ASGI_APPLICATION='config.asgi.application'
 AUTH_USER_MODEL='accounts.User'
 
 
-USE_SUPABASE = os.environ.get('USE_SUPABASE', '1') == '1' and not TESTING  # tests always use local sqlite
+USE_SUPABASE = os.environ.get('USE_SUPABASE', '0') == '1' and not TESTING  # default to local sqlite unless explicit
 if USE_SUPABASE:
     DATABASES = {
         "default": {

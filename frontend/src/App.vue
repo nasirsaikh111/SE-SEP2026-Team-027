@@ -8,9 +8,6 @@
       <router-view />
     </main>
 
-    <!-- Ask Sangam helpdesk, available to any signed-in user -->
-    <AskSangam />
-
     <!-- Global Footer -->
     <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500">
       <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
@@ -27,10 +24,4 @@
 
 <script setup>
 import AppNavbar from './components/common/AppNavbar.vue';
-import AskSangam from './components/ai/AskSangam.vue';
-import { useAuthStore } from './stores/auth';
-
-const auth = useAuthStore();
-// Keep the user signed in across page reloads
-auth.restore();
 </script>

@@ -16,9 +16,6 @@
       </button>
     </div>
 
-    <!-- Live AI session summary (KAN-57), only with a real mentor login -->
-    <SessionSummaryPanel v-if="auth.isLive" />
-
     <!-- Active Mentees Roster from Wireframe -->
     <div class="bg-white rounded-xl border border-slate-200 shadow-xs p-6 space-y-4">
       <h2 class="text-sm font-bold text-slate-900 uppercase tracking-wider">My Mentees Roster</h2>
@@ -222,10 +219,6 @@
 <script setup>
 import { ref, reactive } from 'vue';
 import { useMentorshipStore } from '../../stores/mentorship';
-import { useAuthStore } from '../../stores/auth';
-import SessionSummaryPanel from '../../components/ai/SessionSummaryPanel.vue';
-
-const auth = useAuthStore();
 
 const store = useMentorshipStore();
 const activeTab = ref('goals');

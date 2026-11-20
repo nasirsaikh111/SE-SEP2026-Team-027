@@ -1,0 +1,139 @@
+Design of Components
+=====================
+Team: Team 027
+Project: Sangam — Student Mentoring and Career Support Platform
+
+1. System Architecture Overview
+---------------------------------
+Sangam follows a layered client-server architecture with a clear separation
+between the frontend SPA, the REST API backend, and the relational database.
+
+  [Vue 3 Frontend SPA]  <--REST/JSON-->  [Django DRF Backend]  <-->  [SQLite/PostgreSQL DB]
+       (Vercel)                               (Render)
+
+2. Frontend Components (Vue 3 + Pinia + Tailwind CSS)
+-------------------------------------------------------
+Component                  | Responsibility
+---------------------------|----------------------------------------------
+AuthGateway                | Role selection (Student / Mentor / Admin),
+                           | login and registration forms.
+StudentDashboard           | Active mentorship card, quick stats, pending
+                           | alerts, pathway compass.
+MentorDiscovery            | Searchable/filterable mentor directory with
+                           | match scores. Domain, specialty, career path
+                           | filters.
+MentorshipRequestForm      | Structured request form with pathway, domain,
+                           | background, and question (80-char min).
+MyRequestsTracker          | Timeline view of request status transitions.
+MentorshipWorkspace        | Shared goals (1-3), session history, meeting
+                           | scheduler, feedback form.
+MentorDashboard            | Incoming requests, mentee overview, capacity
+                           | and availability settings.
+MentorRequestInbox         | Preview and respond to availability checks.
+SessionLogger              | Log sessions with date, duration, and status.
+AdminDashboard             | Request queue, mentor verification queue,
+                           | programme insights.
+AdminMentorVerification    | Verify mentor roll number and graduation year.
+AdminMatchApproval         | Review match suggestions, send availability
+                           | checks, approve pairings.
+ProgrammeInsights          | Dashboard with requests, pairs, sessions,
+                           | completion rate, ratings, outcomes.
+NotificationPanel          | In-app notification list with read/unread.
+KnowledgeBase              | Admin-curated articles by audience.
+
+State Management (Pinia Stores):
+  - authStore: User session, role, JWT tokens.
+  - mentorStore: Mentor directory, profiles, availability.
+  - requestStore: Mentorship requests, status tracking.
+  - workspaceStore: Active mentorship, goals, sessions.
+  - adminStore: Verification queue, request queue, insights.
+  - notificationStore: In-app notifications.
+
+3. Backend Components (Django + DRF)
+--------------------------------------
+App                  | Models & Responsibility
+---------------------|----------------------------------------------
+accounts             | User (AbstractUser, email-based auth, 3 roles),
+                     | StudentProfile (roll number, level, CGPA, courses,
+                     | approval status), MentorProfile (domain, specialty,
+                     | company, career path, verification, discoverability).
+mentoring            | MentoringRequest (pathway, domain, problem statement,
+                     | status workflow), AvailabilityCheck (admin sends to
+                     | mentor, 7-day expiry), Mentorship (active pairing,
+                     | one-active-per-student constraint), Goal (1-3 per
+                     | mentorship), Meeting (date, duration, status, format,
+                     | Google Calendar sync), Feedback (general, progress,
+                     | change-mentor, closing), Outcome (interview, internship,
+                     | job, higher studies, venture).
+notifications        | Notification (recipient, title, message, read status).
+audit                | AuditLog (actor, action, entity, details — no discussion
+                     | content), ActivityStatusHistory (request/mentorship
+                     | status transitions), Alert (14-day inactivity,
+                     | fortnightly feedback due).
+knowledge            | KnowledgeArticle (title, content, audience filter).
+ai_support           | MatchSuggestionAudit (recommendation metadata),
+                     | AIRequestAssessment (advisory triage priority).
+calendar_integration | GoogleCalendarConnection (OAuth tokens, sync status),
+                     | MeetingCalendarEvent (event ID, Meet link, sync status).
+
+4. API Layer (REST Endpoints)
+-------------------------------
+Base URL: /api/v1/
+
+Authentication:
+  POST   /api/v1/auth/register/
+  POST   /api/v1/auth/login/
+  GET    /api/v1/auth/me/
+
+Mentors & Discovery:
+  GET    /api/v1/mentors/          (filters: domain, specialty, verified)
+  GET    /api/v1/mentors/{id}/
+  PATCH  /api/v1/mentors/{id}/     (availability, capacity)
+
+Mentorship Requests:
+  GET    /api/v1/requests/
+  POST   /api/v1/requests/
+  GET    /api/v1/requests/{id}/
+  PATCH  /api/v1/requests/{id}/    (withdraw)
+
+Availability Checks (Admin):
+  POST   /api/v1/requests/{id}/check/
+  PATCH  /api/v1/checks/{id}/      (mentor confirms/declines)
+
+Mentorship & Workspace:
+  GET    /api/v1/mentorships/
+  POST   /api/v1/mentorships/{id}/goals/
+  PATCH  /api/v1/goals/{id}/
+  POST   /api/v1/mentorships/{id}/meetings/
+  POST   /api/v1/mentorships/{id}/feedback/
+  POST   /api/v1/mentorships/{id}/outcomes/
+
+Admin:
+  GET    /api/v1/admin/queue/
+  POST   /api/v1/admin/verify/{mentorId}/
+  GET    /api/v1/admin/insights/
+  GET    /api/v1/admin/audit-log/
+
+5. Data Flow (Key Workflow)
+-----------------------------
+1. Student registers → profile created (PENDING approval).
+2. Admin approves student profile.
+3. Student browses Discover Mentors, submits structured request.
+4. Request enters admin queue (AI triage suggests priority).
+5. Admin reviews, selects top mentor(s), sends availability check.
+6. Mentor receives check, confirms within 7 days (else EXPIRED).
+7. Admin approves pairing → Mentorship (ACTIVE) created.
+8. Student and mentor set 1-3 goals, log sessions.
+9. On completion, both give closing feedback and student records outcomes.
+10. Admin monitors via programme dashboard and inactivity alerts.
+
+6. Security & Privacy Design
+-------------------------------
+- Conversation content is NEVER stored on the platform.
+- Session logs record date, duration, and status only.
+- Audit logs record action metadata, never narrative text.
+- Student profiles require IITM email domain validation.
+- Mentor profiles verified by IIC admin before discoverability.
+- JWT-based authentication with token blacklisting.
+- Role-based permissions enforced at serializer and view level.
+

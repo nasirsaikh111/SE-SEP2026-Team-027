@@ -21,9 +21,6 @@
       </button>
     </div>
 
-    <!-- Live data from the Django API when signed in; mock data otherwise -->
-    <LiveInsights v-if="auth.isLive" />
-    <template v-else>
     <!-- Top Key Metrics Cards (From Wireframe) -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-xs">
@@ -172,16 +169,11 @@
       </router-link>
     </div>
 
-    </template>
   </div>
 </template>
 
 <script setup>
 import { useMentorshipStore } from '../../stores/mentorship';
-import { useAuthStore } from '../../stores/auth';
-import LiveInsights from '../../components/ai/LiveInsights.vue';
-
-const auth = useAuthStore();
 
 const store = useMentorshipStore();
 

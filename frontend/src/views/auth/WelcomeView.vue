@@ -26,7 +26,7 @@
             </div>
             <h3 class="text-lg font-bold text-slate-900 mb-1">Student Portal</h3>
             <p class="text-sm text-slate-500 mb-4">
-              For IITM BS Degree-level students. Submit your career needs, discover verified mentors by domain, and track structured goals.
+              Submit your career needs, discover verified mentors by domain, and track structured goals.
             </p>
           </div>
           <button 

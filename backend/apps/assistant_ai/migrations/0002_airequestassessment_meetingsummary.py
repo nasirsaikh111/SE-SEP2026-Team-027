@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('assistant_ai', '0001_initial'),
-        ('mentoring', '0002_mentoringrequest_preferred_mentor'),
+        ('mentoring', '0002_scheduling_history_calendar'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
