@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.db.models import Exists, OuterRef, Q
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework import generics, status
@@ -7,9 +8,11 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from .models import User, StudentProfile, MentorProfile
-from .permissions import IsIIC, IsVerifiedMentor
-from .serializers import StudentRegistrationSerializer, MeSerializer, StudentProfileSerializer, StudentReviewSerializer, MentorCreateSerializer, MentorProfileSerializer
-from apps.mentoring.models import AuditLog, Notification
+from .permissions import IsIIC, IsVerifiedMentor, IsMentor, IsApprovedStudentOrIIC
+from .serializers import (StudentRegistrationSerializer, MeSerializer, StudentProfileSerializer,
+                          StudentReviewSerializer, MentorCreateSerializer, MentorProfileSerializer,
+                          MentorSelfUpdateSerializer, MentorAdminUpdateSerializer, MentorDirectorySerializer)
+from apps.mentoring.models import AuditLog, Notification, Mentorship
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = StudentRegistrationSerializer
@@ -127,3 +130,86 @@ def activate_mentor(request):
     validate_password(pwd,user=u)
     u.set_password(pwd);u.save(update_fields=['password'])
     return Response({'activated':True})
+
+
+def mentor_queryset():
+    return MentorProfile.objects.select_related('user').annotate(
+        has_active_mentee=Exists(Mentorship.objects.filter(mentor=OuterRef('user'), status='ACTIVE'))
+    )
+
+
+def directory_queryset():
+    return mentor_queryset().filter(is_verified=True, is_discoverable=True, user__is_active=True, user__role='MENTOR')
+
+
+@api_view(['GET','PATCH'])
+@permission_classes([IsAuthenticated])
+def mentor_profile(request):
+    m = get_object_or_404(mentor_queryset(), user=request.user)
+    if request.method == 'PATCH':
+        s = MentorSelfUpdateSerializer(m, data=request.data, partial=True)
+        s.is_valid(raise_exception=True)
+        s.save()
+        m = get_object_or_404(mentor_queryset(), pk=m.pk)
+    return Response(MentorProfileSerializer(m).data)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsIIC])
+def mentor_admin_update(request, pk):
+    m = get_object_or_404(MentorProfile, user_id=pk)
+    s = MentorAdminUpdateSerializer(m, data=request.data, partial=True)
+    s.is_valid(raise_exception=True)
+    s.save()
+    return Response(MentorProfileSerializer(m).data)
+
+
+class MentorDirectoryView(generics.ListAPIView):
+    serializer_class = MentorDirectorySerializer
+    permission_classes = [IsApprovedStudentOrIIC]
+
+    def get_queryset(self):
+        qs = directory_queryset()
+        search = self.request.query_params.get('search', '').strip()
+        if search:
+            qs = qs.filter(Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search) |
+                           Q(current_role__icontains=search) | Q(company__icontains=search) |
+                           Q(specialty__icontains=search) | Q(domain__icontains=search) | Q(skills__icontains=search))
+        domain = self.request.query_params.get('domain', '').strip()
+        if domain:
+            qs = qs.filter(domain__icontains=domain)
+        specialty = self.request.query_params.get('specialty', '').strip()
+        if specialty:
+            qs = qs.filter(specialty__icontains=specialty)
+        career_path = self.request.query_params.get('career_path', '').strip()
+        if career_path:
+            qs = qs.filter(career_path__icontains=career_path)
+        available = self.request.query_params.get('available')
+        if available == 'true':
+            qs = qs.filter(is_available=True, has_active_mentee=False)
+        elif available == 'false':
+            qs = qs.exclude(is_available=True, has_active_mentee=False)
+        return qs.order_by('-is_available', 'has_active_mentee', '-experience_years', 'user_id')
+
+
+@api_view(['GET'])
+@permission_classes([IsApprovedStudentOrIIC])
+def mentor_facets(request):
+    rows = list(directory_queryset().values('domain', 'specialty', 'career_path', 'skills'))
+    collect = lambda key: sorted({r[key].strip() for r in rows if r[key] and r[key].strip()}, key=str.casefold)
+    skills = sorted({s.strip() for r in rows for s in (r['skills'] or []) if isinstance(s, str) and s.strip()}, key=str.casefold)
+    return Response({'domains': collect('domain'), 'specialties': collect('specialty'),
+                     'career_paths': collect('career_path'), 'skills': skills})
+
+
+@api_view(['GET'])
+@permission_classes([IsApprovedStudentOrIIC])
+def mentor_directory_detail(request, pk):
+    return Response(MentorDirectorySerializer(get_object_or_404(directory_queryset(), user_id=pk)).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsIIC])
+def import_mentors(request):
+    return Response({'imported': 0, 'skipped': 0, 'errors': []})
+

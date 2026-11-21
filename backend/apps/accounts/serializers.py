@@ -46,13 +46,14 @@ class MeSerializer(serializers.ModelSerializer):
     is_iic = serializers.SerializerMethodField()
     effective_role = serializers.SerializerMethodField()
     display_name = serializers.SerializerMethodField()
+    calendar = serializers.SerializerMethodField()
 
     class Meta:
         model = User
         fields = (
             'id', 'email', 'first_name', 'last_name', 'role',
             'student_profile', 'mentor_profile', 'is_iic',
-            'effective_role', 'display_name'
+            'effective_role', 'display_name', 'calendar'
         )
         read_only_fields = ('id', 'email', 'role')
 
@@ -60,20 +61,7 @@ class MeSerializer(serializers.ModelSerializer):
         profile = getattr(obj, 'mentor_profile', None) if obj.role == 'MENTOR' else None
         if not profile:
             return None
-        return {
-            'id': profile.id,
-            'user': obj.id,
-            'alumni_roll_number': profile.alumni_roll_number,
-            'graduation_year': profile.graduation_year,
-            'domain': profile.domain,
-            'specialty': profile.specialty,
-            'current_role': profile.current_role,
-            'company': profile.company,
-            'career_path': getattr(profile, 'career_path', ''),
-            'experience_years': profile.experience_years,
-            'is_verified': profile.is_verified,
-            'is_available': profile.is_available,
-        }
+        return MentorProfileSerializer(profile).data
 
     def get_is_iic(self, obj):
         return bool(obj.is_authenticated and (obj.is_superuser or obj.role == 'ADMIN' or obj.is_staff))
@@ -85,6 +73,9 @@ class MeSerializer(serializers.ModelSerializer):
 
     def get_display_name(self, obj):
         return obj.get_full_name() or obj.email.split('@')[0]
+
+    def get_calendar(self, obj):
+        return {'configured': False, 'status': 'DISCONNECTED', 'google_email': '', 'connected_at': None}
 
 class StudentReviewSerializer(serializers.Serializer):
     decision = serializers.ChoiceField(choices=['APPROVED','REJECTED'])
@@ -98,11 +89,66 @@ class StudentReviewSerializer(serializers.Serializer):
         return data
 
 class MentorProfileSerializer(serializers.ModelSerializer):
+    name = serializers.SerializerMethodField()
+    email = serializers.SerializerMethodField()
+    linkedin_url = serializers.SerializerMethodField()
+    has_active_mentee = serializers.SerializerMethodField()
+
     class Meta:
         model = MentorProfile
-        fields = ('id','user','alumni_roll_number','graduation_year','domain','specialty','current_role','company',
-                  'career_path','experience_years','is_verified','is_available')
+        fields = ('id','user','name','email','alumni_roll_number','graduation_year','domain','specialty','current_role','company',
+                  'career_path','experience_years','is_verified','is_available','is_discoverable','bio','skills','linkedin_url','has_active_mentee')
         read_only_fields = ('user','is_verified')
+
+    def get_name(self, obj):
+        return obj.user.get_full_name() or obj.user.email.split('@')[0]
+
+    def get_email(self, obj):
+        return obj.user.email
+
+    def get_linkedin_url(self, obj):
+        return ''
+
+    def get_has_active_mentee(self, obj):
+        busy = getattr(obj, 'has_active_mentee', None)
+        if busy is None:
+            busy = obj.user.mentor_mentorships.filter(status='ACTIVE').exists()
+        return bool(busy)
+
+class MentorSelfUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MentorProfile
+        fields = ('domain','specialty','current_role','company','career_path','experience_years','bio','skills')
+        extra_kwargs = {'experience_years': {'min_value': 0, 'max_value': 80}}
+
+class MentorAdminUpdateSerializer(MentorSelfUpdateSerializer):
+    class Meta(MentorSelfUpdateSerializer.Meta):
+        fields = MentorSelfUpdateSerializer.Meta.fields + ('is_discoverable','is_available','alumni_roll_number','graduation_year')
+
+class MentorDirectorySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='user_id', read_only=True)
+    name = serializers.SerializerMethodField()
+    availability = serializers.SerializerMethodField()
+    linkedin_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MentorProfile
+        fields = ('id','name','current_role','company','domain','specialty','career_path','experience_years',
+                  'skills','bio','linkedin_url','graduation_year','availability')
+
+    def get_name(self, obj):
+        return obj.user.get_full_name() or 'IITM alumni mentor'
+
+    def get_linkedin_url(self, obj):
+        return ''
+
+    def get_availability(self, obj):
+        busy = getattr(obj, 'has_active_mentee', None)
+        if busy is None:
+            busy = obj.user.mentor_mentorships.filter(status='ACTIVE').exists()
+        accepting = obj.is_available and not busy
+        return {'is_available': obj.is_available, 'has_capacity': not busy, 'accepting_requests': accepting,
+                'label': 'Available' if accepting else 'Currently mentoring' if busy else 'Unavailable'}
 
 class MentorCreateSerializer(serializers.Serializer):
     email = serializers.EmailField()

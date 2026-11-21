@@ -227,13 +227,13 @@ AUTH_PASSWORD_VALIDATORS=[
 
 # Ollama runs on the SAME computer hosting Django. No student data sent to cloud AI.
 SANGAM_OLLAMA_ENABLED=True  # used when AI_PROVIDER=ollama
-SANGAM_OLLAMA_URL='http://127.0.0.1:11434/api/chat'
-SANGAM_OLLAMA_MODEL='qwen3:8b'
-SANGAM_FRONTEND_URL='https://sangam-step2.vercel.app'
+SANGAM_OLLAMA_URL=os.environ.get('SANGAM_OLLAMA_URL', 'http://127.0.0.1:11434/api/chat')
+SANGAM_OLLAMA_MODEL=os.environ.get('SANGAM_OLLAMA_MODEL', 'qwen3:8b')
+SANGAM_FRONTEND_URL=os.environ.get('SANGAM_FRONTEND_URL', 'http://localhost:5173')
 
 # ---------------------------------------------------------------- AI / ML (assistant_ai)
 # Provider for generated text: gemini | ollama | none. Tests never call a real model.
-AI_PROVIDER = 'none' if TESTING else os.environ.get('AI_PROVIDER', 'none')
+AI_PROVIDER = 'none' if TESTING else os.environ.get('AI_PROVIDER', 'ollama')
 # One or more Gemini keys, comma-separated; the client rotates to the next key when one is exhausted/expired.
 GEMINI_API_KEYS = [k.strip() for k in (os.environ.get('GEMINI_API_KEYS') or os.environ.get('GEMINI_API_KEY', '')).split(',') if k.strip()]
 GEMINI_API_KEY = GEMINI_API_KEYS[0] if GEMINI_API_KEYS else ''
@@ -241,7 +241,7 @@ GEMINI_MODEL = os.environ.get('GEMINI_MODEL', 'gemini-3.5-flash-lite')
 # Tried in order for each key; a 404 (model not enabled for that key) or 503 (overloaded) moves to the next model
 GEMINI_MODELS = [m.strip() for m in os.environ.get('GEMINI_MODELS', GEMINI_MODEL + ',gemini-3.1-flash-lite,gemini-2.5-flash').split(',') if m.strip()]
 GEMINI_EMBED_MODEL = os.environ.get('GEMINI_EMBED_MODEL', 'gemini-embedding-001')
-AI_LLM_TIMEOUT_SECONDS = 15
+AI_LLM_TIMEOUT_SECONDS = int(os.environ.get('AI_LLM_TIMEOUT_SECONDS', '45'))
 # Embeddings for semantic matching: minilm (local sentence-transformers) | gemini | none
 SANGAM_EMBEDDING_BACKEND = 'none' if TESTING else os.environ.get('SANGAM_EMBEDDING_BACKEND', 'minilm')
 SANGAM_EMBEDDING_MODEL = 'sentence-transformers/all-MiniLM-L6-v2'

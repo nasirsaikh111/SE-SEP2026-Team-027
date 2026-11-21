@@ -176,3 +176,52 @@ def insights_at_risk(request):
 @permission_classes([IsAuthenticated])
 def health(request):
     return Response(services.health())
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsIIC])
+def admin_knowledge(request):
+    if request.method == 'POST':
+        title = request.data.get('title', '')
+        content = request.data.get('content', '')
+        audience = request.data.get('audience', 'ALL')
+        is_published = bool(request.data.get('is_published', False))
+        art = KnowledgeArticle.objects.create(
+            title=title,
+            content=content,
+            audience=audience,
+            is_published=is_published
+        )
+        return Response({
+            'id': art.pk,
+            'title': art.title,
+            'content': art.content,
+            'audience': art.audience,
+            'is_published': art.is_published,
+            'updated_at': art.updated_at.isoformat()
+        }, status=201)
+    qs = KnowledgeArticle.objects.all().order_by('-updated_at')[:100]
+    data = [{'id': a.pk, 'title': a.title, 'content': a.content, 'audience': a.audience, 'is_published': a.is_published, 'updated_at': a.updated_at.isoformat()} for a in qs]
+    return Response({'count': len(data), 'next': None, 'previous': None, 'results': data})
+
+
+@api_view(['GET', 'PATCH', 'DELETE'])
+@permission_classes([IsIIC])
+def admin_knowledge_detail(request, pk):
+    art = get_object_or_404(KnowledgeArticle, pk=pk)
+    if request.method == 'DELETE':
+        art.delete()
+        return Response(status=204)
+    if request.method == 'PATCH':
+        for field in ('title', 'content', 'audience', 'is_published'):
+            if field in request.data:
+                setattr(art, field, request.data[field])
+        art.save()
+    return Response({
+        'id': art.pk,
+        'title': art.title,
+        'content': art.content,
+        'audience': art.audience,
+        'is_published': art.is_published,
+        'updated_at': art.updated_at.isoformat()
+    })

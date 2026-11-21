@@ -18,6 +18,20 @@ class IsVerifiedMentor(BasePermission):
         return bool(u and u.is_authenticated and u.is_active and u.role == 'MENTOR' and
                     hasattr(u, 'mentor_profile') and u.mentor_profile.is_verified)
 
+class IsMentor(BasePermission):
+    def has_permission(self, request, view):
+        u = request.user
+        return bool(u and u.is_authenticated and u.is_active and u.role == 'MENTOR')
+
+class IsApprovedStudentOrIIC(BasePermission):
+    def has_permission(self, request, view):
+        u = request.user
+        if not (u and u.is_authenticated and u.is_active):
+            return False
+        if iic(u):
+            return True
+        return bool(u.role == 'STUDENT' and hasattr(u, 'student_profile') and u.student_profile.approval_status == 'APPROVED')
+
 
 def iic(user):
-    return bool(user.is_authenticated and (user.is_superuser or (user.role == 'ADMIN' and user.is_staff)))
+    return bool(user and getattr(user, 'is_authenticated', False) and (user.is_superuser or (user.role == 'ADMIN' and user.is_staff)))

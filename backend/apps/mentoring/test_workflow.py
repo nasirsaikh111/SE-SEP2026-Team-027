@@ -3,7 +3,7 @@ from django.utils import timezone
 from apps.accounts.models import User
 from apps.assistant_ai.models import AIRequestAssessment, KnowledgeArticle
 from .factories import SangamAPITestCase, make_mentor, make_student, PROBLEM
-from .models import AvailabilityCheck, Mentorship, MentoringRequest, Alert, ActivityStatusHistory, Meeting
+from .models import AvailabilityCheck, Mentorship, MentoringRequest, Alert, Meeting, AuditLog
 
 
 class ApprovalWorkflowTests(SangamAPITestCase):
@@ -204,9 +204,9 @@ class DashboardAndReportTests(SangamAPITestCase):
 
     def test_history_is_append_only_and_has_no_personal_text(self):
         req_id = self.submit_request()['id']
-        for row in ActivityStatusHistory.objects.filter(request_id=req_id):
-            self.assertNotIn(PROBLEM[:30], row.note)
-            self.assertNotIn(self.student.email, row.note)
+        for row in AuditLog.objects.filter(entity_type="request", entity_id=req_id):
+            self.assertNotIn(PROBLEM[:30], str(row.details))
+            self.assertNotIn(self.student.email, str(row.details))
 
 
 class KnowledgeAdminTests(SangamAPITestCase):

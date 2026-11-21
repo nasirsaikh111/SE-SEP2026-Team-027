@@ -16,4 +16,10 @@ urlpatterns=[
 urlpatterns += [
  path('admin/mentors/<int:pk>/invite/',v.invite_mentor),
  path('auth/mentor/activate/',v.activate_mentor),
+ path('admin/mentors/import/',v.import_mentors),
+ path('admin/mentors/<int:pk>/',v.mentor_admin_update),
+ path('mentor/profile/',v.mentor_profile),
+ path('mentors/',v.MentorDirectoryView.as_view()),
+ path('mentors/facets/',v.mentor_facets),
+ path('mentors/<int:pk>/',v.mentor_directory_detail),
 ]

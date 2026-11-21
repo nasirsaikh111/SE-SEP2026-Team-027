@@ -9,11 +9,22 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from apps.accounts.models import StudentProfile, MentorProfile
 from apps.accounts.permissions import iic
-from . import google_calendar as gcal
-from .models import MentoringRequest, AvailabilityCheck, Mentorship, Meeting, Feedback, Outcome, Alert, ActivityStatusHistory
-from .serializers import RequestSerializer, PairSerializer, MeetingSerializer, AvailabilitySerializer, HistorySerializer, NotificationSerializer
+from .models import MentoringRequest, AvailabilityCheck, Mentorship, Meeting, Feedback, Outcome, Alert
+from .serializers import RequestSerializer, PairSerializer, MeetingSerializer, AvailabilitySerializer, NotificationSerializer
 from .views_api import request_queryset, pair_queryset
 from .workflow import OPEN_STATUSES
+
+try:
+    from .models import ActivityStatusHistory
+    from .serializers import HistorySerializer
+except ImportError:
+    ActivityStatusHistory = None
+    HistorySerializer = None
+
+try:
+    from . import google_calendar as gcal
+except Exception:
+    gcal = None
 
 FEEDBACK_INTERVAL_DAYS = 14
 
@@ -28,9 +39,14 @@ def notifications_block(user):
 
 
 def upcoming_meetings(pairs, limit=5):
-    qs = (Meeting.objects.select_related('calendar_event').filter(mentorship__in=pairs, status='SCHEDULED', start_at__gte=timezone.now())
-          .order_by('start_at')[:limit])
-    return MeetingSerializer(qs, many=True).data
+    if not pairs:
+        return []
+    try:
+        today = timezone.now().date()
+        qs = Meeting.objects.filter(mentorship__in=pairs, session_date__gte=today).order_by('session_date')[:limit]
+        return MeetingSerializer(qs, many=True).data
+    except Exception:
+        return []
 
 
 def student_dashboard(request, user):
@@ -42,7 +58,13 @@ def student_dashboard(request, user):
     active = pair_queryset().filter(student=user, status='ACTIVE').first()
     goals = list(active.goals.all()) if active else []
     upcoming = upcoming_meetings([active]) if active else []
-    history = (ActivityStatusHistory.objects.filter(request__student=user, visible_to_student=True).order_by('-created_at')[:6])
+    history = []
+    if ActivityStatusHistory and HistorySerializer:
+        try:
+            h_qs = ActivityStatusHistory.objects.filter(request__student=user, visible_to_student=True).order_by('-created_at')[:6]
+            history = HistorySerializer(h_qs, many=True).data
+        except Exception:
+            history = []
     tasks, steps = [], []
     if approval == 'PENDING':
         steps.append({'title': 'Registration awaiting IIC approval', 'detail': 'You can request a mentor once IIC verifies your academic details.', 'link': '/profile'})
@@ -71,7 +93,7 @@ def student_dashboard(request, user):
         'mentorship': PairSerializer(active, context=ctx).data if active else None,
         'upcoming_meeting': upcoming[0] if upcoming else None,
         'goals': {'completed': sum(1 for g in goals if g.completed), 'total': len(goals)},
-        'recent_activity': HistorySerializer(history, many=True).data,
+        'recent_activity': history,
         'notifications': notes, 'tasks': tasks, 'next_steps': steps, 'next_steps_source': 'rules-v1',
     }
 
@@ -93,7 +115,12 @@ def mentor_dashboard(request, user):
     unconfirmed = (Meeting.objects.filter(mentorship=active, status='HELD', mentor_confirmed=False).order_by('-session_date')
                    if active else Meeting.objects.none())
     due = feedback_due(active, now) if active else None
-    calendar = gcal.connection_status(user)
+    calendar = {'configured': False, 'status': 'DISCONNECTED', 'google_email': '', 'connected_at': None}
+    if gcal:
+        try:
+            calendar = gcal.connection_status(user)
+        except Exception:
+            pass
     tasks = []
     if checks:
         tasks.append(task('availability', 'Availability requests awaiting your response', '/mentor/availability', count=len(checks), tone='primary'))
@@ -105,7 +132,13 @@ def mentor_dashboard(request, user):
         tasks.append(task('calendar', 'Connect Google Calendar to schedule meetings', '/mentor/calendar'))
     if profile and not profile.is_verified:
         tasks.append(task('verification', 'Your profile is awaiting IIC verification', '/profile', tone='warning'))
-    history = ActivityStatusHistory.objects.filter(mentorship__mentor=user).order_by('-created_at')[:6]
+    history = []
+    if ActivityStatusHistory and HistorySerializer:
+        try:
+            h_qs = ActivityStatusHistory.objects.filter(mentorship__mentor=user).order_by('-created_at')[:6]
+            history = HistorySerializer(h_qs, many=True).data
+        except Exception:
+            history = []
     return {
         'role': 'MENTOR',
         'availability': {'is_available': bool(profile and profile.is_available), 'is_verified': bool(profile and profile.is_verified),
@@ -115,7 +148,7 @@ def mentor_dashboard(request, user):
         'upcoming_meetings': upcoming,
         'unconfirmed_meetings': MeetingSerializer(unconfirmed, many=True).data,
         'feedback': due, 'calendar': calendar,
-        'recent_activity': HistorySerializer(history, many=True).data,
+        'recent_activity': history,
         'notifications': notifications_block(user), 'tasks': tasks,
     }
 
@@ -149,7 +182,14 @@ def admin_dashboard(request, user):
     ] if t['count']]
     priority_rank = {'URGENT': 0, 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3}
     review_rows = RequestSerializer(awaiting_review[:50], many=True, context=ctx).data
-    review_rows = sorted(review_rows, key=lambda r: (priority_rank.get((r['priority'] or {}).get('effective'), 4), r['submitted_at']))[:6]
+    def get_priority_effective(r):
+        p = r.get('priority')
+        if isinstance(p, dict):
+            return p.get('effective')
+        if isinstance(p, str):
+            return p
+        return None
+    review_rows = sorted(review_rows, key=lambda r: (priority_rank.get(get_priority_effective(r), 4), r.get('submitted_at') or ''))[:6]
     return {
         'role': 'ADMIN', 'counts': counts, 'tasks': tasks,
         'review_queue': review_rows,

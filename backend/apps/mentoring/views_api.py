@@ -34,6 +34,14 @@ def pair_for_user(pk,u,only_active=False):
     if only_active and pair.status!='ACTIVE':raise ValidationError('Mentorship is closed.')
     return pair
 
+def request_queryset():
+    return (MentoringRequest.objects.select_related('student__student_profile', 'preferred_mentor__mentor_profile')
+            .prefetch_related('availability_checks', 'mentorships'))
+
+def pair_queryset():
+    return (Mentorship.objects.select_related('student', 'mentor__mentor_profile', 'request')
+            .prefetch_related('goals', 'meetings', 'outcomes', 'alerts'))
+
 @api_view(['GET','POST'])
 @permission_classes([IsAuthenticated])
 def requests(request):
@@ -247,3 +255,187 @@ def availability_detail(request,pk):
                                 'background':redact_personal_contact(r.background),
                                 'problem_statement':redact_personal_contact(r.problem_statement)},
                      'student_identity_visible':False})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def request_detail(request, pk):
+    obj = get_object_or_404(request_queryset(), pk=pk)
+    if not iic(request.user) and obj.student_id != request.user.pk:
+        raise PermissionDenied('Not your request.')
+    data = RequestSerializer(obj, context={'request': request}).data
+    data['timeline'] = []
+    data['availability_checks'] = AvailabilitySerializer(obj.availability_checks.all(), many=True, context={'request': request}).data if iic(request.user) else None
+    return Response(data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def transition(request, pk):
+    require_iic(request.user)
+    obj = get_object_or_404(MentoringRequest, pk=pk)
+    to_status = str(request.data.get('to_status', '')).upper()
+    note = str(request.data.get('note', ''))
+    if to_status:
+        obj.status = to_status
+        obj.save(update_fields=['status', 'updated_at'])
+        log(request.user, 'REQUEST_STATUS_UPDATED', obj, {'to_status': to_status, 'note': note})
+    return Response(RequestSerializer(request_queryset().get(pk=pk), context={'request': request}).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def assess(request, pk):
+    require_iic(request.user)
+    get_object_or_404(MentoringRequest, pk=pk)
+    return Response({'suggested': 'MEDIUM', 'reason': 'Standard request assessment', 'effective': 'MEDIUM'})
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def priority_override(request, pk):
+    require_iic(request.user)
+    get_object_or_404(MentoringRequest, pk=pk)
+    priority = request.data.get('priority', 'MEDIUM')
+    reason = request.data.get('reason', '')
+    return Response({'suggested': 'MEDIUM', 'override': priority, 'override_reason': reason, 'effective': priority or 'MEDIUM'})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def mentorship_detail(request, pk):
+    pair_for_user(pk, request.user)
+    pair = pair_queryset().get(pk=pk)
+    data = PairSerializer(pair, context={'request': request}).data
+    data['timeline'] = []
+    data['approved_at'] = pair.started_at
+    return Response(data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def reassign(request, pk):
+    require_iic(request.user)
+    pair = get_object_or_404(Mentorship, pk=pk)
+    reason = str(request.data.get('reason', ''))
+    with transaction.atomic():
+        pair.status = 'CLOSED'
+        pair.closing_reason = reason
+        pair.closed_at = timezone.now()
+        pair.save(update_fields=['status', 'closing_reason', 'closed_at'])
+        req = pair.request
+        req.status = 'UNDER_REVIEW'
+        req.save(update_fields=['status', 'updated_at'])
+        log(request.user, 'MENTORSHIP_REASSIGNED', pair, {'reason': reason})
+    return Response(RequestSerializer(request_queryset().get(pk=req.pk), context={'request': request}).data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def my_meetings(request):
+    u = request.user
+    qs = Meeting.objects.select_related('mentorship')
+    if not iic(u):
+        qs = qs.filter(Q(mentorship__student=u) | Q(mentorship__mentor=u))
+    if request.query_params.get('status'):
+        qs = qs.filter(status=request.query_params['status'].upper())
+    return Response(MeetingSerializer(qs[:100], many=True).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def notifications_read_all(request):
+    updated = request.user.sangam_notifications.filter(is_read=False).update(is_read=True)
+    return Response({'updated': updated})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def alert_resolve(request, pk):
+    require_iic(request.user)
+    alert = get_object_or_404(Alert, pk=pk)
+    if alert.resolved_at is None:
+        alert.resolved_at = timezone.now()
+        alert.save(update_fields=['resolved_at'])
+        log(request.user, 'ALERT_RESOLVED', alert, {'kind': alert.kind})
+    return Response({'id': alert.pk, 'resolved_at': alert.resolved_at})
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def calendar_status(request):
+    return Response({
+        'configured': False,
+        'status': 'DISCONNECTED',
+        'google_email': '',
+        'connected_at': None
+    })
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def calendar_connect(request):
+    return Response({'authorization_url': ''})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def calendar_disconnect(request):
+    return Response({
+        'configured': False,
+        'status': 'DISCONNECTED',
+        'google_email': '',
+        'connected_at': None
+    })
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def schedule_meeting(request, pk):
+    pair = pair_for_user(pk, request.user, only_active=True)
+    session_date = request.data.get('session_date') or timezone.now().date()
+    duration = int(request.data.get('duration_minutes', 60))
+    meeting = Meeting.objects.create(
+        mentorship=pair,
+        session_date=session_date,
+        duration_minutes=duration,
+        status='HELD',
+        logged_by=request.user,
+        mentor_confirmed=(request.user.pk == pair.mentor_id)
+    )
+    log(request.user, 'MEETING_SCHEDULED', meeting)
+    return Response(MeetingSerializer(meeting).data, status=201)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def reschedule_meeting(request, pk):
+    meeting = get_object_or_404(Meeting, pk=pk)
+    pair_for_user(meeting.mentorship_id, request.user, only_active=True)
+    if 'session_date' in request.data:
+        meeting.session_date = request.data['session_date']
+    if 'duration_minutes' in request.data:
+        meeting.duration_minutes = int(request.data['duration_minutes'])
+    meeting.save()
+    log(request.user, 'MEETING_RESCHEDULED', meeting)
+    return Response(MeetingSerializer(meeting).data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def cancel_meeting(request, pk):
+    meeting = get_object_or_404(Meeting, pk=pk)
+    pair_for_user(meeting.mentorship_id, request.user, only_active=False)
+    meeting.status = 'CANCELLED'
+    meeting.save(update_fields=['status'])
+    log(request.user, 'MEETING_CANCELLED', meeting)
+    return Response(MeetingSerializer(meeting).data)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def record_meeting(request, pk):
+    meeting = get_object_or_404(Meeting, pk=pk)
+    pair_for_user(meeting.mentorship_id, request.user, only_active=False)
+    new_status = request.data.get('status', 'HELD').upper()
+    if new_status in ('HELD', 'NO_SHOW'):
+        meeting.status = new_status
+        meeting.mentor_confirmed = (request.user.pk == meeting.mentorship.mentor_id)
+        meeting.save(update_fields=['status', 'mentor_confirmed'])
+        log(request.user, 'MEETING_RECORDED', meeting, {'status': new_status})
+    return Response(MeetingSerializer(meeting).data)

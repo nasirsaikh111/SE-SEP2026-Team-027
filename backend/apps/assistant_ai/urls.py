@@ -5,6 +5,8 @@ urlpatterns = [
     path('ai/chat/', views.chat),
     path('assistant/chat/', views.chat),
     path('ai/knowledge/', views.knowledge),
+    path('admin/knowledge/', views.admin_knowledge),
+    path('admin/knowledge/<int:pk>/', views.admin_knowledge_detail),
     path('ai/health/', views.health),
     path('requests/<int:pk>/suggestions/', views.suggestions),
     path('requests/<int:pk>/priority/', views.request_priority),
