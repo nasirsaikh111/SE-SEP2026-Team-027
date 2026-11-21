@@ -58,9 +58,22 @@ api.interceptors.response.use(undefined, async (error: AxiosError) => {
   return Promise.reject(error)
 })
 
-export async function get<T>(url: string, config?: AxiosRequestConfig) { return (await api.get<T>(url, config)).data }
-export async function post<T>(url: string, body?: unknown) { return (await api.post<T>(url, body)).data }
-export async function patch<T>(url: string, body?: unknown) { return (await api.patch<T>(url, body)).data }
+function normalizeData<T>(data: any): T {
+  if (Array.isArray(data)) {
+    const wrapped = Object.assign([...data], {
+      results: data,
+      count: data.length,
+      next: null,
+      previous: null,
+    });
+    return wrapped as unknown as T;
+  }
+  return data as T;
+}
+
+export async function get<T>(url: string, config?: AxiosRequestConfig) { return normalizeData<T>((await api.get<T>(url, config)).data) }
+export async function post<T>(url: string, body?: unknown) { return normalizeData<T>((await api.post<T>(url, body)).data) }
+export async function patch<T>(url: string, body?: unknown) { return normalizeData<T>((await api.patch<T>(url, body)).data) }
 export async function del(url: string) { await api.delete(url) }
 
 interface ErrorBody { detail?: string; code?: string; errors?: unknown; [field: string]: unknown }

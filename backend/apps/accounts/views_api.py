@@ -44,8 +44,15 @@ def student_profile(request):
 @permission_classes([IsIIC])
 def pending_students(request):
     state=request.query_params.get('status','PENDING')
-    qs=StudentProfile.objects.select_related('user').filter(approval_status=state).order_by('created_at')
-    return Response([{'id':p.pk,'user_id':p.user_id,'email':p.user.email,'name':p.user.get_full_name(),**StudentProfileSerializer(p).data} for p in qs[:200]])
+    qs=StudentProfile.objects.select_related('user')
+    if state and state != 'ALL':
+        qs = qs.filter(approval_status=state)
+    search = request.query_params.get('search', '').strip()
+    if search:
+        qs = qs.filter(Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search) | Q(user__email__icontains=search) | Q(iitm_roll_number__icontains=search))
+    qs = qs.order_by('-created_at')
+    rows = [{'id':p.pk,'user_id':p.user_id,'email':p.user.email,'name':p.user.get_full_name(),'submitted_at':p.created_at.isoformat() if p.created_at else '','approved_at':p.approved_at.isoformat() if p.approved_at else None,**StudentProfileSerializer(p).data} for p in qs[:200]]
+    return Response({'count': len(rows), 'next': None, 'previous': None, 'results': rows})
 
 @api_view(['POST'])
 @permission_classes([IsIIC])
@@ -69,8 +76,17 @@ def review_student(request,pk):
 @permission_classes([IsIIC])
 def mentors(request):
     if request.method=='GET':
-        qs=MentorProfile.objects.select_related('user').all().order_by('id')[:200]
-        return Response([{'email':m.user.email,**MentorProfileSerializer(m).data} for m in qs])
+        qs=MentorProfile.objects.select_related('user').all()
+        verified = request.query_params.get('verified')
+        if verified == 'true':
+            qs = qs.filter(is_verified=True)
+        elif verified == 'false':
+            qs = qs.filter(is_verified=False)
+        search = request.query_params.get('search', '').strip()
+        if search:
+            qs = qs.filter(Q(user__first_name__icontains=search) | Q(user__last_name__icontains=search) | Q(user__email__icontains=search) | Q(current_role__icontains=search) | Q(company__icontains=search) | Q(specialty__icontains=search) | Q(domain__icontains=search))
+        rows = [{'email':m.user.email,**MentorProfileSerializer(m).data} for m in qs.order_by('id')[:200]]
+        return Response({'count': len(rows), 'next': None, 'previous': None, 'results': rows})
     s=MentorCreateSerializer(data=request.data,context={'request':request})
     s.is_valid(raise_exception=True)
     u=s.save()

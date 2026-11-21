@@ -46,19 +46,27 @@ def pair_queryset():
 @permission_classes([IsAuthenticated])
 def requests(request):
     if request.method=='GET':
-        qs=MentoringRequest.objects.all() if iic(request.user) else MentoringRequest.objects.filter(student=request.user)
-        return Response(RequestSerializer(qs.order_by('-submitted_at')[:200],many=True).data)
+        qs=request_queryset() if iic(request.user) else request_queryset().filter(student=request.user)
+        queue = request.query_params.get('queue')
+        if queue == 'review':
+            qs = qs.filter(status__in=OPEN_STATUSES)
+        elif queue == 'waiting':
+            qs = qs.filter(status='WAITING')
+        elif request.query_params.get('status'):
+            qs = qs.filter(status=request.query_params['status'].upper())
+        data = RequestSerializer(qs.order_by('-submitted_at')[:200], many=True, context={'request': request}).data
+        return Response({'count': len(data), 'next': None, 'previous': None, 'results': data})
     require_student(request.user)
     if Mentorship.objects.filter(student=request.user,status='ACTIVE').exists():
         raise ValidationError('Student already has an active mentorship.')
-    serializer=RequestSerializer(data=request.data)
+    serializer=RequestSerializer(data=request.data, context={'request': request})
     serializer.is_valid(raise_exception=True)
     with transaction.atomic():
         if MentoringRequest.objects.filter(student=request.user,status__in=['SUBMITTED','UNDER_REVIEW','WAITING']).exists():
             raise ValidationError('Only one open request is allowed.')
         obj=serializer.save(student=request.user)
         log(request.user,'REQUEST_CREATED',obj)
-    return Response(RequestSerializer(obj).data,status=201)
+    return Response(RequestSerializer(obj, context={'request': request}).data,status=201)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -95,8 +103,11 @@ def check_availability(request,pk):
 @permission_classes([IsAuthenticated])
 def availability_inbox(request):
     if request.user.role != 'MENTOR' and not iic(request.user):raise PermissionDenied('Mentors only.')
-    qs=AvailabilityCheck.objects.all() if iic(request.user) else AvailabilityCheck.objects.filter(mentor=request.user)
-    return Response(AvailabilitySerializer(qs.order_by('-sent_at')[:100],many=True).data)
+    qs=AvailabilityCheck.objects.select_related('request', 'mentor__mentor_profile').all() if iic(request.user) else AvailabilityCheck.objects.select_related('request', 'mentor__mentor_profile').filter(mentor=request.user)
+    if request.query_params.get('status'):
+        qs = qs.filter(status=request.query_params['status'].upper())
+    data = AvailabilitySerializer(qs.order_by('-sent_at')[:100], many=True, context={'request': request}).data
+    return Response({'count': len(data), 'next': None, 'previous': None, 'results': data})
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -117,8 +128,11 @@ def approve(request,pk):
 @permission_classes([IsAuthenticated])
 def mentorships(request):
     u=request.user
-    qs=Mentorship.objects.all() if iic(u) else Mentorship.objects.filter(Q(student=u)|Q(mentor=u))
-    return Response(PairSerializer(qs.order_by('-started_at')[:200],many=True,context={'request':request}).data)
+    qs=pair_queryset().all() if iic(u) else pair_queryset().filter(Q(student=u)|Q(mentor=u))
+    if request.query_params.get('status'):
+        qs = qs.filter(status=request.query_params['status'].upper())
+    data = PairSerializer(qs.order_by('-started_at')[:200], many=True, context={'request': request}).data
+    return Response({'count': len(data), 'next': None, 'previous': None, 'results': data})
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -198,7 +212,9 @@ def outcomes(request,pk):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def notifications(request):
-    return Response(NotificationSerializer(request.user.sangam_notifications.all()[:100],many=True).data)
+    qs = request.user.sangam_notifications.all().order_by('-created_at')[:100]
+    data = NotificationSerializer(qs, many=True).data
+    return Response({'count': len(data), 'next': None, 'previous': None, 'results': data})
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -226,8 +242,9 @@ def alerts(request):
 @permission_classes([IsAuthenticated])
 def audit_events(request):
     require_iic(request.user)
-    return Response([{'id':x.pk,'actor_id':x.actor_id,'action':x.action,'entity_type':x.entity_type,
-                      'entity_id':x.entity_id,'at':x.created_at} for x in AuditLog.objects.all()[:200]])
+    qs = AuditLog.objects.select_related('actor').all().order_by('-created_at')
+    data = [{'id': x.pk, 'actor_id': x.actor_id, 'actor_email': x.actor.email if x.actor else None, 'actor_role': getattr(x.actor, 'role', 'SYSTEM') if x.actor else 'SYSTEM', 'action': x.action, 'entity_type': x.entity_type, 'entity_id': x.entity_id, 'at': x.created_at.isoformat() if x.created_at else '', 'details': x.details or {}} for x in qs[:200]]
+    return Response({'count': len(data), 'next': None, 'previous': None, 'results': data})
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -339,7 +356,8 @@ def my_meetings(request):
         qs = qs.filter(Q(mentorship__student=u) | Q(mentorship__mentor=u))
     if request.query_params.get('status'):
         qs = qs.filter(status=request.query_params['status'].upper())
-    return Response(MeetingSerializer(qs[:100], many=True).data)
+    data = MeetingSerializer(qs.order_by('-session_date')[:100], many=True).data
+    return Response({'count': len(data), 'next': None, 'previous': None, 'results': data})
 
 
 @api_view(['POST'])
