@@ -54,6 +54,16 @@ export function LoginPage() {
       setError(errorMessage(err, 'Sign-in failed.'))
     }
   })
+  const handleQuickLogin = async (email: string, roleRoute = '/dashboard') => {
+    setError('')
+    try {
+      await login(email, 'SangamDemo!2026')
+      navigate(roleRoute, { replace: true })
+    } catch (err) {
+      setError(errorMessage(err, 'Quick sign-in failed.'))
+    }
+  }
+
   return (
     <AuthFrame title="Sign in" subtitle="Students, alumni mentors and IIC staff all sign in here.">
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
@@ -62,6 +72,25 @@ export function LoginPage() {
         <Field label="Password"><input type="password" autoComplete="current-password" className="input input-lg w-full" {...register('password', { required: true })} /></Field>
         <button className="btn btn-primary btn-lg mt-2" disabled={isSubmitting}>{isSubmitting && <span className="loading loading-spinner loading-sm" />}Sign in</button>
       </form>
+
+      <div className="mt-6 border-t border-base-200 pt-4">
+        <p className="text-base-content/60 mb-2 text-xs font-semibold uppercase tracking-wider">Demo Quick Access</p>
+        <div className="flex flex-col gap-2">
+          <button type="button" className="btn btn-outline btn-sm justify-between" onClick={() => handleQuickLogin('hemant@ds.study.iitm.ac.in')}>
+            <span>Student (Hemant)</span>
+            <span className="badge badge-sm badge-info">STUDENT</span>
+          </button>
+          <button type="button" className="btn btn-outline btn-sm justify-between" onClick={() => handleQuickLogin('iic.admin@iitm.ac.in', '/admin/students')}>
+            <span>IIC Staff (Admin)</span>
+            <span className="badge badge-sm badge-success">ADMIN</span>
+          </button>
+          <button type="button" className="btn btn-outline btn-sm justify-between" onClick={() => handleQuickLogin('arjun.k@alumni.example.org', '/mentor/workspace')}>
+            <span>Alumni Mentor (Arjun)</span>
+            <span className="badge badge-sm badge-warning">MENTOR</span>
+          </button>
+        </div>
+      </div>
+
       <p className="text-base-content/65 mt-6 text-sm">New IITM student? <Link to="/register" className="link link-primary font-medium">Create an account</Link></p>
     </AuthFrame>
   )

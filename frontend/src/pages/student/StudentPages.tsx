@@ -77,7 +77,7 @@ export function MyRequestsPage() {
 }
 
 // ----------------------------------------------------------------- my mentorship
-export function useCurrentPair() {
+function useCurrentPair() {
   const list = useMentorships()
   const pairs = list.data?.results ?? []
   const pair: Mentorship | undefined = pairs.find((p) => p.status === 'ACTIVE') ?? pairs[0]

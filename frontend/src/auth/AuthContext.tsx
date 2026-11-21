@@ -25,6 +25,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = useCallback(() => {
     tokens.clear()
     setHasToken(false)
+    qc.setQueryData(['me'], null)
+    qc.removeQueries()
     qc.clear()
   }, [qc])
 

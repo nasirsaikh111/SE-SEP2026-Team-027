@@ -3,19 +3,14 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router'
 import { fieldErrors } from '../../lib/api'
 import { PATHWAY, STAGE, formatDate, formatDateTime } from '../../lib/format'
-import { useRequest, useRequestActions, useRequests } from '../../lib/queries'
+import { useRequest, useRequestActions, useOpenRequest } from '../../lib/queries'
 import type { DirectoryMentor, MentoringRequest, Pathway } from '../../lib/types'
 import { ErrorAlert, Field, Loading, Modal, StageBadge, Timeline } from '../../components/ui'
 import { Confluence } from '../../components/Confluence'
 
 const OPEN = ['SUBMITTED', 'UNDER_REVIEW', 'WAITING']
 
-/** The student's open request or active mentorship (only one is allowed at a time). */
-export function useOpenRequest() {
-  const requests = useRequests()
-  const open = requests.data?.results?.find((r) => OPEN.includes(r.status) || r.stage === 'ACTIVE')
-  return { open, loading: requests.isPending }
-}
+export { useOpenRequest }
 
 interface RequestForm { pathway: Pathway; domain: string; background: string; problem_statement: string }
 
@@ -40,7 +35,7 @@ export function RequestFormModal({ open, onClose, mentor }: { open: boolean; onC
   })
 
   return (
-    <Modal open={open} onClose={close} size="lg" title={mentor ? `Ask for ${mentor.name.split(' ')[0]} as your mentor` : 'Request a mentor'}
+    <Modal open={open} onClose={close} size="lg" title={mentor ? `Ask for ${(mentor.name || 'this mentor').split(' ')[0]} as your mentor` : 'Request a mentor'}
       subtitle="IIC reads every request, checks a mentor's availability, and approves the final pairing.">
       <form onSubmit={onSubmit} className="flex flex-col gap-4" noValidate>
         {mentor && (

@@ -43,14 +43,19 @@ async function refreshAccessToken(): Promise<string> {
 api.interceptors.response.use(undefined, async (error: AxiosError) => {
   const original = error.config as (InternalAxiosRequestConfig & { _retried?: boolean }) | undefined
   const isAuthCall = original?.url?.includes('/auth/token/')
-  if (error.response?.status === 401 && original && !original._retried && !isAuthCall && tokens.refresh()) {
+  if (error.response?.status === 401 && original && !original._retried && !isAuthCall) {
     original._retried = true
-    try {
-      refreshing = refreshing ?? refreshAccessToken().finally(() => { refreshing = null })
-      const access = await refreshing
-      original.headers.Authorization = `Bearer ${access}`
-      return api(original)
-    } catch {
+    if (tokens.refresh()) {
+      try {
+        refreshing = refreshing ?? refreshAccessToken().finally(() => { refreshing = null })
+        const access = await refreshing
+        original.headers.Authorization = `Bearer ${access}`
+        return api(original)
+      } catch {
+        tokens.clear()
+        window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT))
+      }
+    } else {
       tokens.clear()
       window.dispatchEvent(new Event(SESSION_EXPIRED_EVENT))
     }

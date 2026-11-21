@@ -50,11 +50,13 @@ export function timeAgo(value?: string | null) {
   for (const [unit, size] of steps) if (Math.abs(seconds) >= size) return rtf.format(Math.round(seconds / size), unit)
   return 'just now'
 }
-export function truncate(text: string, length = 160) {
+export function truncate(text?: string | null, length = 160) {
+  if (!text) return ''
   return text.length > length ? `${text.slice(0, length).trimEnd()}…` : text
 }
-export function humanize(code: string) {
-  return code.replace(/_/g, ' ').toLowerCase().replace(/^\w/, (c) => c.toUpperCase())
+export function humanize(code?: string | null) {
+  if (!code) return ''
+  return String(code).replace(/_/g, ' ').toLowerCase().replace(/^\w/, (c) => c.toUpperCase())
 }
 export function todayISO() {
   const d = new Date()

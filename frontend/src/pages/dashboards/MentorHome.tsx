@@ -10,8 +10,8 @@ import { greeting } from '../Dashboard'
 
 export default function MentorHome({ d }: { d: MentorDashboard }) {
   const [reviewing, setReviewing] = useState<AvailabilityCheck | null>(null)
-  const name = d.display_name.split(' ')[0]
-  const asks = d.pending_checks.length
+  const name = (d.display_name || '').split(' ')[0] || 'there'
+  const asks = d.pending_checks?.length ?? 0
   return (
     <>
       <section className="bg-neutral text-neutral-content rounded-hero mb-8 flex flex-wrap items-end justify-between gap-6 px-6 py-7 sm:px-9">

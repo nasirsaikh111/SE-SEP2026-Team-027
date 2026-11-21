@@ -43,6 +43,14 @@ export const useSuggestions = (id?: number, enabled = true) => useQuery({
 
 const REQUEST_KEYS: QueryKey[] = [['requests'], ['dashboard'], ['availability'], ['mentorships'], ['notifications']]
 
+const OPEN_STATUSES = ['SUBMITTED', 'UNDER_REVIEW', 'WAITING']
+
+export function useOpenRequest() {
+  const requests = useRequests()
+  const open = requests.data?.results?.find((r) => OPEN_STATUSES.includes(r.status) || r.stage === 'ACTIVE')
+  return { open, loading: requests.isPending }
+}
+
 export function useRequestActions() {
   return {
     create: useAction((body: Partial<T.MentoringRequest> & { preferred_mentor?: number | null }) => post<T.MentoringRequest>('/requests/', body), REQUEST_KEYS),

@@ -215,6 +215,16 @@ REST_FRAMEWORK = {
     "PAGE_SIZE": 50,
 }
 
+from datetime import timedelta
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'SIGNING_KEY': SECRET_KEY,
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
+
 SPECTACULAR_SETTINGS={'TITLE':'Sangam API','DESCRIPTION':'IIC-approved student mentoring API. No ratings or conversation logging.',
  'VERSION':'1.0.0','SERVE_INCLUDE_SCHEMA':False,'COMPONENT_SPLIT_REQUEST':True}
 AUTH_PASSWORD_VALIDATORS=[

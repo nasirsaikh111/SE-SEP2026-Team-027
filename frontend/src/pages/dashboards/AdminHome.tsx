@@ -16,7 +16,7 @@ export default function AdminHome({ d }: { d: AdminDashboard }) {
   return (
     <>
       <section className="mb-6">
-        <p className="text-base-content/60">{greeting()}, {d.display_name.split(' ')[0]}</p>
+        <p className="text-base-content/60">{greeting()}, {(d.display_name || '').split(' ')[0] || 'Admin'}</p>
         <h1 className="font-display text-title sm:text-display mt-1 max-w-3xl font-semibold">
           {waiting ? `${waiting} ${waiting === 1 ? 'decision is' : 'decisions are'} waiting for IIC.` : 'Every queue is clear.'}
         </h1>

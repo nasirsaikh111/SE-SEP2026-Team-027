@@ -9,7 +9,7 @@ import { greeting } from '../Dashboard'
 
 function Hero({ d }: { d: StudentDashboard }) {
   const navigate = useNavigate()
-  const name = d.display_name.split(' ')[0]
+  const name = (d.display_name || '').split(' ')[0] || 'there'
   const req = d.current_request
   const pair = d.mentorship
 

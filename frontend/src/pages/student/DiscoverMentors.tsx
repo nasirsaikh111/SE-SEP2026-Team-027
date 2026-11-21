@@ -9,7 +9,8 @@ import { RequestFormModal, useOpenRequest } from './requestModals'
 
 const EMPTY = { search: '', domain: '', specialty: '', career_path: '', min_experience: '', available: '' }
 
-function initials(name: string) {
+function initials(name?: string | null) {
+  if (!name) return '?'
   return name.split(' ').map((p) => p[0]).slice(0, 2).join('').toUpperCase()
 }
 
@@ -49,10 +50,10 @@ function MentorProfileModal({ mentor, onClose, onRequest, blockedReason }: { men
           {mentor.linkedin_url && <a href={mentor.linkedin_url} target="_blank" rel="noopener noreferrer" className="link link-hover inline-flex items-center gap-1.5 text-sm"><Link2 size={15} />LinkedIn profile</a>}
           <div className="bg-base-200 rounded-xl p-4 text-sm">
             <p className="font-semibold">How this works</p>
-            <p className="text-base-content/70 mt-1">You can name {mentor.name.split(' ')[0]} as your preference. IIC reviews your request, checks whether they can take you on, and approves the pairing. Contact details are shared after approval.</p>
+            <p className="text-base-content/70 mt-1">You can name {(mentor.name || 'this mentor').split(' ')[0]} as your preference. IIC reviews your request, checks whether they can take you on, and approves the pairing. Contact details are shared after approval.</p>
           </div>
           {blockedReason ? <p className="text-base-content/60 text-sm">{blockedReason}</p> : (
-            <button className="btn btn-primary btn-lg mt-auto" onClick={onRequest}>Ask for {mentor.name.split(' ')[0]} as my mentor</button>
+            <button className="btn btn-primary btn-lg mt-auto" onClick={onRequest}>Ask for {(mentor.name || 'this mentor').split(' ')[0]} as my mentor</button>
           )}
         </>
       )}
