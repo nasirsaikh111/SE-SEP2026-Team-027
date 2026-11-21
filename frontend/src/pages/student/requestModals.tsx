@@ -13,7 +13,7 @@ const OPEN = ['SUBMITTED', 'UNDER_REVIEW', 'WAITING']
 /** The student's open request or active mentorship (only one is allowed at a time). */
 export function useOpenRequest() {
   const requests = useRequests()
-  const open = requests.data?.results.find((r) => OPEN.includes(r.status) || r.stage === 'ACTIVE')
+  const open = requests.data?.results?.find((r) => OPEN.includes(r.status) || r.stage === 'ACTIVE')
   return { open, loading: requests.isPending }
 }
 

@@ -64,13 +64,14 @@ export function NotificationsList({ pageSize = 30 }: { pageSize?: number }) {
   const { read, readAll } = useNotificationActions()
   if (list.isPending) return <Loading />
   if (list.isError) return <ErrorAlert error={list.error} />
-  if (list.data.results.length === 0) return <EmptyState title="You're all caught up" description="Updates about approvals, requests and meetings appear here." />
-  const unread = list.data.results.some((n) => !n.is_read)
+  const notifList = list.data?.results ?? []
+  if (notifList.length === 0) return <EmptyState title="You're all caught up" description="Updates about approvals, requests and meetings appear here." />
+  const unread = notifList.some((n) => !n.is_read)
   return (
     <div className="flex flex-col">
       {unread && <button className="btn btn-ghost btn-sm mb-1 self-end" disabled={readAll.isPending} onClick={() => readAll.mutate()}><CheckCheck size={15} />Mark all as read</button>}
       <ul className="rows">
-        {list.data.results.map((n) => (
+        {notifList.map((n) => (
           <li key={n.id}>
             <button className="row-link -mx-2 flex w-[calc(100%+1rem)] items-start gap-3 px-2 py-3 text-left" onClick={() => !n.is_read && read.mutate(n.id)} disabled={n.is_read}>
               <span className={`mt-2 size-2 shrink-0 rounded-full ${n.is_read ? 'bg-transparent' : 'bg-accent'}`} aria-label={n.is_read ? undefined : 'Unread'} />

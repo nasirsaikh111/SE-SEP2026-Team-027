@@ -110,14 +110,14 @@ function Directory() {
         </label>
       </div>
 
-      {directory.isPending ? <Loading /> : directory.isError ? <ErrorAlert error={directory.error} /> : directory.data.results.length === 0 ? (
+      {directory.isPending ? <Loading /> : directory.isError ? <ErrorAlert error={directory.error} /> : (directory.data?.results ?? []).length === 0 ? (
         <EmptyState title="No mentors match" description={activeFilters || filters.search ? 'Try removing a filter or searching for a broader skill.' : 'IIC has not published any mentor profiles yet.'}
           action={(activeFilters > 0 || !!filters.search) && <button className="btn btn-sm" onClick={() => setFilters(EMPTY)}><X size={14} />Clear filters</button>} />
       ) : (
         <>
-          <p className="text-base-content/60 mb-3 text-sm">{directory.data.count} {directory.data.count === 1 ? 'mentor' : 'mentors'}</p>
+          <p className="text-base-content/60 mb-3 text-sm">{directory.data?.count ?? 0} {(directory.data?.count ?? 0) === 1 ? 'mentor' : 'mentors'}</p>
           <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {directory.data.results.map((m) => (
+            {(directory.data?.results ?? []).map((m) => (
               <li key={m.id}>
                 <button onClick={() => setViewing(m)} className="panel hover:border-primary/50 flex h-full w-full flex-col gap-3 p-5 text-left transition-colors">
                   <div className="flex items-start gap-3">
@@ -128,18 +128,18 @@ function Directory() {
                     </div>
                   </div>
                   <p className="text-sm"><span className="block font-semibold">{m.domain}</span><span className="text-base-content/60 block">{m.specialty}</span></p>
-                  {m.skills.length > 0 && <div className="flex flex-wrap gap-1">{m.skills.slice(0, 4).map((s) => <span key={s} className="bg-base-200 rounded-full px-2.5 py-0.5 text-xs">{s}</span>)}{m.skills.length > 4 && <span className="text-base-content/50 px-1 text-xs">+{m.skills.length - 4}</span>}</div>}
+                  {(m.skills?.length ?? 0) > 0 && <div className="flex flex-wrap gap-1">{m.skills.slice(0, 4).map((s) => <span key={s} className="bg-base-200 rounded-full px-2.5 py-0.5 text-xs">{s}</span>)}{m.skills.length > 4 && <span className="text-base-content/50 px-1 text-xs">+{m.skills.length - 4}</span>}</div>}
                   <div className="mt-auto flex items-center justify-between pt-1 text-sm">
                     <span className="text-base-content/60">{m.experience_years} yrs experience</span>
-                    <span className={`inline-flex items-center gap-1.5 font-medium ${m.availability.accepting_requests ? 'text-success' : 'text-base-content/50'}`}>
-                      <span className={`size-2 rounded-full ${m.availability.accepting_requests ? 'bg-success' : 'bg-base-300'}`} />{m.availability.label}
+                    <span className={`inline-flex items-center gap-1.5 font-medium ${m.availability?.accepting_requests ? 'text-success' : 'text-base-content/50'}`}>
+                      <span className={`size-2 rounded-full ${m.availability?.accepting_requests ? 'bg-success' : 'bg-base-300'}`} />{m.availability?.label ?? 'Available'}
                     </span>
                   </div>
                 </button>
               </li>
             ))}
           </ul>
-          <Pager page={page} count={directory.data.count} onChange={setPage} />
+          <Pager page={page} count={directory.data?.count ?? 0} onChange={setPage} />
         </>
       )}
 

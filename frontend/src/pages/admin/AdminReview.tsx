@@ -205,7 +205,7 @@ export function MentorRepositoryPage() {
   const [selectedId, setSelectedId] = useState<number | null>(null)
   const [editing, setEditing] = useState<{ open: boolean; mentor: MentorProfile | null }>({ open: false, mentor: null })
   const mentors = useAdminMentors({ verified, search, page })
-  const selected = mentors.data?.results.find((m) => m.id === selectedId) ?? null
+  const selected = mentors.data?.results?.find((m) => m.id === selectedId) ?? null
   return (
     <>
       <PageHeader title="Mentor repository" subtitle="Verify alumni against IIC records and choose who students can find in Discover Mentors."
