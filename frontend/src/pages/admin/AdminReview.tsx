@@ -80,12 +80,12 @@ export function StudentApprovalsPage() {
         <SearchBox value={search} onChange={(v) => { setSearch(v); setPage(1) }} placeholder="Name, email or roll number" />
       </div>
       <Card>
-        {students.isPending ? <Loading /> : students.isError ? <ErrorAlert error={students.error} /> : students.data.results.length === 0 ? (
+        {students.isPending ? <Loading /> : students.isError ? <ErrorAlert error={students.error} /> : (students.data?.results ?? []).length === 0 ? (
           <EmptyState title={tab === 'PENDING' ? 'No registrations waiting' : 'Nobody here'} description={tab === 'PENDING' ? 'New student registrations will appear here.' : undefined} />
         ) : (
           <>
             <ul className="rows">
-              {students.data.results.map((s) => (
+              {(students.data?.results ?? []).map((s) => (
                 <li key={s.id}>
                   <RowButton onClick={() => setReviewing(s)}>
                     <span className="bg-base-200 font-display grid size-10 shrink-0 place-items-center rounded-xl font-semibold">{(s.name || s.email).slice(0, 1).toUpperCase()}</span>
@@ -215,10 +215,10 @@ export function MentorRepositoryPage() {
         <SearchBox value={search} onChange={(v) => { setSearch(v); setPage(1) }} placeholder="Name, company or specialty" />
       </div>
       <Card>
-        {mentors.isPending ? <Loading /> : mentors.isError ? <ErrorAlert error={mentors.error} /> : mentors.data.results.length === 0 ? <EmptyState title="No mentors here" /> : (
+        {mentors.isPending ? <Loading /> : mentors.isError ? <ErrorAlert error={mentors.error} /> : (mentors.data?.results ?? []).length === 0 ? <EmptyState title="No mentors here" /> : (
           <>
             <ul className="rows">
-              {mentors.data.results.map((m) => (
+              {(mentors.data?.results ?? []).map((m) => (
                 <li key={m.id}>
                   <RowButton onClick={() => setSelectedId(m.id)}>
                     <span className="bg-neutral text-neutral-content font-display grid size-10 shrink-0 place-items-center rounded-xl font-semibold">{(m.name || m.email || '?').slice(0, 1).toUpperCase()}</span>
@@ -430,7 +430,7 @@ export function RequestsQueuePage() {
                 </li>
               ))}
             </ul>
-            <Pager page={page} count={requests.data.count} onChange={setPage} />
+            <Pager page={page} count={requests.data?.count ?? 0} onChange={setPage} />
           </>
         )}
       </Card>

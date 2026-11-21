@@ -149,9 +149,9 @@ export function ActiveMentorshipsPage() {
       <PageHeader title="Mentorships" subtitle="Open one to read written feedback, end it, or find the student a new mentor." />
       <Tabs value={status} onChange={setStatus} tabs={[{ key: 'ACTIVE', label: 'Active' }, { key: 'CLOSED', label: 'Ended' }]} />
       <Card>
-        {pairs.isPending ? <Loading /> : pairs.isError ? <ErrorAlert error={pairs.error} /> : pairs.data.results.length === 0 ? <EmptyState title={status === 'ACTIVE' ? 'No active mentorships' : 'None have ended yet'} /> : (
+        {pairs.isPending ? <Loading /> : pairs.isError ? <ErrorAlert error={pairs.error} /> : (pairs.data?.results ?? []).length === 0 ? <EmptyState title={status === 'ACTIVE' ? 'No active mentorships' : 'None have ended yet'} /> : (
           <ul className="rows">
-            {pairs.data.results.map((p) => (
+            {(pairs.data?.results ?? []).map((p) => (
               <li key={p.id}>
                 <RowButton onClick={() => setSelected(p)}>
                   <span className="min-w-0 flex-1">
@@ -215,23 +215,30 @@ export function ReportsPage() {
       <PageHeader title="Reports & analytics" actions={<button className="btn" onClick={() => setExporting(true)}><Download size={17} />Export data</button>} />
       {insights.isPending ? <Loading /> : insights.isError ? <ErrorAlert error={insights.error} /> : (() => {
         const d = insights.data
+        const monthlyRequests = d?.monthly_requests ?? []
+        const monthlyMentorships = d?.monthly_mentorships ?? []
+        const monthlyMeetings = d?.monthly_meetings ?? []
+        const domainDemand = d?.domain_demand ?? []
+        const pathwayDemand = d?.pathway_demand ?? []
+        const requestsByStatus = d?.requests_by_status ?? []
+        const outcomesByKind = d?.outcomes_by_kind ?? []
         return (
           <div className="flex flex-col gap-6">
             <div className="panel grid grid-cols-2 gap-2 p-3 md:grid-cols-3 xl:grid-cols-6">
-              <Stat label="Requests" value={d.requests} /><Stat label="Active mentorships" value={d.active_pairs} />
-              <Stat label="Ended mentorships" value={d.mentorships_closed} /><Stat label="Meetings held" value={d.meetings_held} />
-              <Stat label="Outcomes recorded" value={d.outcomes} /><Stat label="Open alerts" value={d.alerts_open} to="/admin/monitoring" attention={d.alerts_open > 0} />
+              <Stat label="Requests" value={d?.requests ?? 0} /><Stat label="Active mentorships" value={d?.active_pairs ?? 0} />
+              <Stat label="Ended mentorships" value={d?.mentorships_closed ?? 0} /><Stat label="Meetings held" value={d?.meetings_held ?? 0} />
+              <Stat label="Outcomes recorded" value={d?.outcomes ?? 0} /><Stat label="Open alerts" value={d?.alerts_open ?? 0} to="/admin/monitoring" attention={(d?.alerts_open ?? 0) > 0} />
             </div>
             <Card title="The last six months">
-              <MonthlyActivity requests={d.monthly_requests} mentorships={d.monthly_mentorships} meetings={d.monthly_meetings} />
+              <MonthlyActivity requests={monthlyRequests} mentorships={monthlyMentorships} meetings={monthlyMeetings} />
               <DataTable columns={[{ key: 'month', label: 'Month' }, { key: 'r', label: 'Requests' }, { key: 'm', label: 'Mentorships' }, { key: 'x', label: 'Meetings' }]}
-                rows={d.monthly_requests.map((r, i) => ({ month: r.month, r: r.count, m: d.monthly_mentorships[i]?.count ?? 0, x: d.monthly_meetings[i]?.count ?? 0 }))} />
+                rows={monthlyRequests.map((r, i) => ({ month: r.month, r: r.count, m: monthlyMentorships[i]?.count ?? 0, x: monthlyMeetings[i]?.count ?? 0 }))} />
             </Card>
             <div className="grid gap-6 lg:grid-cols-2">
-              <Card title="What students ask for"><CategoryBars data={d.domain_demand.map((x) => ({ name: x.domain, value: x.count }))} label="Requests" /></Card>
-              <Card title="Career pathways"><CategoryBars data={d.pathway_demand.map((x) => ({ name: PATHWAY[x.pathway], value: x.count }))} label="Requests" /></Card>
-              <Card title="Where requests stand"><CategoryBars data={d.requests_by_status.map((x) => ({ name: humanize(x.status), value: x.count }))} label="Requests" /></Card>
-              <Card title="Outcomes achieved"><CategoryBars data={d.outcomes_by_kind.map((x) => ({ name: OUTCOME[x.kind], value: x.count }))} label="Outcomes" /></Card>
+              <Card title="What students ask for"><CategoryBars data={domainDemand.map((x) => ({ name: x.domain, value: x.count }))} label="Requests" /></Card>
+              <Card title="Career pathways"><CategoryBars data={pathwayDemand.map((x) => ({ name: PATHWAY[x.pathway] ?? x.pathway, value: x.count }))} label="Requests" /></Card>
+              <Card title="Where requests stand"><CategoryBars data={requestsByStatus.map((x) => ({ name: humanize(x.status), value: x.count }))} label="Requests" /></Card>
+              <Card title="Outcomes achieved"><CategoryBars data={outcomesByKind.map((x) => ({ name: OUTCOME[x.kind] ?? x.kind, value: x.count }))} label="Outcomes" /></Card>
             </div>
           </div>
         )
@@ -254,15 +261,16 @@ export function AuditLogPage() {
   const [action, setAction] = useState('')
   const [viewing, setViewing] = useState<AuditEvent | null>(null)
   const audit = useAudit({ page, action })
+  const auditList = audit.data?.results ?? []
   return (
     <>
       <PageHeader title="Audit log" subtitle="Every approval and status change, newest first. Records are permanent and hold no conversation content."
         actions={<input className="input w-64" placeholder="Filter by action, e.g. MATCH_APPROVED" value={action} onChange={(e) => { setAction(e.target.value.toUpperCase()); setPage(1) }} aria-label="Filter by action" />} />
       <Card>
-        {audit.isPending ? <Loading /> : audit.isError ? <ErrorAlert error={audit.error} /> : audit.data.results.length === 0 ? <EmptyState title="No events match" /> : (
+        {audit.isPending ? <Loading /> : audit.isError ? <ErrorAlert error={audit.error} /> : auditList.length === 0 ? <EmptyState title="No events match" /> : (
           <>
             <ul className="rows">
-              {audit.data.results.map((e) => (
+              {auditList.map((e) => (
                 <li key={e.id}>
                   <RowButton onClick={() => setViewing(e)}>
                     <span className="text-base-content/55 w-32 shrink-0 text-sm">{formatDateTime(e.at)}</span>
@@ -271,7 +279,7 @@ export function AuditLogPage() {
                 </li>
               ))}
             </ul>
-            <Pager page={page} count={audit.data.count} onChange={setPage} />
+            <Pager page={page} count={audit.data?.count ?? 0} onChange={setPage} />
           </>
         )}
       </Card>
@@ -327,9 +335,9 @@ export function KnowledgePage() {
       <PageHeader title="Assistant knowledge" subtitle="What the Ask Sangam assistant can draw on. Chat messages themselves are never stored."
         actions={<button className="btn btn-primary" onClick={() => setEditing({ open: true, article: null })}><Plus size={17} />New article</button>} />
       <Card>
-        {articles.isPending ? <Loading /> : articles.isError ? <ErrorAlert error={articles.error} /> : articles.data.results.length === 0 ? <EmptyState title="No articles yet" description="Write the first piece of guidance students and mentors can ask about." /> : (
+        {articles.isPending ? <Loading /> : articles.isError ? <ErrorAlert error={articles.error} /> : (articles.data?.results ?? []).length === 0 ? <EmptyState title="No articles yet" description="Write the first piece of guidance students and mentors can ask about." /> : (
           <ul className="rows">
-            {articles.data.results.map((a) => (
+            {(articles.data?.results ?? []).map((a) => (
               <li key={a.id}>
                 <RowButton onClick={() => setEditing({ open: true, article: a })}>
                   <span className="min-w-0 flex-1"><span className="block font-medium">{a.title}</span><span className="text-base-content/60 block truncate text-sm">{a.content}</span></span>

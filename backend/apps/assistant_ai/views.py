@@ -150,15 +150,60 @@ def meeting_summary_confirm(request, pk, mid):
 @api_view(['GET'])
 @permission_classes([IsIIC])
 def insights(request):
-    from apps.mentoring.models import Alert, Outcome
+    from apps.mentoring.models import Alert, Outcome, Mentorship, Meeting, AvailabilityCheck
+    from apps.accounts.models import StudentProfile, MentorProfile
+    from django.db.models import Count
+    from django.utils import timezone
+
+    today = timezone.localdate()
+    months = []
+    for offset in range(5, -1, -1):
+        y = today.year
+        m = today.month - offset
+        while m <= 0:
+            m += 12
+            y -= 1
+        months.append(f'{y:04d}-{m:02d}')
+
+    def series(qs, date_field):
+        counts = {}
+        for obj in qs:
+            dt = getattr(obj, date_field)
+            if dt:
+                month_str = dt.strftime('%Y-%m')
+                counts[month_str] = counts.get(month_str, 0) + 1
+        return [{'month': m, 'count': counts.get(m, 0)} for m in months]
+
     p = services.participation_metrics()
-    # keep Milestone-2 keys for the existing dashboard
-    legacy = {'requests': p['total_requests'], 'waiting': MentoringRequest.objects.filter(status='WAITING').count(),
-              'active_pairs': p['active_mentorships'], 'meetings_held': p['meetings_held'], 'outcomes': Outcome.objects.count(),
-              'alerts_open': Alert.objects.filter(resolved_at__isnull=True).count(), 'domain_demand': p['popular_domains']}
     at_risk = services.at_risk_mentorships('MEDIUM')
-    return Response(dict(legacy, participation=p, effectiveness=services.effectiveness_metrics(),
-                         at_risk_count=len(at_risk), aggregate_only=True))
+
+    data = {
+        'requests': p['total_requests'],
+        'waiting': MentoringRequest.objects.filter(status='WAITING').count(),
+        'active_pairs': p['active_mentorships'],
+        'mentorships_closed': Mentorship.objects.filter(status='CLOSED').count(),
+        'meetings_held': p['meetings_held'],
+        'outcomes': Outcome.objects.count(),
+        'alerts_open': Alert.objects.filter(resolved_at__isnull=True).count(),
+        'students_pending': StudentProfile.objects.filter(approval_status='PENDING').count(),
+        'mentors_unverified': MentorProfile.objects.filter(is_verified=False).count(),
+        'mentors_verified': MentorProfile.objects.filter(is_verified=True).count(),
+        'checks_pending': AvailabilityCheck.objects.filter(status='PENDING', expires_at__gt=timezone.now()).count(),
+        'matches_awaiting_approval': AvailabilityCheck.objects.filter(status='CONFIRMED', expires_at__gt=timezone.now()).count(),
+        'domain_demand': list(MentoringRequest.objects.values('domain').annotate(count=Count('id')).order_by('-count')),
+        'pathway_demand': list(MentoringRequest.objects.values('pathway').annotate(count=Count('id')).order_by('-count')),
+        'requests_by_status': list(MentoringRequest.objects.values('status').annotate(count=Count('id')).order_by('-count')),
+        'outcomes_by_kind': list(Outcome.objects.values('kind').annotate(count=Count('id')).order_by('-count')),
+        'closure_types': list(Mentorship.objects.filter(status='CLOSED').values('closing_reason').annotate(count=Count('id'))),
+        'monthly_requests': series(MentoringRequest.objects.all(), 'submitted_at'),
+        'monthly_mentorships': series(Mentorship.objects.all(), 'started_at'),
+        'monthly_meetings': series(Meeting.objects.all(), 'session_date'),
+        'participation': p,
+        'effectiveness': services.effectiveness_metrics(),
+        'at_risk_count': len(at_risk),
+        'aggregate_only': True
+    }
+    return Response(data)
 
 
 @api_view(['GET'])
