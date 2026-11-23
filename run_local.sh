@@ -23,11 +23,12 @@ if ! command -v python3 >/dev/null 2>&1; then
     fi
 fi
 
-if [ ! -d ".venv" ]; then
+if [ ! -f ".venv/bin/activate" ]; then
     echo "Creating Python virtual environment (.venv)..."
+    rm -rf .venv
     $PYTHON_BIN -m venv .venv
     source .venv/bin/activate
-    echo "Installing backend dependencies..."
+    echo "Installing backend dependencies (this may take a minute on first run)..."
     pip install -q --upgrade pip
     pip install -q -r requirements.txt
 else
