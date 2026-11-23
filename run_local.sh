@@ -49,16 +49,8 @@ fi
 echo "Checking local database..."
 python manage.py migrate --no-input >/dev/null 2>&1 || python manage.py migrate
 
-python -c "
-import os, django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
-django.setup()
-from apps.accounts.models import User
-if not User.objects.filter(email='hemant@ds.study.iitm.ac.in').exists():
-    from django.core.management import call_command
-    print('Seeding demo database with 15 test accounts...')
-    call_command('seed_sangam_demo')
-" 2>/dev/null || true
+echo "Seeding demo accounts and mock data..."
+python manage.py seed_sangam_demo
 
 # 2. Frontend Environment Setup
 cd "$FRONTEND_DIR"

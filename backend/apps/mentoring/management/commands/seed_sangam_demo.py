@@ -17,8 +17,19 @@ from apps.assistant_ai.models import KnowledgeArticle
 from apps.mentoring import services
 from apps.mentoring.models import (
     MentoringRequest, AvailabilityCheck, Mentorship, Goal, Meeting,
-    Feedback, Outcome, AuditLog, MeetingCalendarEvent
+    Feedback, Outcome, AuditLog
 )
+
+def create_request(student, data):
+    d = dict(data)
+    preferred = d.pop('preferred_mentor', None)
+    return MentoringRequest.objects.create(student=student, preferred_mentor=preferred, **d)
+
+def transition_request(request_id, actor, to_status, note=''):
+    req = MentoringRequest.objects.get(pk=request_id)
+    req.status = to_status
+    req.save()
+    services.log(actor, f'REQUEST_{to_status}', req, {'note': note})
 
 PASSWORD = 'SangamDemo!2026'
 
@@ -75,64 +86,62 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # 1. Admin account
-        iic, created = User.objects.get_or_create(
+        iic, _ = User.objects.get_or_create(
             email='iic.admin@iitm.ac.in',
             defaults={'role': 'ADMIN', 'is_staff': True, 'is_superuser': True, 'first_name': 'IIC', 'last_name': 'Admin'}
         )
-        if created:
-            iic.set_password(PASSWORD)
-            iic.save()
+        iic.set_password(PASSWORD)
+        iic.save()
 
         # 2. Alumni Mentors (8 mentors)
         mentors_dict = {}
         for email, first, last, domain, specialty, role, company, path, years, skills, linkedin in MENTORS:
-            user, created = User.objects.get_or_create(
+            user, _ = User.objects.get_or_create(
                 email=email,
                 defaults={'role': 'MENTOR', 'first_name': first, 'last_name': last}
             )
-            if created:
-                user.set_password(PASSWORD)
-                user.save()
-                MentorProfile.objects.create(
-                    user=user,
-                    alumni_roll_number=f'AL{user.pk:04d}',
-                    graduation_year=2020 + (user.pk % 4),
-                    domain=domain,
-                    specialty=specialty,
-                    current_role=role,
-                    company=company,
-                    career_path=path,
-                    experience_years=years,
-                    skills=skills,
-                    linkedin_url=linkedin,
-                    is_verified=True,
-                    is_available=True,
-                    is_discoverable=True,
-                    verified_by=iic,
-                    verified_at=timezone.now()
-                )
+            user.set_password(PASSWORD)
+            user.save()
+            MentorProfile.objects.get_or_create(
+                user=user,
+                defaults={
+                    'alumni_roll_number': f'AL{user.pk:04d}',
+                    'graduation_year': 2020 + (user.pk % 4),
+                    'domain': domain,
+                    'specialty': specialty,
+                    'current_role': role,
+                    'company': company,
+                    'career_path': path,
+                    'experience_years': years,
+                    'skills': skills,
+                    'is_verified': True,
+                    'is_available': True,
+                    'is_discoverable': True,
+                }
+            )
             mentors_dict[email] = user
 
         # 3. Students (6 students)
         students_dict = {}
         for email, first, last, roll, level, cgpa, courses, status in STUDENTS:
-            user, created = User.objects.get_or_create(
+            user, _ = User.objects.get_or_create(
                 email=email,
                 defaults={'role': 'STUDENT', 'first_name': first, 'last_name': last}
             )
-            if created:
-                user.set_password(PASSWORD)
-                user.save()
-                StudentProfile.objects.create(
-                    user=user,
-                    iitm_roll_number=roll,
-                    level=level,
-                    courses=courses,
-                    cgpa=cgpa,
-                    approval_status=status,
-                    approved_by=iic if status == 'APPROVED' else None,
-                    approved_at=timezone.now() if status == 'APPROVED' else None
-                )
+            user.set_password(PASSWORD)
+            user.save()
+            StudentProfile.objects.get_or_create(
+                user=user,
+                defaults={
+                    'iitm_roll_number': roll,
+                    'level': level,
+                    'courses': courses,
+                    'cgpa': cgpa,
+                    'approval_status': status,
+                    'approved_by': iic if status == 'APPROVED' else None,
+                    'approved_at': timezone.now() if status == 'APPROVED' else None
+                }
+            )
             students_dict[email] = user
 
         # 4. Mentoring Requests & Active Mentorships
@@ -140,7 +149,7 @@ class Command(BaseCommand):
         hemant = students_dict['hemant@ds.study.iitm.ac.in']
         arjun = mentors_dict['arjun.k@alumni.example.org']
         if not MentoringRequest.objects.filter(student=hemant).exists():
-            req_h = services.create_request(student=hemant, data={
+            req_h = create_request(student=hemant, data={
                 'pathway': 'JOB',
                 'domain': 'Data & ML',
                 'background': 'Degree student, completed MLF, MLT, and DL.',
@@ -172,40 +181,29 @@ class Command(BaseCommand):
             })
 
             # Sessions for Hemant + Arjun
-            m1 = Meeting.objects.create(
+            Meeting.objects.create(
                 mentorship=pair_h,
                 session_date=date(2026, 10, 17),
                 duration_minutes=45,
                 status=Meeting.Status.HELD,
                 logged_by=arjun,
-                mentor_confirmed=True,
-                title='Orientation & Pathway Alignment'
+                mentor_confirmed=True
             )
-            m2 = Meeting.objects.create(
+            Meeting.objects.create(
                 mentorship=pair_h,
                 session_date=date(2026, 10, 24),
                 duration_minutes=60,
                 status=Meeting.Status.HELD,
                 logged_by=arjun,
-                mentor_confirmed=True,
-                title='Portfolio Audit & System Design'
+                mentor_confirmed=True
             )
-            # Scheduled upcoming meeting
-            m3 = Meeting.objects.create(
+            Meeting.objects.create(
                 mentorship=pair_h,
                 session_date=date(2026, 11, 12),
                 duration_minutes=60,
-                status=Meeting.Status.SCHEDULED,
+                status=Meeting.Status.HELD,
                 logged_by=arjun,
-                title='Session 3: Live Mock Technical Interview'
-            )
-            MeetingCalendarEvent.objects.create(
-                meeting=m3,
-                calendar_owner=arjun,
-                event_id='event_sangam_003',
-                html_link='https://calendar.google.com/event?eid=sangam03',
-                meet_link='https://meet.google.com/sangam-session-03',
-                sync_status=MeetingCalendarEvent.SyncStatus.SYNCED
+                mentor_confirmed=True
             )
 
             # Rating / Feedback
@@ -220,7 +218,7 @@ class Command(BaseCommand):
         asha = students_dict['asha@ds.study.iitm.ac.in']
         priya = mentors_dict['priya.n@alumni.example.org']
         if not MentoringRequest.objects.filter(student=asha).exists():
-            req_a = services.create_request(student=asha, data={
+            req_a = create_request(student=asha, data={
                 'pathway': 'JOB',
                 'domain': 'Software',
                 'background': 'Degree student, strong DSA and Java foundation.',
@@ -246,7 +244,7 @@ class Command(BaseCommand):
         # Request 3: Rahul Mehta (SUBMITTED)
         rahul = students_dict['rahul@ds.study.iitm.ac.in']
         if not MentoringRequest.objects.filter(student=rahul).exists():
-            services.create_request(student=rahul, data={
+            create_request(student=rahul, data={
                 'pathway': 'HIGHER_STUDIES',
                 'domain': 'Higher Studies',
                 'background': 'Interested in MS Informatics in Germany.',
@@ -258,7 +256,7 @@ class Command(BaseCommand):
         # Request 4: Sneha Reddy (UNDER_REVIEW)
         sneha = students_dict['sneha@ds.study.iitm.ac.in']
         if not MentoringRequest.objects.filter(student=sneha).exists():
-            req_s = services.create_request(student=sneha, data={
+            req_s = create_request(student=sneha, data={
                 'pathway': 'HIGHER_STUDIES',
                 'domain': 'Data & ML',
                 'background': 'High CGPA student focusing on pre-doctoral AI research.',
@@ -266,12 +264,12 @@ class Command(BaseCommand):
                 'problem_statement': 'Seeking guidance on preparing pre-doctoral research applications in AI, specifically on '
                                      'how to frame research publications and write outreach emails to faculty.'
             })
-            services.transition_request(request_id=req_s.pk, actor=iic, to_status=MentoringRequest.Status.UNDER_REVIEW, note='IIC reviewing candidate profile')
+            transition_request(request_id=req_s.pk, actor=iic, to_status=MentoringRequest.Status.UNDER_REVIEW, note='IIC reviewing candidate profile')
 
         # Request 5: Aditya Nair (AWAITING_MENTOR / Availability Sent)
         aditya = students_dict['aditya@ds.study.iitm.ac.in']
         if not MentoringRequest.objects.filter(student=aditya).exists():
-            req_ad = services.create_request(student=aditya, data={
+            req_ad = create_request(student=aditya, data={
                 'pathway': 'JOB',
                 'domain': 'Analytics',
                 'background': 'Diploma student looking for Business Analyst entry roles.',
