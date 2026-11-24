@@ -1,0 +1,85 @@
+Command: C:\Users\payal\AppData\Local\Programs\Python\Python312\python.exe -m pytest -c pytest.ini test_api.py --junitxml=results.xml
+
+============================= test session starts =============================
+platform win32 -- Python 3.12.4, pytest-8.3.5, pluggy-1.5.0 -- C:\Users\payal\AppData\Local\Programs\Python\Python312\python.exe
+cachedir: .pytest_cache
+django: version: 6.1.3, settings: config.settings (from ini)
+rootdir: C:\Users\payal\OneDrive\Desktop\SE Project 23Nov\SE-SEP2026-Team-027\backend\reports\deadline_1
+configfile: pytest.ini
+plugins: anyio-4.7.0, django-4.14.0
+collecting ... collected 20 items
+
+test_api.py::AccountsAPITests::test_activation_weak_password_returns_validation_error_not_server_error FAILED [  5%]
+test_api.py::AccountsAPITests::test_admin_creates_unverified_mentor_with_unusable_password PASSED [ 10%]
+test_api.py::AccountsAPITests::test_admin_mentor_list_filters PASSED     [ 15%]
+test_api.py::AccountsAPITests::test_admin_routes_reject_student PASSED   [ 20%]
+test_api.py::AccountsAPITests::test_admin_student_list_search_and_status_filter PASSED [ 25%]
+test_api.py::AccountsAPITests::test_approval_rejects_incomplete_academic_records PASSED [ 30%]
+test_api.py::AccountsAPITests::test_approved_student_records_are_locked PASSED [ 35%]
+test_api.py::AccountsAPITests::test_jwt_login_authenticated_me_and_refresh PASSED [ 40%]
+test_api.py::AccountsAPITests::test_login_rejects_wrong_password PASSED  [ 45%]
+test_api.py::AccountsAPITests::test_mentor_verification_requires_alumni_records PASSED [ 50%]
+test_api.py::AccountsAPITests::test_nonstudent_cannot_access_student_profile PASSED [ 55%]
+test_api.py::AccountsAPITests::test_protected_routes_reject_anonymous_requests PASSED [ 60%]
+test_api.py::AccountsAPITests::test_registration_creates_pending_student_and_hashes_password PASSED [ 65%]
+test_api.py::AccountsAPITests::test_registration_rejects_duplicate_email_case_insensitively PASSED [ 70%]
+test_api.py::AccountsAPITests::test_registration_rejects_invalid_inputs_without_creating_users PASSED [ 75%]
+test_api.py::AccountsAPITests::test_rejected_student_edit_resets_review PASSED [ 80%]
+test_api.py::AccountsAPITests::test_student_approval_persists_audit_and_notification PASSED [ 85%]
+test_api.py::AccountsAPITests::test_student_reads_and_edits_own_profile PASSED [ 90%]
+test_api.py::AccountsAPITests::test_student_rejection_records_reason PASSED [ 95%]
+test_api.py::AccountsAPITests::test_student_review_rejects_missing_verification_or_reason PASSED [100%]
+
+================================== FAILURES ===================================
+_ AccountsAPITests.test_activation_weak_password_returns_validation_error_not_server_error _
+test_api.py:218: in test_activation_weak_password_returns_validation_error_not_server_error
+    self.assertEqual(response.status_code, 400, 'Weak passwords must return HTTP 400, not an unhandled server error')
+E   AssertionError: 500 != 400 : Weak passwords must return HTTP 400, not an unhandled server error
+---------------------------- Captured stderr setup ----------------------------
+Creating test database for alias 'default'...
+
+------------------------------ Captured log call ------------------------------
+ERROR    django.request:log.py:283 Internal Server Error: /api/v1/auth/mentor/activate/
+Traceback (most recent call last):
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\exception.py", line 56, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\core\handlers\base.py", line 199, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\views\decorators\csrf.py", line 64, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\rest_framework\views.py", line 526, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\rest_framework\views.py", line 474, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\rest_framework\views.py", line 485, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\rest_framework\views.py", line 523, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\rest_framework\decorators.py", line 50, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\payal\OneDrive\Desktop\SE Project 23Nov\SE-SEP2026-Team-027\backend\apps\accounts\views_api.py", line 146, in activate_mentor
+    validate_password(pwd,user=u)
+  File "C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\site-packages\django\contrib\auth\password_validation.py", line 57, in validate_password
+    raise ValidationError(errors)
+django.core.exceptions.ValidationError: ['This password is too short. It must contain at least 8 characters.', 'This password is too common.', 'This password is entirely numeric.']
+============================== warnings summary ===============================
+test_api.py::AccountsAPITests::test_activation_weak_password_returns_validation_error_not_server_error
+  C:\Users\payal\AppData\Local\Programs\Python\Python312\Lib\unittest\case.py:116: RemovedInDjango2028Warning: The EMAIL_BACKEND setting is deprecated. Migrate to MAILERS before Django 2028.
+    result = enter(cm)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\payal\OneDrive\Desktop\SE Project 23Nov\SE-SEP2026-Team-027\backend\reports\deadline_1\results.xml -
+=========================== short test summary info ===========================
+FAILED test_api.py::AccountsAPITests::test_activation_weak_password_returns_validation_error_not_server_error
+=================== 1 failed, 19 passed, 1 warning in 2.24s ===================
+
+Process exit code: 1

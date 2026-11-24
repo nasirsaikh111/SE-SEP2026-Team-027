@@ -1,0 +1,202 @@
+[
+  {
+    "local_id": "D1-01",
+    "original_id": "TC-01",
+    "name": "test_registration_creates_pending_student_and_hashes_password",
+    "title": "Register a valid student",
+    "inputs": "POST auth/register/; valid IITM subdomain email, Degree level, courses, CGPA and strong password.",
+    "expected": "HTTP 201; STUDENT account with PENDING profile; password verifies; response omits password.",
+    "actual": "HTTP 201; stored role and pending state matched; password check passed; no password in response.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-02",
+    "original_id": "TC-02",
+    "name": "test_registration_rejects_invalid_inputs_without_creating_users",
+    "title": "Reject invalid registration",
+    "inputs": "POST auth/register/; separately test external email, DIPLOMA, empty courses, CGPA 10.01 and weak password.",
+    "expected": "HTTP 400 for all 5 inputs; field-specific error; user count unchanged.",
+    "actual": "All 5 subcases returned 400 with the relevant error field; no users created.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-03",
+    "original_id": "TC-03",
+    "name": "test_registration_rejects_duplicate_email_case_insensitively",
+    "title": "Reject duplicate email",
+    "inputs": "POST auth/register/ with an existing student email in uppercase.",
+    "expected": "HTTP 400.",
+    "actual": "HTTP 400; duplicate rejected.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-04",
+    "original_id": "TC-04",
+    "name": "test_jwt_login_authenticated_me_and_refresh",
+    "title": "JWT login, identity and refresh",
+    "inputs": "POST auth/token/ with valid credentials; GET auth/me/ with Bearer token; POST auth/token/refresh/.",
+    "expected": "HTTP 200 at each step; identity matches student; password omitted; refreshed access token present.",
+    "actual": "All three requests returned 200; identity matched; no password field; refreshed access token present.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-05",
+    "original_id": "TC-05",
+    "name": "test_login_rejects_wrong_password",
+    "title": "Reject wrong login password",
+    "inputs": "POST auth/token/ with known email and wrong password.",
+    "expected": "HTTP 401.",
+    "actual": "HTTP 401.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-06",
+    "original_id": "TC-06",
+    "name": "test_protected_routes_reject_anonymous_requests",
+    "title": "Require authentication",
+    "inputs": "Anonymous requests to 14 protected identity, student, admin, mentor and directory routes.",
+    "expected": "HTTP 403 for every route under the configured authentication order.",
+    "actual": "All 14 route checks returned 403.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-07",
+    "original_id": "TC-07",
+    "name": "test_admin_routes_reject_student",
+    "title": "Deny students admin access",
+    "inputs": "Student calls 7 admin operations: list/review students; create/verify/invite/update/import mentors.",
+    "expected": "HTTP 403 for all 7 operations.",
+    "actual": "All 7 operations returned 403.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-08",
+    "original_id": "TC-08",
+    "name": "test_student_reads_and_edits_own_profile",
+    "title": "Read and update own student profile",
+    "inputs": "GET students/me/; PATCH courses to [Databases] as the student.",
+    "expected": "Both HTTP 200; courses persisted as [Databases].",
+    "actual": "Both requests returned 200; database courses matched [Databases].",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-09",
+    "original_id": "TC-09",
+    "name": "test_approved_student_records_are_locked",
+    "title": "Lock approved academic records",
+    "inputs": "Set profile APPROVED; PATCH students/me/ with CGPA 9.00.",
+    "expected": "HTTP 403; stored CGPA stays 8.50.",
+    "actual": "HTTP 403; database CGPA remained 8.50.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-10",
+    "original_id": "TC-10",
+    "name": "test_rejected_student_edit_resets_review",
+    "title": "Resubmit a rejected profile",
+    "inputs": "Set profile REJECTED with a reason; PATCH courses as the student.",
+    "expected": "HTTP 200; approval resets to PENDING; reason cleared; approved_by is null.",
+    "actual": "HTTP 200; PENDING status, empty reason and null approved_by confirmed.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-11",
+    "original_id": "TC-11",
+    "name": "test_nonstudent_cannot_access_student_profile",
+    "title": "Reject nonstudent profile access",
+    "inputs": "Mentor sends GET students/me/.",
+    "expected": "HTTP 403.",
+    "actual": "HTTP 403.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-12",
+    "original_id": "TC-12",
+    "name": "test_admin_student_list_search_and_status_filter",
+    "title": "Filter admin student list",
+    "inputs": "GET admin/students/?search=23F100001, then ?status=APPROVED as admin.",
+    "expected": "Search HTTP 200 and first result identifies fixture student; APPROVED result count is 0.",
+    "actual": "Search returned 200 and correct user ID; approved filter count was 0.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-13",
+    "original_id": "TC-13",
+    "name": "test_student_approval_persists_audit_and_notification",
+    "title": "Approve student with audit trail",
+    "inputs": "POST admin/students/{student_id}/review/ with APPROVED and academic_verified=true.",
+    "expected": "HTTP 200; APPROVED stored; reviewer and timestamp set; audit and notification created.",
+    "actual": "HTTP 200; all approval fields, audit entry and student notification confirmed.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-14",
+    "original_id": "TC-14",
+    "name": "test_student_review_rejects_missing_verification_or_reason",
+    "title": "Reject invalid review requests",
+    "inputs": "Review with approval lacking verification, rejection lacking reason, or INVALID decision.",
+    "expected": "All 3 return HTTP 400; student remains PENDING; no audit rows.",
+    "actual": "All 3 returned 400; status remained PENDING; audit table stayed empty.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-15",
+    "original_id": "TC-15",
+    "name": "test_approval_rejects_incomplete_academic_records",
+    "title": "Reject incomplete academic approval",
+    "inputs": "Clear student CGPA; submit APPROVED with academic_verified=true.",
+    "expected": "HTTP 400.",
+    "actual": "HTTP 400.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-16",
+    "original_id": "TC-16",
+    "name": "test_student_rejection_records_reason",
+    "title": "Record rejection reason",
+    "inputs": "Review with REJECTED and reason: Records do not match.",
+    "expected": "HTTP 200; REJECTED status and supplied reason persisted.",
+    "actual": "HTTP 200; database status and reason matched.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-17",
+    "original_id": "TC-17",
+    "name": "test_admin_creates_unverified_mentor_with_unusable_password",
+    "title": "Create mentor and reject duplicate",
+    "inputs": "Admin POST admin/mentors/ with valid mentor details, then repeat payload.",
+    "expected": "First HTTP 201; MENTOR role, unusable password, unverified profile and audit; repeat HTTP 400.",
+    "actual": "201 then 400; role, password state, verification state and audit assertions passed.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-18",
+    "original_id": "TC-18",
+    "name": "test_admin_mentor_list_filters",
+    "title": "Filter admin mentor list",
+    "inputs": "GET admin/mentors/?verified=true&search=Backend, then ?verified=false.",
+    "expected": "First HTTP 200 with count 1; unverified count 0.",
+    "actual": "First request returned 200/count 1; unverified count was 0.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-19",
+    "original_id": "TC-19",
+    "name": "test_mentor_verification_requires_alumni_records",
+    "title": "Require alumni records to verify mentor",
+    "inputs": "Admin verifies mentor with no graduation year; restore year 2023 and retry.",
+    "expected": "HTTP 400 then 200; verified state saved and MENTOR_VERIFIED audit exists.",
+    "actual": "400 then 200; saved verification and audit confirmed.",
+    "result": "PASS"
+  },
+  {
+    "local_id": "D1-20",
+    "original_id": "TC-25",
+    "name": "test_activation_weak_password_returns_validation_error_not_server_error",
+    "title": "Reject weak activation password safely",
+    "inputs": "Obtain valid invitation; POST auth/mentor/activate/ with password 123.",
+    "expected": "HTTP 400 validation response; mentor password remains unusable.",
+    "actual": "HTTP 500, not 400. Test failed at status assertion; subsequent stored-password assertion was not reached.",
+    "result": "FAIL"
+  }
+]
