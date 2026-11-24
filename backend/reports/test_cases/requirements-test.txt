@@ -1,0 +1,3 @@
+pytest>=7
+pytest-django>=4
+# Install backend/requirements.txt as well.
