@@ -1,19 +1,27 @@
 openapi: 3.0.3
 info:
   title: Sangam API (Milestone 3, Sprint 1)
-  version: 1.2.0
+  version: 1.3.0
   description: |
     REST API of **Sangam**, the IITM BS student mentoring and career support platform (Team 027).
-    Django REST Framework backend; all paths are under `/api/v1`. Every endpoint needs a JWT bearer token unless marked otherwise.
+    Django REST Framework backend; all paths are under `/api/v1`. 79 operations. Every endpoint needs a JWT bearer token
+    (`Authorization: Bearer <access>`) unless marked otherwise.
 
-    **Roles:** STUDENT (primary user), MENTOR (alumni volunteer, secondary), ADMIN (IIC / Placement Cell, tertiary).
+    **Roles:** STUDENT (primary user; Degree level), MENTOR (alumni volunteer, secondary), ADMIN (IIC / Placement Cell, tertiary).
     **Key rules (from the IIC requirements meeting):** the IIC keeps the mentor repository and approves every student and every
-    match; the system only suggests mentors; one mentor per student and one mentee per mentor; written feedback only (no ratings);
-    meetings are logged by date and length, never content; contact details are shared only after the IIC approves the match.
+    match; students may browse a read-only directory and name one preferred mentor, but the system and the student only
+    suggest; one mentor per student and one mentee per mentor; written feedback only (no ratings); meetings are logged by
+    date and length, never content; contact details are shared only after the IIC approves the match.
 
-    **Error format:** validation errors return 400 with a field → messages map (or a list of messages); wrong role returns 403;
-    a missing or invalid token returns 401; unknown ids return 404. AI endpoints return 422 with `detail` and `field` for
-    semantically invalid values, and 429 when rate-limited.
+    **Lists:** most list endpoints return `{count, next, previous, results}`.
+
+    **Errors:** 400 validation error with a field → messages map (or a list of messages); 403 when not logged in **or** for
+    the wrong role (missing or invalid tokens return 403, not 401, because SessionAuthentication is listed first in settings);
+    401 only for a wrong password at /auth/token/; 404 unknown id; 405 unsupported method; 422 invalid AI parameter
+    (`detail`, `field`); 429 rate limit; 503 AI provider timeout.
+
+    **Known issues** found by testing and code review are noted in the affected operations ("Known issue (Sprint 2)") and listed in the
+    Milestone 3 report.
 
     **User-story mapping.** Each operation lists its stories in `x-user-stories` and at the end of its description.
     Numbers are the user stories of the Milestone 1 report; NEW-n are stories added after the IIC meeting.
@@ -21,17 +29,19 @@ info:
     | ID | User story |
     |---|---|
     | 1.1 | Record mentoring need |
-    | 1.3 | Submit a mentoring request (revised: one open request; IIC selects the mentor) |
-    | 1.4 | Track request status and notifications |
+    | 1.2 | Browse the mentor directory (read-only; the IIC still selects and approves) |
+    | 1.3 | Submit a mentoring request with an optional preferred mentor (one open request) |
+    | 1.4 | Track request status, dashboard and notifications |
+    | 2.1 | Mentor keeps own professional details up to date (verification stays with the IIC) |
     | 2.2 | Mentor availability and capacity |
     | 2.3 | Mentor reviews the need before confirming availability |
     | 3.1 | System-suggested mentors for the IIC |
     | 3.2 | IIC checks availability and approves the match |
-    | 3.3 | IIC mentor repository and verification (revised: IIC adds mentors) |
+    | 3.3 | IIC mentor repository and verification |
     | 4.1 | Shared goals |
-    | 4.2 | Session log (date and length only) |
-    | 4.3 | Mentor sees current mentee |
-    | 5.1 | Closing feedback (revised: written, no ratings) |
+    | 4.2 | Meetings: log, schedule, confirm (date and length only) |
+    | 4.3 | Mentor and student see their current mentorship |
+    | 5.1 | Closing feedback (written, no ratings) |
     | 5.2 | Record outcomes |
     | 5.3 | Inactivity alerts |
     | 5.4 | Programme insights for the IIC |
@@ -41,9 +51,7 @@ info:
     | NEW-4 | Change-of-mentor request and reassignment |
     | NEW-5 | End a mentorship |
     | NEW-6 | Audit history and moderation |
-    | NEW-7 | Ask Sangam help assistant |
-
-    AI details (models, fallbacks, privacy) are kept from the AI/ML section written for KAN-46/KAN-57/KAN-58.
+    | NEW-7 | Ask Sangam help assistant and its help articles |
 servers:
 - url: http://127.0.0.1:8000/api/v1
 security:
@@ -65,7 +73,80 @@ tags:
 - name: Sprint 2 - Summaries
 - name: Sprint 2 - Insights
 - name: Health
+- name: Dashboard
+- name: Mentor directory
+- name: Calendar
 paths:
+  /auth/me/:
+    get:
+      tags:
+      - Auth & accounts
+      operationId: getCurrentUser
+      summary: Current user, role and (for students) approval status
+      description: |-
+        Drives role-based routing and shows the student's approval status. Only GET is supported; the frontend profile page sends PATCH /auth/me/, which returns 405.
+
+        **User stories:** NEW-1 Student registration and IIC approval; 1.4 Track request status, dashboard and notifications
+      x-user-stories:
+      - NEW-1
+      - '1.4'
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Me'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+  /auth/mentor/activate/:
+    post:
+      tags:
+      - Auth & accounts
+      operationId: activateMentor
+      summary: Mentor sets a password from the invitation link
+      x-user-stories:
+      - '3.3'
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - uid
+              - token
+              - password
+              properties:
+                uid:
+                  type: string
+                  description: Base64 user id from the link
+                token:
+                  type: string
+                password:
+                  type: string
+                  format: password
+      responses:
+        '200':
+          description: Account activated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  activated:
+                    type: boolean
+        '400':
+          description: Invalid or expired invitation, or weak password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldErrors'
+      description: |-
+        **Known issue (Sprint 2):** a weak password (e.g. "123") returns HTTP 500 instead of 400, because Django's password validator error is not converted to a DRF validation error (accounts test TC-25).
+
+        **User stories:** 3.3 IIC mentor repository and verification
   /auth/register/:
     post:
       tags:
@@ -205,28 +286,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
       description: '**User stories:** NEW-1 Student registration and IIC approval'
-  /auth/me/:
-    get:
-      tags:
-      - Auth & accounts
-      operationId: getCurrentUser
-      summary: Current user, role and (for students) approval status
-      description: |-
-        Drives role-based routing and shows the student's approval status on the home page.
-
-        **User stories:** NEW-1 Student registration and IIC approval; 1.4 Track request status and notifications
-      x-user-stories:
-      - NEW-1
-      - '1.4'
-      responses:
-        '200':
-          description: Current user
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Me'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
   /students/me/:
     get:
       tags:
@@ -242,10 +301,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudentProfile'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
-          description: Caller is not a student
+          description: Not logged in, or caller is not a student
           content:
             application/json:
               schema:
@@ -279,10 +336,8 @@ paths:
                 $ref: '#/components/schemas/StudentProfile'
         '400':
           $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
-          description: Not a student, or the profile is already approved and locked
+          description: Not logged in, or not a student, or the profile is already approved and locked
           content:
             application/json:
               schema:
@@ -306,29 +361,45 @@ paths:
           - PENDING
           - APPROVED
           - REJECTED
+          - ALL
           default: PENDING
+      - name: search
+        in: query
+        description: Name, email or IITM roll number
+        schema:
+          type: string
       responses:
         '200':
-          description: Up to 200 registrations, oldest first
+          description: Up to 200 registrations, newest first
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  allOf:
-                  - $ref: '#/components/schemas/StudentProfile'
-                  - type: object
-                    properties:
-                      id:
-                        type: integer
-                      user_id:
-                        type: integer
-                      email:
-                        type: string
-                      name:
-                        type: string
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        allOf:
+                        - $ref: '#/components/schemas/StudentProfile'
+                        - type: object
+                          properties:
+                            id:
+                              type: integer
+                            user_id:
+                              type: integer
+                            email:
+                              type: string
+                            name:
+                              type: string
+                            submitted_at:
+                              type: string
+                              format: date-time
+                            approved_at:
+                              type: string
+                              format: date-time
+                              nullable: true
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
       description: '**User stories:** NEW-1 Student registration and IIC approval'
@@ -387,8 +458,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
         '404':
@@ -408,15 +477,30 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MentorProfile'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/MentorProfile'
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
-      description: '**User stories:** 3.3 IIC mentor repository and verification (revised: IIC adds mentors); 2.2 Mentor availability
-        and capacity'
+      description: '**User stories:** 3.3 IIC mentor repository and verification; 2.2 Mentor availability and capacity'
+      parameters:
+      - name: verified
+        in: query
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+      - name: search
+        in: query
+        description: Name, email, role, company, specialty or domain
+        schema:
+          type: string
     post:
       tags:
       - IIC - mentor repository
@@ -425,7 +509,7 @@ paths:
       description: |-
         Creates the mentor with no usable password; the IIC then sends an invitation (see /admin/mentors/{id}/invite/).
 
-        **User stories:** 3.3 IIC mentor repository and verification (revised: IIC adds mentors); NEW-6 Audit history and moderation
+        **User stories:** 3.3 IIC mentor repository and verification; NEW-6 Audit history and moderation
       x-user-stories:
       - '3.3'
       - NEW-6
@@ -459,23 +543,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
-  /admin/mentors/{id}/verify/:
+  /admin/mentors/import/:
     post:
       tags:
       - IIC - mentor repository
-      operationId: verifyMentor
-      summary: IIC marks a mentor as verified against alumni records
+      operationId: importMentors
+      summary: IIC bulk-imports mentors from the alumni call (Sprint 1 placeholder)
       description: |-
-        Requires the alumni roll number and graduation year on the profile. Only verified mentors can be suggested.
+        **Sprint 1 placeholder:** returns imported 0 for any input. CSV import is planned for Sprint 2.
 
-        **User stories:** 3.3 IIC mentor repository and verification (revised: IIC adds mentors); NEW-6 Audit history and moderation
+        **User stories:** 3.3 IIC mentor repository and verification
       x-user-stories:
       - '3.3'
-      - NEW-6
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rows:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/MentorCreate'
+      responses:
+        '200':
+          description: Import summary
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: integer
+                  skipped:
+                    type: integer
+                  errors:
+                    type: array
+                    items:
+                      type: string
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+  /admin/mentors/{id}/:
+    patch:
+      tags:
+      - IIC - mentor repository
+      operationId: updateMentorByIIC
+      summary: IIC edits a mentor's repository record, including whether they are published in the directory
+      x-user-stories:
+      - '3.3'
+      - '2.2'
       parameters:
       - name: id
         in: path
@@ -483,30 +601,26 @@ paths:
         description: Mentor user id
         schema:
           type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MentorAdminUpdate'
       responses:
         '200':
-          description: Verified
+          description: Updated mentor
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  mentor_id:
-                    type: integer
-                  is_verified:
-                    type: boolean
+                $ref: '#/components/schemas/MentorProfile'
         '400':
-          description: Alumni roll number or graduation year missing
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+          $ref: '#/components/responses/BadRequest'
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
         '404':
           $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 3.3 IIC mentor repository and verification; 2.2 Mentor availability and capacity'
   /admin/mentors/{id}/invite/:
     post:
       tags:
@@ -536,516 +650,53 @@ paths:
                     type: string
                   activation_screen_required:
                     type: boolean
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
         '404':
           $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 3.3 IIC mentor repository and verification (revised: IIC adds mentors)'
-  /auth/mentor/activate/:
+      description: '**User stories:** 3.3 IIC mentor repository and verification'
+  /admin/mentors/{id}/verify/:
     post:
       tags:
-      - Auth & accounts
-      operationId: activateMentor
-      summary: Mentor sets a password from the invitation link
+      - IIC - mentor repository
+      operationId: verifyMentor
+      summary: IIC marks a mentor as verified against alumni records
+      description: |-
+        Requires the alumni roll number and graduation year on the profile. Only verified mentors can be suggested. The frontend also sends `discoverable`, which this endpoint ignores; publish with PATCH /admin/mentors/{id}/.
+
+        **User stories:** 3.3 IIC mentor repository and verification; NEW-6 Audit history and moderation
       x-user-stories:
       - '3.3'
-      security: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - uid
-              - token
-              - password
-              properties:
-                uid:
-                  type: string
-                  description: Base64 user id from the link
-                token:
-                  type: string
-                password:
-                  type: string
-                  format: password
-      responses:
-        '200':
-          description: Account activated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  activated:
-                    type: boolean
-        '400':
-          description: Invalid or expired invitation, or weak password
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldErrors'
-      description: '**User stories:** 3.3 IIC mentor repository and verification (revised: IIC adds mentors)'
-  /mentor/availability/:
-    patch:
-      tags:
-      - Mentor
-      operationId: setMentorAvailability
-      summary: Verified mentor switches between Available and Busy
-      description: |-
-        Busy mentors are never suggested for new students; a current mentee is unaffected.
-
-        **User stories:** 2.2 Mentor availability and capacity
-      x-user-stories:
-      - '2.2'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - is_available
-              properties:
-                is_available:
-                  type: boolean
-      responses:
-        '200':
-          description: New availability
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  is_available:
-                    type: boolean
-        '400':
-          description: is_available is not a boolean
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Caller is not a verified mentor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /requests/:
-    get:
-      tags:
-      - Requests
-      operationId: listRequests
-      summary: Student sees their own requests; the IIC sees the full queue
-      x-user-stories:
-      - '1.4'
-      - NEW-2
-      responses:
-        '200':
-          description: Up to 200 requests, newest first
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/MentoringRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-      description: '**User stories:** 1.4 Track request status and notifications; NEW-2 IIC request queue, waiting list and
-        prioritisation'
-    post:
-      tags:
-      - Requests
-      operationId: createRequest
-      summary: Approved student submits a mentoring request
-      description: |-
-        Pathway, domain, background and a problem statement of at least 80 characters. Only one open request
-        (SUBMITTED, UNDER_REVIEW or WAITING) is allowed, and none while the student has an active mentorship.
-
-        **User stories:** 1.1 Record mentoring need; 1.3 Submit a mentoring request (revised: one open request; IIC selects the mentor)
-      x-user-stories:
-      - '1.1'
-      - '1.3'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/MentoringRequestInput'
-            example:
-              pathway: JOB
-              domain: Data & ML
-              background: Degree level, DS diploma done
-              problem_statement: I can't decide between data analyst and ML engineer roles and don't know which projects or
-                skills to focus on in the next 3 months.
-      responses:
-        '201':
-          description: Request created with status SUBMITTED
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MentoringRequest'
-        '400':
-          description: Problem statement under 80 characters, an open request already exists, or the student already has an
-            active mentorship
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Caller is not an IIC-approved student
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /requests/{id}/withdraw/:
-    post:
-      tags:
-      - Requests
-      operationId: withdrawRequest
-      summary: Student withdraws their open request
-      description: |-
-        Pending availability checks for the request are expired.
-
-        **User stories:** 1.4 Track request status and notifications
-      x-user-stories:
-      - '1.4'
+      - NEW-6
       parameters:
-      - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        required: true
+        description: Mentor user id
+        schema:
+          type: integer
       responses:
         '200':
-          description: Withdrawn
+          description: Verified
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  id:
+                  mentor_id:
                     type: integer
-                  status:
-                    type: string
-                    enum:
-                    - WITHDRAWN
+                  is_verified:
+                    type: boolean
         '400':
-          description: Request is not open
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Caller is not an IIC-approved student
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: Request not found or not the caller's
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /admin/requests/{id}/suggestions/:
-    get:
-      tags:
-      - IIC - matching
-      operationId: getSuggestionsLegacy
-      deprecated: true
-      summary: Legacy alias of GET /requests/{id}/suggestions/
-      description: |-
-        Same engine and response as /requests/{id}/suggestions/. Kept for older frontend code; prefer the new path.
-
-        **User stories:** 3.1 System-suggested mentors for the IIC
-      x-user-stories:
-      - '3.1'
-      parameters:
-      - $ref: '#/components/parameters/RequestId'
-      - name: k
-        in: query
-        schema:
-          type: integer
-          minimum: 1
-          maximum: 20
-          default: 5
-      responses:
-        '200':
-          description: Suggestions (advisory)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SuggestionResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/ForbiddenIIC'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/Unprocessable'
-  /admin/requests/{id}/availability/:
-    post:
-      tags:
-      - IIC - matching
-      operationId: sendAvailabilityCheck
-      summary: IIC asks a suggested mentor whether they can take this student (expires in 7 days)
-      description: |-
-        The mentor must be verified, available and without an active mentee; the request must still be open and must not
-        already have an unanswered check.
-
-        **User stories:** 3.2 IIC checks availability and approves the match; 2.3 Mentor reviews the need before confirming availability
-      x-user-stories:
-      - '3.2'
-      - '2.3'
-      parameters:
-      - $ref: '#/components/parameters/RequestId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - mentor_id
-              properties:
-                mentor_id:
-                  type: integer
-      responses:
-        '201':
-          description: Availability check sent (status PENDING)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AvailabilityCheck'
-        '400':
-          description: Invalid mentor_id, mentor not verified or available, mentor already has a mentee, request not open,
-            or a check is already pending
+          description: Alumni roll number or graduation year missing
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
         '404':
           $ref: '#/components/responses/NotFound'
-  /availability/:
-    get:
-      tags:
-      - Mentor
-      operationId: listAvailabilityChecks
-      summary: Mentor's inbox of availability checks (the IIC sees all)
-      x-user-stories:
-      - '2.3'
-      responses:
-        '200':
-          description: Up to 100 checks, newest first
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AvailabilityCheck'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Caller is neither a mentor nor the IIC
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      description: '**User stories:** 2.3 Mentor reviews the need before confirming availability'
-  /availability/{id}/:
-    get:
-      tags:
-      - Mentor
-      operationId: getAvailabilityCheck
-      summary: Mentor reads the student's need before answering (identity hidden, contact details redacted)
-      x-user-stories:
-      - '2.3'
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: Availability check id
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: Check with the anonymised request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  status:
-                    type: string
-                    enum:
-                    - PENDING
-                    - CONFIRMED
-                    - DECLINED
-                    - EXPIRED
-                    - USED
-                  expires_at:
-                    type: string
-                    format: date-time
-                  request:
-                    type: object
-                    properties:
-                      id:
-                        type: integer
-                      pathway:
-                        type: string
-                      domain:
-                        type: string
-                      background:
-                        type: string
-                      problem_statement:
-                        type: string
-                  student_identity_visible:
-                    type: boolean
-                    enum:
-                    - false
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Check belongs to another mentor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 2.3 Mentor reviews the need before confirming availability'
-  /availability/{id}/respond/:
-    post:
-      tags:
-      - Mentor
-      operationId: respondToAvailabilityCheck
-      summary: Mentor confirms or declines within 7 days
-      x-user-stories:
-      - '2.3'
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: Availability check id
-        schema:
-          type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - decision
-              properties:
-                decision:
-                  type: string
-                  enum:
-                  - CONFIRMED
-                  - DECLINED
-                reason:
-                  type: string
-                  maxLength: 500
-      responses:
-        '200':
-          description: Check updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AvailabilityCheck'
-        '400':
-          description: Decision not CONFIRMED/DECLINED, check already resolved or expired, or mentor already has a mentee
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Not a verified mentor, or the check is assigned to someone else
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 2.3 Mentor reviews the need before confirming availability'
-  /admin/availability/{id}/approve/:
-    post:
-      tags:
-      - IIC - matching
-      operationId: approveMatch
-      summary: IIC approves the match after the mentor confirms; creates the mentorship and shares contacts
-      description: |-
-        The only way a mentorship is created. Requires a current, CONFIRMED availability check, an open request, an
-        approved student and a free, verified mentor (one-to-one). Both sides are notified.
-
-        **User stories:** 3.2 IIC checks availability and approves the match
-      x-user-stories:
-      - '3.2'
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: Confirmed availability check id
-        schema:
-          type: integer
-      responses:
-        '201':
-          description: Mentorship created (status ACTIVE)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Mentorship'
-        '400':
-          description: Check not confirmed or expired, request not open, student not approved, mentor unavailable, or capacity
-            already filled
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/ForbiddenIIC'
-        '404':
-          $ref: '#/components/responses/NotFound'
-  /mentorships/:
-    get:
-      tags:
-      - Mentorships
-      operationId: listMentorships
-      summary: Caller's mentorships (student or mentor); the IIC sees all
-      description: |-
-        Contact emails are returned only to the two participants and the IIC.
-
-        **User stories:** 4.3 Mentor sees current mentee; 5.4 Programme insights for the IIC
-      x-user-stories:
-      - '4.3'
-      - '5.4'
-      responses:
-        '200':
-          description: Up to 200 mentorships, newest first
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Mentorship'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
   /admin/mentorships/{id}/close/:
     post:
       tags:
@@ -1089,14 +740,401 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenIIC'
         '404':
           $ref: '#/components/responses/NotFound'
-      description: '**User stories:** NEW-5 End a mentorship; NEW-4 Change-of-mentor request and reassignment; NEW-6 Audit
-        history and moderation'
+      description: |-
+        Logs the closure in the audit history. The frontend also sends `closure_type`, which is currently ignored.
+
+        **User stories:** NEW-5 End a mentorship; NEW-4 Change-of-mentor request and reassignment; NEW-6 Audit history and moderation
+  /mentor/availability/:
+    patch:
+      tags:
+      - Mentor
+      operationId: setMentorAvailability
+      summary: Verified mentor switches between Available and Busy
+      description: |-
+        Busy mentors are never suggested for new students; a current mentee is unaffected.
+
+        **User stories:** 2.2 Mentor availability and capacity
+      x-user-stories:
+      - '2.2'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - is_available
+              properties:
+                is_available:
+                  type: boolean
+      responses:
+        '200':
+          description: New availability
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  is_available:
+                    type: boolean
+        '400':
+          description: is_available is not a boolean
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not logged in, or caller is not a verified mentor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /mentor/profile/:
+    get:
+      tags:
+      - Mentor
+      operationId: getOwnMentorProfile
+      summary: Mentor reads their own repository record
+      x-user-stories:
+      - '2.1'
+      responses:
+        '200':
+          description: Mentor profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentorProfile'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+        '404':
+          description: Caller has no mentor profile (e.g. a student)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: '**User stories:** 2.1 Mentor keeps own professional details up to date (verification stays with the IIC)'
+    patch:
+      tags:
+      - Mentor
+      operationId: updateOwnMentorProfile
+      summary: Mentor updates their professional details (domain, role, bio, skills); verification stays with the IIC
+      x-user-stories:
+      - '2.1'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MentorSelfUpdate'
+      responses:
+        '200':
+          description: Updated profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentorProfile'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+        '404':
+          description: Caller has no mentor profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: '**User stories:** 2.1 Mentor keeps own professional details up to date (verification stays with the IIC)'
+  /mentors/:
+    get:
+      tags:
+      - Mentor directory
+      operationId: listDirectoryMentors
+      summary: Approved students (and the IIC) browse verified, published mentors
+      description: |-
+        Read-only directory used to name one preferred mentor on a request. Choosing a preference never creates a
+        mentorship: the IIC still checks availability and approves every match. Available mentors without a mentee are
+        listed first. Paginated with `?page=` (50 per page).
+
+        **User stories:** 1.2 Browse the mentor directory (read-only; the IIC still selects and approves)
+      x-user-stories:
+      - '1.2'
+      parameters:
+      - name: search
+        in: query
+        description: Name, role, company, specialty, domain or skill
+        schema:
+          type: string
+      - name: domain
+        in: query
+        schema:
+          type: string
+      - name: specialty
+        in: query
+        schema:
+          type: string
+      - name: career_path
+        in: query
+        schema:
+          type: string
+      - name: available
+        in: query
+        schema:
+          type: string
+          enum:
+          - 'true'
+          - 'false'
+      - name: page
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: Page of directory entries (no email or contact details)
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/DirectoryMentor'
+        '403':
+          description: Not logged in, or not an IIC-approved student or the IIC
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /mentors/facets/:
+    get:
+      tags:
+      - Mentor directory
+      operationId: getDirectoryFacets
+      summary: Filter values for the directory (domains, specialties, career paths, skills)
+      x-user-stories:
+      - '1.2'
+      responses:
+        '200':
+          description: Sorted, de-duplicated filter values
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  domains:
+                    type: array
+                    items:
+                      type: string
+                  specialties:
+                    type: array
+                    items:
+                      type: string
+                  career_paths:
+                    type: array
+                    items:
+                      type: string
+                  skills:
+                    type: array
+                    items:
+                      type: string
+        '403':
+          description: Not logged in, or not an IIC-approved student or the IIC
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: '**User stories:** 1.2 Browse the mentor directory (read-only; the IIC still selects and approves)'
+  /mentors/{id}/:
+    get:
+      tags:
+      - Mentor directory
+      operationId: getDirectoryMentor
+      summary: One published mentor's directory card
+      x-user-stories:
+      - '1.2'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Mentor user id
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Directory entry
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DirectoryMentor'
+        '403':
+          description: Not logged in, or not an IIC-approved student or the IIC
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Mentor not found, not verified or not published
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: '**User stories:** 1.2 Browse the mentor directory (read-only; the IIC still selects and approves)'
+  /mentorships/:
+    get:
+      tags:
+      - Mentorships
+      operationId: listMentorships
+      summary: Caller's mentorships (student or mentor); the IIC sees all
+      description: |-
+        Contact emails are returned only to the two participants and the IIC.
+
+        **User stories:** 4.3 Mentor and student see their current mentorship; 5.4 Programme insights for the IIC
+      x-user-stories:
+      - '4.3'
+      - '5.4'
+      responses:
+        '200':
+          description: Up to 200 mentorships, newest first
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Mentorship'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - ACTIVE
+          - CLOSED
+  /mentorships/{id}/:
+    get:
+      tags:
+      - Mentorships
+      operationId: getMentorship
+      summary: One mentorship with contacts, mentor profile, progress and (for the IIC) open alerts
+      x-user-stories:
+      - '4.3'
+      - '5.4'
+      parameters:
+      - $ref: '#/components/parameters/MentorshipId'
+      responses:
+        '200':
+          description: Mentorship detail
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Mentorship'
+                - type: object
+                  properties:
+                    timeline:
+                      type: array
+                      items:
+                        type: object
+                    approved_at:
+                      type: string
+                      format: date-time
+        '403':
+          $ref: '#/components/responses/ForbiddenNotParticipant'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 4.3 Mentor and student see their current mentorship; 5.4 Programme insights for the
+        IIC'
+  /mentorships/{id}/feedback/:
+    get:
+      tags:
+      - Feedback & outcomes
+      operationId: listFeedback
+      summary: Written feedback (participants see only their own; the IIC sees all)
+      x-user-stories:
+      - '5.1'
+      - NEW-3
+      parameters:
+      - $ref: '#/components/parameters/MentorshipId'
+      responses:
+        '200':
+          description: Feedback, newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Feedback'
+        '403':
+          $ref: '#/components/responses/ForbiddenNotParticipant'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 5.1 Closing feedback (written, no ratings); NEW-3 Fortnightly mentor progress feedback'
+    post:
+      tags:
+      - Feedback & outcomes
+      operationId: submitFeedback
+      summary: Student or mentor sends written feedback to the IIC (no ratings)
+      description: |-
+        Kinds: GENERAL (student, any time), PROGRESS (mentor, every 2 weeks), CHANGE_MENTOR (student asks for a different
+        mentor; the IIC decides), CLOSING (at the end). Read only by the IIC. Logged in the audit trail (kind only, not text).
+
+        **User stories:** 5.1 Closing feedback (written, no ratings); NEW-3 Fortnightly mentor progress feedback; NEW-4 Change-of-mentor request and reassignment
+      x-user-stories:
+      - '5.1'
+      - NEW-3
+      - NEW-4
+      parameters:
+      - $ref: '#/components/parameters/MentorshipId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - kind
+              - text
+              properties:
+                kind:
+                  type: string
+                  enum:
+                  - GENERAL
+                  - PROGRESS
+                  - CHANGE_MENTOR
+                  - CLOSING
+                text:
+                  type: string
+                  minLength: 1
+      responses:
+        '201':
+          description: Feedback stored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Feedback'
+        '400':
+          description: Empty text or invalid kind
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldErrors'
+        '403':
+          $ref: '#/components/responses/ForbiddenNotParticipant'
+        '404':
+          $ref: '#/components/responses/NotFound'
   /mentorships/{id}/goals/:
     get:
       tags:
@@ -1116,8 +1154,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Goal'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenNotParticipant'
         '404':
@@ -1166,54 +1202,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/ForbiddenNotParticipant'
-        '404':
-          $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 4.1 Shared goals'
-  /goals/{id}/complete/:
-    patch:
-      tags:
-      - Mentorships
-      operationId: setGoalCompleted
-      summary: Mark a shared goal done (or not done)
-      x-user-stories:
-      - '4.1'
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: Goal id
-        schema:
-          type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - completed
-              properties:
-                completed:
-                  type: boolean
-      responses:
-        '200':
-          description: Updated goal
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Goal'
-        '400':
-          description: completed is not a boolean, or mentorship closed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenNotParticipant'
         '404':
@@ -1239,13 +1227,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Meeting'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenNotParticipant'
         '404':
           $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 4.2 Session log (date and length only); 5.3 Inactivity alerts'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only); 5.3 Inactivity alerts'
     post:
       tags:
       - Mentorships
@@ -1292,95 +1278,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenNotParticipant'
         '404':
           $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 4.2 Session log (date and length only)'
-  /meetings/{id}/confirm/:
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)'
+  /mentorships/{id}/meetings/schedule/:
     post:
       tags:
       - Mentorships
-      operationId: confirmMeeting
-      summary: Mentor confirms a meeting the student logged
+      operationId: scheduleMeeting
+      summary: Student or mentor schedules a meeting (calendar invite planned for Sprint 2)
+      description: |-
+        Creates a meeting record and logs MEETING_SCHEDULED. **Known issues (Sprint 2):** duration is not validated
+        (900 minutes is accepted; a non-number causes HTTP 500), and the meeting is stored as HELD
+        instead of a scheduled state.
+
+        **User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)
       x-user-stories:
       - '4.2'
-      - '4.3'
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: Meeting id
-        schema:
-          type: integer
-      responses:
-        '200':
-          description: Meeting confirmed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Meeting'
-        '400':
-          description: Mentorship closed
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          description: Only the mentor of this mentorship can confirm
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 4.2 Session log (date and length only); 4.3 Mentor sees current mentee'
-  /mentorships/{id}/feedback/:
-    get:
-      tags:
-      - Feedback & outcomes
-      operationId: listFeedback
-      summary: Written feedback (participants see only their own; the IIC sees all)
-      x-user-stories:
-      - '5.1'
-      - NEW-3
-      parameters:
-      - $ref: '#/components/parameters/MentorshipId'
-      responses:
-        '200':
-          description: Feedback, newest first
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Feedback'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/ForbiddenNotParticipant'
-        '404':
-          $ref: '#/components/responses/NotFound'
-      description: '**User stories:** 5.1 Closing feedback (revised: written, no ratings); NEW-3 Fortnightly mentor progress
-        feedback'
-    post:
-      tags:
-      - Feedback & outcomes
-      operationId: submitFeedback
-      summary: Student or mentor sends written feedback to the IIC (no ratings)
-      description: |-
-        Kinds: GENERAL (student, any time), PROGRESS (mentor, every 2 weeks), CHANGE_MENTOR (student asks for a different
-        mentor; the IIC decides), CLOSING (at the end). Read only by the IIC. Logged in the audit trail (kind only, not text).
-
-        **User stories:** 5.1 Closing feedback (revised: written, no ratings); NEW-3 Fortnightly mentor progress feedback; NEW-4 Change-of-mentor request and reassignment
-      x-user-stories:
-      - '5.1'
-      - NEW-3
-      - NEW-4
       parameters:
       - $ref: '#/components/parameters/MentorshipId'
       requestBody:
@@ -1389,39 +1305,136 @@ paths:
           application/json:
             schema:
               type: object
-              required:
-              - kind
-              - text
               properties:
-                kind:
+                session_date:
                   type: string
-                  enum:
-                  - GENERAL
-                  - PROGRESS
-                  - CHANGE_MENTOR
-                  - CLOSING
-                text:
-                  type: string
-                  minLength: 1
+                  format: date
+                  description: Defaults to today
+                duration_minutes:
+                  type: integer
+                  minimum: 1
+                  maximum: 720
+                  default: 60
       responses:
         '201':
-          description: Feedback stored
+          description: Meeting created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Feedback'
+                $ref: '#/components/schemas/Meeting'
         '400':
-          description: Empty text or invalid kind
+          description: Mentorship is closed
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenNotParticipant'
         '404':
           $ref: '#/components/responses/NotFound'
+  /mentorships/{id}/meetings/{mid}/summary/:
+    post:
+      tags:
+      - Sprint 2 - Summaries
+      summary: Draft summary and action items from the mentor's own notes (KAN-57)
+      description: |-
+        Mentor of this mentorship only. PII is stripped and input capped at 2,000 words before the LLM call (prompt `summary_v1`,
+        15 s timeout, one retry on invalid JSON). Falls back to an extractive summary. **Nothing is stored.** Throttled 10/hour. 4.2 (Session log (date and length only)).
+
+        **User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)
+      parameters:
+      - $ref: '#/components/parameters/MentorshipId'
+      - $ref: '#/components/parameters/MeetingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - notes
+              properties:
+                notes:
+                  type: string
+                  minLength: 20
+      responses:
+        '200':
+          description: Draft for review
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryDraft'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/Unprocessable'
+        '429':
+          $ref: '#/components/responses/Throttled'
+        '503':
+          description: LLM timed out; the extractive draft is returned with fallback=true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryDraft'
+      x-user-stories:
+      - '4.2'
+      operationId: post_mentorships_id_meetings_mid_summary
+  /mentorships/{id}/meetings/{mid}/summary/confirm/:
+    post:
+      tags:
+      - Sprint 2 - Summaries
+      summary: Confirm (save) a user-edited summary
+      description: |-
+        Saves only if `SANGAM_STORE_AI_SUMMARIES=1` (pending team/TA decision; default off → returns stored=false and keeps nothing).
+        Prompt version is recorded with every saved summary. Discarding = simply not calling this endpoint. 4.2 (Session log (date and length only)).
+
+        **User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)
+      parameters:
+      - $ref: '#/components/parameters/MentorshipId'
+      - $ref: '#/components/parameters/MeetingId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - summary
+              properties:
+                summary:
+                  type: string
+                action_items:
+                  type: array
+                  maxItems: 5
+                  items:
+                    type: string
+                prompt_version:
+                  type: string
+                  example: summary_v1
+      responses:
+        '200':
+          description: Not stored (storage disabled)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryConfirm'
+        '201':
+          description: Stored
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryConfirm'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/Unprocessable'
+      x-user-stories:
+      - '4.2'
+      operationId: post_mentorships_id_meetings_mid_summary_confirm
   /mentorships/{id}/outcomes/:
     get:
       tags:
@@ -1442,8 +1455,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Outcome'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/ForbiddenNotParticipant'
         '404':
@@ -1492,10 +1503,8 @@ paths:
                 $ref: '#/components/schemas/Outcome'
         '400':
           $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
-          description: Only the student of this mentorship records outcomes
+          description: Not logged in, or only the student of this mentorship records outcomes
           content:
             application/json:
               schema:
@@ -1503,177 +1512,284 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
       description: '**User stories:** 5.2 Record outcomes'
-  /notifications/:
-    get:
+  /mentorships/{id}/reassign/:
+    post:
       tags:
-      - Notifications
-      operationId: listNotifications
-      summary: Caller's in-app notifications (status changes, approvals, matches)
+      - IIC - monitoring
+      operationId: reassignMentorship
+      summary: IIC closes the current pair and sends the request back to review so a new mentor can be found
+      description: |-
+        Used after a change-of-mentor request. Sets the pair to CLOSED with the reason and the request to UNDER_REVIEW;
+        logs MENTORSHIP_REASSIGNED. **Known issue (Sprint 2):** reason is not required and a closed pair can be reassigned.
+        The frontend calls `/admin/mentorships/{id}/reassign/`, which does not exist (404).
+
+        **User stories:** NEW-4 Change-of-mentor request and reassignment; NEW-6 Audit history and moderation
       x-user-stories:
-      - '1.4'
+      - NEW-4
+      - NEW-6
+      parameters:
+      - $ref: '#/components/parameters/MentorshipId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
       responses:
         '200':
-          description: Up to 100 notifications
+          description: The request, now UNDER_REVIEW
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Notification'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-      description: '**User stories:** 1.4 Track request status and notifications'
-  /notifications/{id}/read/:
-    post:
+                $ref: '#/components/schemas/MentoringRequest'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /dashboard/:
+    get:
       tags:
-      - Notifications
-      operationId: markNotificationRead
-      summary: Mark a notification as read
+      - Dashboard
+      operationId: getDashboard
+      summary: Role-specific home summary (student, mentor or IIC) with pending tasks and links
+      description: |-
+        Returns a different object per role, always with `role`, `tasks` (each with a frontend link) and `display_name`.
+        Student: approval status, current request, active mentorship, goals, upcoming meetings, recent status history.
+        Mentor: pending availability checks, current mentee, feedback due. IIC: queue counts and tasks.
+
+        **User stories:** 1.4 Track request status, dashboard and notifications; 4.3 Mentor and student see their current mentorship; 5.4 Programme insights for the IIC
       x-user-stories:
       - '1.4'
-      parameters:
-      - name: id
-        in: path
-        required: true
-        description: Notification id
-        schema:
-          type: integer
+      - '4.3'
+      - '5.4'
       responses:
         '200':
-          description: Marked read
+          description: Dashboard for the caller's role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dashboard'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+  /requests/:
+    get:
+      tags:
+      - Requests
+      operationId: listRequests
+      summary: Student sees their own requests; the IIC sees the full queue
+      x-user-stories:
+      - '1.4'
+      - NEW-2
+      responses:
+        '200':
+          description: Up to 200 requests, newest first
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/MentoringRequest'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** 1.4 Track request status, dashboard and notifications; NEW-2 IIC request queue, waiting
+        list and prioritisation'
+      parameters:
+      - name: queue
+        in: query
+        description: 'IIC: review = all open requests; waiting = WAITING only'
+        schema:
+          type: string
+          enum:
+          - review
+          - waiting
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - SUBMITTED
+          - UNDER_REVIEW
+          - WAITING
+          - MATCHED
+          - WITHDRAWN
+          - CLOSED
+    post:
+      tags:
+      - Requests
+      operationId: createRequest
+      summary: Approved Degree-level student submits a mentoring request, optionally naming one preferred mentor
+      description: |-
+        Pathway, domain, background and a problem statement of at least 80 characters, plus an optional `preferred_mentor` chosen from the directory. A preference never creates a mentorship: the IIC still checks availability and approves the match. Only one open request (SUBMITTED, UNDER_REVIEW or WAITING) is allowed, and none while the student has an active mentorship.
+
+        **User stories:** 1.1 Record mentoring need; 1.3 Submit a mentoring request with an optional preferred mentor (one open request)
+      x-user-stories:
+      - '1.1'
+      - '1.3'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MentoringRequestInput'
+            example:
+              pathway: JOB
+              domain: Data & ML
+              background: Degree level, DS diploma done
+              problem_statement: I can't decide between data analyst and ML engineer roles and don't know which projects or
+                skills to focus on in the next 3 months.
+      responses:
+        '201':
+          description: Request created with status SUBMITTED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentoringRequest'
+        '400':
+          description: Problem statement under 80 characters, preferred mentor not verified or not published, an open request
+            already exists, or an active mentorship exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldErrors'
+        '403':
+          description: Not logged in, or not an IIC-approved Degree-level student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /requests/{id}/:
+    get:
+      tags:
+      - Requests
+      operationId: getRequest
+      summary: One request with its derived stage, next action and (for the IIC) availability checks
+      x-user-stories:
+      - '1.4'
+      - NEW-2
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Request detail. `availability_checks` is null for students; `timeline` is currently empty.
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/MentoringRequest'
+                - type: object
+                  properties:
+                    timeline:
+                      type: array
+                      items:
+                        type: object
+                    availability_checks:
+                      type: array
+                      nullable: true
+                      items:
+                        $ref: '#/components/schemas/AvailabilityCheck'
+        '403':
+          description: Not logged in, or the request belongs to another student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 1.4 Track request status, dashboard and notifications; NEW-2 IIC request queue, waiting
+        list and prioritisation'
+  /requests/{id}/assess/:
+    post:
+      tags:
+      - IIC - matching
+      operationId: assessRequest
+      summary: IIC asks for a triage priority for a request (Sprint 1 placeholder)
+      description: |-
+        **Sprint 1 placeholder:** always returns MEDIUM. The real AI priority is GET /requests/{id}/priority/.
+        The frontend calls `/admin/requests/{id}/assess/`, which does not exist (404).
+
+        **User stories:** NEW-2 IIC request queue, waiting list and prioritisation
+      x-user-stories:
+      - NEW-2
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Priority
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  id:
-                    type: integer
-                  is_read:
-                    type: boolean
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                  suggested:
+                    type: string
+                    enum:
+                    - LOW
+                    - MEDIUM
+                    - HIGH
+                  reason:
+                    type: string
+                  effective:
+                    type: string
+                    enum:
+                    - LOW
+                    - MEDIUM
+                    - HIGH
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
         '404':
-          description: Not found or belongs to another user
+          $ref: '#/components/responses/NotFound'
+  /requests/{id}/priority/:
+    get:
+      tags:
+      - Sprint 1 - Priority
+      summary: Advisory priority for a request
+      description: |-
+        IIC only. Creates an assessment if none exists (or `refresh=1`). Algorithm `priority_points_v1`. NEW-2 (IIC request queue, waiting list and prioritisation).
+
+        **User stories:** NEW-2 IIC request queue, waiting list and prioritisation
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - name: refresh
+        in: query
+        schema:
+          type: string
+          enum:
+          - '0'
+          - '1'
+      responses:
+        '200':
+          description: Assessment
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-      description: '**User stories:** 1.4 Track request status and notifications'
-  /admin/alerts/:
-    get:
-      tags:
-      - IIC - monitoring
-      operationId: listAlerts
-      summary: Open alerts (14-day inactivity, overdue fortnightly mentor feedback)
-      description: |-
-        Created by the daily `check_sangam_alerts` management command.
-
-        **User stories:** 5.3 Inactivity alerts; NEW-3 Fortnightly mentor progress feedback
-      x-user-stories:
-      - '5.3'
-      - NEW-3
-      responses:
-        '200':
-          description: Up to 100 unresolved alerts
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    mentorship_id:
-                      type: integer
-                    kind:
-                      type: string
-                      enum:
-                      - INACTIVITY
-                      - FEEDBACK_DUE
-                    period_start:
-                      type: string
-                      format: date
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/PriorityAssessment'
         '403':
-          $ref: '#/components/responses/ForbiddenIIC'
-  /admin/audit/:
-    get:
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-user-stories:
+      - NEW-2
+      operationId: get_requests_id_priority
+    patch:
       tags:
-      - IIC - monitoring
-      operationId: listAuditEvents
-      summary: Audit history (who approved, rejected, matched, closed or overrode what, and when)
+      - Sprint 1 - Priority
+      summary: IIC override of the AI priority
       description: |-
-        Stores actions and ids only, never feedback text or chat content.
+        Stores override_priority, override_reason, overridden_by; written to the audit log. NEW-2 (IIC request queue, waiting list and prioritisation).
 
-        **User stories:** NEW-6 Audit history and moderation
-      x-user-stories:
-      - NEW-6
-      responses:
-        '200':
-          description: Up to 200 audit events
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    actor_id:
-                      type: integer
-                      nullable: true
-                    action:
-                      type: string
-                      example: STUDENT_REVIEW
-                    entity_type:
-                      type: string
-                    entity_id:
-                      type: integer
-                    at:
-                      type: string
-                      format: date-time
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/ForbiddenIIC'
-  /admin/export/:
-    get:
-      tags:
-      - IIC - monitoring
-      operationId: exportPairsCsv
-      summary: CSV export of pairs with meeting and outcome counts
-      x-user-stories:
-      - '5.4'
-      responses:
-        '200':
-          description: CSV file (sangam_pairs.csv)
-          content:
-            text/csv:
-              schema:
-                type: string
-                example: |-
-                  mentorship_id,status,student_id,mentor_id,meetings,outcomes
-                  1,ACTIVE,5,9,3,1
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/ForbiddenIIC'
-      description: '**User stories:** 5.4 Programme insights for the IIC'
-  /ai/chat/:
-    post:
-      tags:
-      - Sprint 1 - Assistant
-      operationId: askSangamAlias
-      summary: Alias of POST /assistant/chat/
-      description: |-
-        Same handler, throttling and response as /assistant/chat/.
+        The frontend sends this to `/admin/requests/{id}/priority/`, which does not exist (404).
 
-        **User stories:** NEW-7 Ask Sangam help assistant
-      x-user-stories:
-      - NEW-7
+        **User stories:** NEW-2 IIC request queue, waiting list and prioritisation; NEW-6 Audit history and moderation
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
       requestBody:
         required: true
         content:
@@ -1681,63 +1797,35 @@ paths:
             schema:
               type: object
               required:
-              - message
+              - override_priority
+              - override_reason
               properties:
-                message:
+                override_priority:
                   type: string
-                  minLength: 2
-                  maxLength: 1000
+                  enum:
+                  - HIGH
+                  - MEDIUM
+                  - LOW
+                override_reason:
+                  type: string
+                  maxLength: 500
       responses:
         '200':
-          description: Answer
+          description: Updated assessment
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChatResponse'
-        '400':
-          description: Message shorter than 2 or longer than 1000 characters
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FieldErrors'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/Throttled'
-  /ai/knowledge/:
-    get:
-      tags:
-      - Sprint 1 - Assistant
-      operationId: listKnowledgeArticles
-      summary: Published help articles for the caller's role (what Ask Sangam answers from)
+                $ref: '#/components/schemas/PriorityAssessment'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/Unprocessable'
       x-user-stories:
-      - NEW-7
-      responses:
-        '200':
-          description: Up to 100 articles
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                    title:
-                      type: string
-                    content:
-                      type: string
-                    audience:
-                      type: string
-                      enum:
-                      - ALL
-                      - STUDENT
-                      - MENTOR
-                      - ADMIN
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-      description: '**User stories:** NEW-7 Ask Sangam help assistant'
+      - NEW-2
+      - NEW-6
+      operationId: patch_requests_id_priority
   /requests/{id}/suggestions/:
     get:
       tags:
@@ -1791,8 +1879,6 @@ paths:
                   - '3 shared skills: llm, nlp, transformer'
                   - 6 years' experience
                   explanation: 'Same domain: Data & ML; 3 shared skills: llm, nlp, transformer; 6 years'' experience'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '404':
@@ -1802,50 +1888,295 @@ paths:
       x-user-stories:
       - '3.1'
       operationId: get_requests_id_suggestions
-  /requests/{id}/priority/:
-    get:
+  /requests/{id}/transition/:
+    post:
       tags:
-      - Sprint 1 - Priority
-      summary: Advisory priority for a request
+      - IIC - matching
+      operationId: transitionRequest
+      summary: IIC moves a request to another status (e.g. WAITING when no mentor is free) with an optional note
       description: |-
-        IIC only. Creates an assessment if none exists (or `refresh=1`). Algorithm `priority_points_v1`. NEW-2 (IIC request queue, waiting list and prioritisation).
+        Writes REQUEST_STATUS_UPDATED to the audit log. Intended values: SUBMITTED, UNDER_REVIEW, WAITING, CLOSED.
+        **Known issue (Sprint 2):** the value of `to_status` is not validated, so any string is saved.
+        The frontend calls `/admin/requests/{id}/transition/`, which does not exist (404).
 
-        **User stories:** NEW-2 IIC request queue, waiting list and prioritisation
+        **User stories:** NEW-2 IIC request queue, waiting list and prioritisation; NEW-6 Audit history and moderation
+      x-user-stories:
+      - NEW-2
+      - NEW-6
       parameters:
       - $ref: '#/components/parameters/RequestId'
-      - name: refresh
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - to_status
+              properties:
+                to_status:
+                  type: string
+                  enum:
+                  - SUBMITTED
+                  - UNDER_REVIEW
+                  - WAITING
+                  - CLOSED
+                note:
+                  type: string
+      responses:
+        '200':
+          description: Updated request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentoringRequest'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /requests/{id}/withdraw/:
+    post:
+      tags:
+      - Requests
+      operationId: withdrawRequest
+      summary: Student withdraws their open request
+      description: |-
+        Pending availability checks for the request are expired.
+
+        **User stories:** 1.4 Track request status, dashboard and notifications
+      x-user-stories:
+      - '1.4'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Withdrawn
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  status:
+                    type: string
+                    enum:
+                    - WITHDRAWN
+        '400':
+          description: Request is not open
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not logged in, or caller is not an IIC-approved student
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Request not found or not the caller's
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /admin/requests/{id}/availability/:
+    post:
+      tags:
+      - IIC - matching
+      operationId: sendAvailabilityCheck
+      summary: IIC asks a suggested mentor whether they can take this student (expires in 7 days)
+      description: |-
+        The mentor must be verified, available and without an active mentee; the request must still be open and must not
+        already have an unanswered check.
+
+        **User stories:** 3.2 IIC checks availability and approves the match; 2.3 Mentor reviews the need before confirming availability
+      x-user-stories:
+      - '3.2'
+      - '2.3'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - mentor_id
+              properties:
+                mentor_id:
+                  type: integer
+      responses:
+        '201':
+          description: Availability check sent (status PENDING)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AvailabilityCheck'
+        '400':
+          description: Invalid mentor_id, mentor not verified or available, mentor already has a mentee, request not open,
+            or a check is already pending
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldErrors'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /admin/requests/{id}/suggestions/:
+    get:
+      tags:
+      - IIC - matching
+      operationId: getSuggestionsLegacy
+      deprecated: true
+      summary: Legacy alias of GET /requests/{id}/suggestions/
+      description: |-
+        Same engine and response as /requests/{id}/suggestions/. Kept for older frontend code; prefer the new path.
+
+        **User stories:** 3.1 System-suggested mentors for the IIC
+      x-user-stories:
+      - '3.1'
+      parameters:
+      - $ref: '#/components/parameters/RequestId'
+      - name: k
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 20
+          default: 5
+      responses:
+        '200':
+          description: Suggestions (advisory)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuggestionResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/Unprocessable'
+  /availability/:
+    get:
+      tags:
+      - Mentor
+      operationId: listAvailabilityChecks
+      summary: Mentor's inbox of availability checks (the IIC sees all)
+      x-user-stories:
+      - '2.3'
+      responses:
+        '200':
+          description: Up to 100 checks, newest first
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/AvailabilityCheck'
+        '403':
+          description: Not logged in, or caller is neither a mentor nor the IIC
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: '**User stories:** 2.3 Mentor reviews the need before confirming availability'
+      parameters:
+      - name: status
         in: query
         schema:
           type: string
           enum:
-          - '0'
-          - '1'
+          - PENDING
+          - CONFIRMED
+          - DECLINED
+          - EXPIRED
+          - USED
+  /availability/{id}/:
+    get:
+      tags:
+      - Mentor
+      operationId: getAvailabilityCheck
+      summary: Mentor reads the student's need before answering (identity hidden, contact details redacted)
+      x-user-stories:
+      - '2.3'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Availability check id
+        schema:
+          type: integer
       responses:
         '200':
-          description: Assessment
+          description: Check with the anonymised request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PriorityAssessment'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  status:
+                    type: string
+                    enum:
+                    - PENDING
+                    - CONFIRMED
+                    - DECLINED
+                    - EXPIRED
+                    - USED
+                  expires_at:
+                    type: string
+                    format: date-time
+                  request:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      pathway:
+                        type: string
+                      domain:
+                        type: string
+                      background:
+                        type: string
+                      problem_statement:
+                        type: string
+                  student_identity_visible:
+                    type: boolean
+                    enum:
+                    - false
         '403':
-          $ref: '#/components/responses/Forbidden'
+          description: Not logged in, or check belongs to another mentor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           $ref: '#/components/responses/NotFound'
-      x-user-stories:
-      - NEW-2
-      operationId: get_requests_id_priority
-    patch:
+      description: '**User stories:** 2.3 Mentor reviews the need before confirming availability'
+  /availability/{id}/respond/:
+    post:
       tags:
-      - Sprint 1 - Priority
-      summary: IIC override of the AI priority
-      description: |-
-        Stores override_priority, override_reason, overridden_by; written to the audit log. NEW-2 (IIC request queue, waiting list and prioritisation).
-
-        **User stories:** NEW-2 IIC request queue, waiting list and prioritisation; NEW-6 Audit history and moderation
+      - Mentor
+      operationId: respondToAvailabilityCheck
+      summary: Mentor confirms or declines within 7 days
+      x-user-stories:
+      - '2.3'
       parameters:
-      - $ref: '#/components/parameters/RequestId'
+      - name: id
+        in: path
+        required: true
+        description: Availability check id
+        schema:
+          type: integer
       requestBody:
         required: true
         content:
@@ -1853,186 +2184,435 @@ paths:
             schema:
               type: object
               required:
-              - override_priority
-              - override_reason
+              - decision
               properties:
-                override_priority:
+                decision:
                   type: string
                   enum:
-                  - HIGH
-                  - MEDIUM
-                  - LOW
-                override_reason:
+                  - CONFIRMED
+                  - DECLINED
+                reason:
                   type: string
                   maxLength: 500
       responses:
         '200':
-          description: Updated assessment
+          description: Check updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PriorityAssessment'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/Unprocessable'
-      x-user-stories:
-      - NEW-2
-      - NEW-6
-      operationId: patch_requests_id_priority
-  /assistant/chat/:
-    post:
-      tags:
-      - Sprint 1 - Assistant
-      summary: Ask Sangam helpdesk (messages are never stored)
-      description: |-
-        Any logged-in user. BM25 retrieval over published KnowledgeArticles for the user's audience; the LLM (if configured)
-        answers only from those articles. Requests to approve / assign / pair are refused before any model call, and questions that are
-        not about the Sangam app (weather, homework, general career advice) are declined by a domain guardrail (scope: out_of_scope).
-        Available to students, mentors and IIC admins.
-        Throttled 10/minute per user. Alias `/ai/chat/`. NEW-7 (Ask Sangam help assistant).
-
-        **User stories:** NEW-7 Ask Sangam help assistant
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - message
-              properties:
-                message:
-                  type: string
-                  minLength: 2
-                  maxLength: 1000
-      responses:
-        '200':
-          description: Answer
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ChatResponse'
+                $ref: '#/components/schemas/AvailabilityCheck'
         '400':
-          $ref: '#/components/responses/BadRequest'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '429':
-          $ref: '#/components/responses/Throttled'
-      x-user-stories:
-      - NEW-7
-      operationId: post_assistant_chat
-  /mentorships/{id}/meetings/{mid}/summary/:
-    post:
-      tags:
-      - Sprint 2 - Summaries
-      summary: Draft summary and action items from the mentor's own notes (KAN-57)
-      description: |-
-        Mentor of this mentorship only. PII is stripped and input capped at 2,000 words before the LLM call (prompt `summary_v1`,
-        15 s timeout, one retry on invalid JSON). Falls back to an extractive summary. **Nothing is stored.** Throttled 10/hour. 4.2 (Session log (date and length only)).
-
-        **User stories:** 4.2 Session log (date and length only)
-      parameters:
-      - $ref: '#/components/parameters/MentorshipId'
-      - $ref: '#/components/parameters/MeetingId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - notes
-              properties:
-                notes:
-                  type: string
-                  minLength: 20
-      responses:
-        '200':
-          description: Draft for review
+          description: Decision not CONFIRMED/DECLINED, check already resolved or expired, or mentor already has a mentee
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SummaryDraft'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/Error'
         '403':
-          $ref: '#/components/responses/Forbidden'
+          description: Not logged in, or not a verified mentor, or the check is assigned to someone else
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '404':
           $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/Unprocessable'
-        '429':
-          $ref: '#/components/responses/Throttled'
-        '503':
-          description: LLM timed out; the extractive draft is returned with fallback=true
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SummaryDraft'
-      x-user-stories:
-      - '4.2'
-      operationId: post_mentorships_id_meetings_mid_summary
-  /mentorships/{id}/meetings/{mid}/summary/confirm/:
+      description: '**User stories:** 2.3 Mentor reviews the need before confirming availability'
+  /admin/availability/{id}/approve/:
     post:
       tags:
-      - Sprint 2 - Summaries
-      summary: Confirm (save) a user-edited summary
+      - IIC - matching
+      operationId: approveMatch
+      summary: IIC approves the match after the mentor confirms; creates the mentorship and shares contacts
       description: |-
-        Saves only if `SANGAM_STORE_AI_SUMMARIES=1` (pending team/TA decision; default off → returns stored=false and keeps nothing).
-        Prompt version is recorded with every saved summary. Discarding = simply not calling this endpoint. 4.2 (Session log (date and length only)).
+        The only way a mentorship is created. Requires a current, CONFIRMED availability check, an open request, an
+        approved student and a free, verified mentor (one-to-one). Both sides are notified.
 
-        **User stories:** 4.2 Session log (date and length only)
+        **User stories:** 3.2 IIC checks availability and approves the match
+      x-user-stories:
+      - '3.2'
       parameters:
-      - $ref: '#/components/parameters/MentorshipId'
-      - $ref: '#/components/parameters/MeetingId'
-      requestBody:
+      - name: id
+        in: path
         required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-              - summary
-              properties:
-                summary:
-                  type: string
-                action_items:
-                  type: array
-                  maxItems: 5
-                  items:
-                    type: string
-                prompt_version:
-                  type: string
-                  example: summary_v1
+        description: Confirmed availability check id
+        schema:
+          type: integer
       responses:
-        '200':
-          description: Not stored (storage disabled)
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/SummaryConfirm'
         '201':
-          description: Stored
+          description: Mentorship created (status ACTIVE)
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SummaryConfirm'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: '#/components/schemas/Mentorship'
+        '400':
+          description: Check not confirmed or expired, request not open, student not approved, mentor unavailable, or capacity
+            already filled
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
         '403':
-          $ref: '#/components/responses/Forbidden'
+          $ref: '#/components/responses/ForbiddenIIC'
         '404':
           $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/Unprocessable'
+  /goals/{id}/complete/:
+    patch:
+      tags:
+      - Mentorships
+      operationId: setGoalCompleted
+      summary: Mark a shared goal done (or not done)
+      x-user-stories:
+      - '4.1'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Goal id
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - completed
+              properties:
+                completed:
+                  type: boolean
+      responses:
+        '200':
+          description: Updated goal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Goal'
+        '400':
+          description: completed is not a boolean, or mentorship closed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          $ref: '#/components/responses/ForbiddenNotParticipant'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 4.1 Shared goals'
+  /meetings/:
+    get:
+      tags:
+      - Mentorships
+      operationId: listMyMeetings
+      summary: All meetings of the caller's mentorships (the IIC sees all), newest first
       x-user-stories:
       - '4.2'
-      operationId: post_mentorships_id_meetings_mid_summary_confirm
+      parameters:
+      - name: status
+        in: query
+        schema:
+          type: string
+          enum:
+          - HELD
+          - CANCELLED
+          - NO_SHOW
+      responses:
+        '200':
+          description: Up to 100 meetings
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Meeting'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)'
+  /meetings/{id}/cancel/:
+    post:
+      tags:
+      - Mentorships
+      operationId: cancelMeeting
+      summary: Cancel a meeting (status CANCELLED)
+      x-user-stories:
+      - '4.2'
+      parameters:
+      - $ref: '#/components/parameters/MeetingPathId'
+      responses:
+        '200':
+          description: Cancelled meeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '403':
+          $ref: '#/components/responses/ForbiddenNotParticipant'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)'
+  /meetings/{id}/confirm/:
+    post:
+      tags:
+      - Mentorships
+      operationId: confirmMeeting
+      summary: Mentor confirms a meeting the student logged
+      x-user-stories:
+      - '4.2'
+      - '4.3'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Meeting id
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Meeting confirmed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '400':
+          description: Mentorship closed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Not logged in, or only the mentor of this mentorship can confirm
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only); 4.3 Mentor and student
+        see their current mentorship'
+  /meetings/{id}/record/:
+    post:
+      tags:
+      - Mentorships
+      operationId: recordMeeting
+      summary: Record whether a meeting was held or was a no-show (a mentor's record confirms it)
+      x-user-stories:
+      - '4.2'
+      - '4.3'
+      parameters:
+      - $ref: '#/components/parameters/MeetingPathId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum:
+                  - HELD
+                  - NO_SHOW
+                  default: HELD
+      responses:
+        '200':
+          description: Updated meeting (other status values are ignored)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '403':
+          $ref: '#/components/responses/ForbiddenNotParticipant'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only); 4.3 Mentor and student
+        see their current mentorship'
+  /meetings/{id}/reschedule/:
+    post:
+      tags:
+      - Mentorships
+      operationId: rescheduleMeeting
+      summary: Change the date or length of a meeting
+      description: |-
+        **Known issue (Sprint 2):** duration is not range-checked and a non-number causes HTTP 500.
+
+        **User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)
+      x-user-stories:
+      - '4.2'
+      parameters:
+      - $ref: '#/components/parameters/MeetingPathId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                session_date:
+                  type: string
+                  format: date
+                duration_minutes:
+                  type: integer
+                  minimum: 1
+                  maximum: 720
+      responses:
+        '200':
+          description: Updated meeting
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meeting'
+        '400':
+          description: Mentorship is closed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldErrors'
+        '403':
+          $ref: '#/components/responses/ForbiddenNotParticipant'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /calendar/connect/:
+    post:
+      tags:
+      - Calendar
+      operationId: connectCalendar
+      summary: Start Google Calendar connection (Sprint 1 placeholder; returns an empty authorization URL)
+      x-user-stories:
+      - '4.2'
+      responses:
+        '200':
+          description: OAuth authorization URL (empty until Sprint 2)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  authorization_url:
+                    type: string
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)'
+  /calendar/disconnect/:
+    post:
+      tags:
+      - Calendar
+      operationId: disconnectCalendar
+      summary: Disconnect Google Calendar (Sprint 1 placeholder)
+      x-user-stories:
+      - '4.2'
+      responses:
+        '200':
+          description: Calendar status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarStatus'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)'
+  /calendar/status/:
+    get:
+      tags:
+      - Calendar
+      operationId: getCalendarStatus
+      summary: Google Calendar connection status (Sprint 1 placeholder; always DISCONNECTED)
+      x-user-stories:
+      - '4.2'
+      responses:
+        '200':
+          description: Calendar status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CalendarStatus'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** 4.2 Meetings: log, schedule, confirm (date and length only)'
+  /notifications/:
+    get:
+      tags:
+      - Notifications
+      operationId: listNotifications
+      summary: Caller's in-app notifications (status changes, approvals, matches)
+      x-user-stories:
+      - '1.4'
+      responses:
+        '200':
+          description: Up to 100 notifications, newest first
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/Notification'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** 1.4 Track request status, dashboard and notifications'
+  /notifications/read-all/:
+    post:
+      tags:
+      - Notifications
+      operationId: markAllNotificationsRead
+      summary: Mark all of the caller's notifications as read
+      x-user-stories:
+      - '1.4'
+      responses:
+        '200':
+          description: Number of notifications updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  updated:
+                    type: integer
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** 1.4 Track request status, dashboard and notifications'
+  /notifications/{id}/read/:
+    post:
+      tags:
+      - Notifications
+      operationId: markNotificationRead
+      summary: Mark a notification as read
+      x-user-stories:
+      - '1.4'
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Notification id
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Marked read
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  is_read:
+                    type: boolean
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+        '404':
+          description: Not found or belongs to another user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      description: '**User stories:** 1.4 Track request status, dashboard and notifications'
   /admin/insights/:
     get:
       tags:
@@ -2049,8 +2629,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Insights'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
       x-user-stories:
@@ -2084,8 +2662,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AtRiskResponse'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
         '422':
@@ -2093,6 +2669,192 @@ paths:
       x-user-stories:
       - '5.3'
       operationId: get_admin_insights_at_risk
+  /admin/alerts/:
+    get:
+      tags:
+      - IIC - monitoring
+      operationId: listAlerts
+      summary: Open alerts (14-day inactivity, overdue fortnightly mentor feedback)
+      description: |-
+        Created by the daily `check_sangam_alerts` command. Returns a plain list (not the paginated envelope). Resolve with POST /admin/alerts/{id}/resolve/.
+
+        **User stories:** 5.3 Inactivity alerts; NEW-3 Fortnightly mentor progress feedback
+      x-user-stories:
+      - '5.3'
+      - NEW-3
+      responses:
+        '200':
+          description: Up to 100 unresolved alerts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    mentorship_id:
+                      type: integer
+                    kind:
+                      type: string
+                      enum:
+                      - INACTIVITY
+                      - FEEDBACK_DUE
+                    period_start:
+                      type: string
+                      format: date
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+  /admin/alerts/{id}/resolve/:
+    post:
+      tags:
+      - IIC - monitoring
+      operationId: resolveAlert
+      summary: IIC marks an inactivity or feedback-due alert as resolved after following up
+      x-user-stories:
+      - '5.3'
+      - NEW-6
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: Alert id
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Resolved (resolving twice keeps the first timestamp)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  resolved_at:
+                    type: string
+                    format: date-time
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** 5.3 Inactivity alerts; NEW-6 Audit history and moderation'
+  /admin/audit/:
+    get:
+      tags:
+      - IIC - monitoring
+      operationId: listAuditEvents
+      summary: Audit history (who approved, rejected, matched, closed or overrode what, and when)
+      description: |-
+        Stores actions and ids only, never feedback text or chat content.
+
+        **User stories:** NEW-6 Audit history and moderation
+      x-user-stories:
+      - NEW-6
+      responses:
+        '200':
+          description: Up to 200 audit events, newest first
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          actor_id:
+                            type: integer
+                            nullable: true
+                          action:
+                            type: string
+                            example: STUDENT_REVIEW
+                          entity_type:
+                            type: string
+                          entity_id:
+                            type: integer
+                          at:
+                            type: string
+                            format: date-time
+                          actor_email:
+                            type: string
+                            nullable: true
+                          actor_role:
+                            type: string
+                            example: ADMIN
+                          details:
+                            type: object
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+  /admin/export/:
+    get:
+      tags:
+      - IIC - monitoring
+      operationId: exportPairsCsv
+      summary: CSV export of pairs with meeting and outcome counts
+      x-user-stories:
+      - '5.4'
+      responses:
+        '200':
+          description: CSV file (sangam_pairs.csv)
+          content:
+            text/csv:
+              schema:
+                type: string
+                example: |-
+                  mentorship_id,status,student_id,mentor_id,meetings,outcomes
+                  1,ACTIVE,5,9,3,1
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+      description: '**User stories:** 5.4 Programme insights for the IIC'
+  /ai/chat/:
+    post:
+      tags:
+      - Sprint 1 - Assistant
+      operationId: askSangamAlias
+      summary: Alias of POST /assistant/chat/
+      description: |-
+        Same handler, throttling and response as /assistant/chat/.
+
+        **User stories:** NEW-7 Ask Sangam help assistant and its help articles
+      x-user-stories:
+      - NEW-7
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - message
+              properties:
+                message:
+                  type: string
+                  minLength: 2
+                  maxLength: 1000
+      responses:
+        '200':
+          description: Answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '400':
+          description: Message shorter than 2 or longer than 1000 characters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldErrors'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+        '429':
+          $ref: '#/components/responses/Throttled'
   /ai/health/:
     get:
       tags:
@@ -2134,11 +2896,216 @@ paths:
                       error:
                         type: string
                         nullable: true
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
       x-user-stories: []
       description: '**User stories:** none (supporting endpoint)'
       operationId: get_ai_health
+  /ai/knowledge/:
+    get:
+      tags:
+      - Sprint 1 - Assistant
+      operationId: listKnowledgeArticles
+      summary: Published help articles for the caller's role (what Ask Sangam answers from)
+      x-user-stories:
+      - NEW-7
+      responses:
+        '200':
+          description: Up to 100 articles
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    content:
+                      type: string
+                    audience:
+                      type: string
+                      enum:
+                      - ALL
+                      - STUDENT
+                      - MENTOR
+                      - ADMIN
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+      description: '**User stories:** NEW-7 Ask Sangam help assistant and its help articles'
+  /assistant/chat/:
+    post:
+      tags:
+      - Sprint 1 - Assistant
+      summary: Ask Sangam helpdesk (messages are never stored)
+      description: |-
+        Any logged-in user. BM25 retrieval over published KnowledgeArticles for the user's audience; the LLM (if configured)
+        answers only from those articles. Requests to approve / assign / pair are refused before any model call, and questions that are
+        not about the Sangam app (weather, homework, general career advice) are declined by a domain guardrail (scope: out_of_scope).
+        Available to students, mentors and IIC admins.
+        Throttled 10/minute per user. Alias `/ai/chat/`. NEW-7 (Ask Sangam help assistant).
+
+        **User stories:** NEW-7 Ask Sangam help assistant and its help articles
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - message
+              properties:
+                message:
+                  type: string
+                  minLength: 2
+                  maxLength: 1000
+      responses:
+        '200':
+          description: Answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/NotAuthenticated'
+        '429':
+          $ref: '#/components/responses/Throttled'
+      x-user-stories:
+      - NEW-7
+      operationId: post_assistant_chat
+  /admin/knowledge/:
+    get:
+      tags:
+      - Sprint 1 - Assistant
+      operationId: listKnowledgeArticlesAdmin
+      summary: IIC lists all help articles (published and drafts) used by Ask Sangam
+      x-user-stories:
+      - NEW-7
+      responses:
+        '200':
+          description: Up to 100 articles, last updated first
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/Page'
+                - type: object
+                  properties:
+                    results:
+                      type: array
+                      items:
+                        $ref: '#/components/schemas/KnowledgeArticle'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+      description: '**User stories:** NEW-7 Ask Sangam help assistant and its help articles'
+    post:
+      tags:
+      - Sprint 1 - Assistant
+      operationId: createKnowledgeArticle
+      summary: IIC adds a help article; only published articles are used by Ask Sangam
+      description: |-
+        **Known issue (Sprint 2):** fields are not validated, so an empty title or an unknown audience is saved.
+
+        **User stories:** NEW-7 Ask Sangam help assistant and its help articles
+      x-user-stories:
+      - NEW-7
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KnowledgeArticleInput'
+      responses:
+        '201':
+          description: Article created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeArticle'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+  /admin/knowledge/{id}/:
+    get:
+      tags:
+      - Sprint 1 - Assistant
+      operationId: getKnowledgeArticle
+      summary: IIC reads one help article
+      x-user-stories:
+      - NEW-7
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Article
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeArticle'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** NEW-7 Ask Sangam help assistant and its help articles'
+    patch:
+      tags:
+      - Sprint 1 - Assistant
+      operationId: updateKnowledgeArticle
+      summary: IIC edits or publishes a help article
+      x-user-stories:
+      - NEW-7
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KnowledgeArticleInput'
+      responses:
+        '200':
+          description: Updated article
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KnowledgeArticle'
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** NEW-7 Ask Sangam help assistant and its help articles'
+    delete:
+      tags:
+      - Sprint 1 - Assistant
+      operationId: deleteKnowledgeArticle
+      summary: IIC deletes a help article
+      x-user-stories:
+      - NEW-7
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Deleted
+        '403':
+          $ref: '#/components/responses/ForbiddenIIC'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      description: '**User stories:** NEW-7 Ask Sangam help assistant and its help articles'
 components:
   securitySchemes:
     bearerAuth:
@@ -2164,6 +3131,13 @@ components:
       required: true
       schema:
         type: integer
+    MeetingPathId:
+      name: id
+      in: path
+      required: true
+      description: Meeting id
+      schema:
+        type: integer
   responses:
     BadRequest:
       description: Invalid input
@@ -2171,14 +3145,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid JWT
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Forbidden:
-      description: Wrong role (e.g. student or mentor calling an IIC endpoint)
+      description: Not logged in, or wrong role (e.g. student or mentor calling an IIC endpoint)
       content:
         application/json:
           schema:
@@ -2207,13 +3175,20 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
     ForbiddenIIC:
-      description: Caller is not an IIC administrator
+      description: Not logged in, or the caller is not an IIC administrator
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
     ForbiddenNotParticipant:
-      description: Caller is not the student or mentor of this mentorship (the IIC is allowed)
+      description: Not logged in, or the caller is not the student or mentor of this mentorship (the IIC is allowed)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotAuthenticated:
+      description: 'Not logged in: missing, invalid or expired token. The API returns 403 (not 401) because SessionAuthentication
+        is listed first in REST_FRAMEWORK settings.'
       content:
         application/json:
           schema:
@@ -2475,6 +3450,83 @@ components:
           type: integer
         aggregate_only:
           type: boolean
+        requests:
+          type: integer
+        waiting:
+          type: integer
+        active_pairs:
+          type: integer
+        mentorships_closed:
+          type: integer
+        meetings_held:
+          type: integer
+        outcomes:
+          type: integer
+        alerts_open:
+          type: integer
+        students_pending:
+          type: integer
+        mentors_unverified:
+          type: integer
+        mentors_verified:
+          type: integer
+        checks_pending:
+          type: integer
+        matches_awaiting_approval:
+          type: integer
+        domain_demand:
+          type: array
+          items:
+            type: object
+        pathway_demand:
+          type: array
+          items:
+            type: object
+        requests_by_status:
+          type: array
+          items:
+            type: object
+        outcomes_by_kind:
+          type: array
+          items:
+            type: object
+        closure_types:
+          type: array
+          items:
+            type: object
+        monthly_requests:
+          type: array
+          description: Last 6 months
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                example: 2026-11
+              count:
+                type: integer
+        monthly_mentorships:
+          type: array
+          description: Last 6 months
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                example: 2026-11
+              count:
+                type: integer
+        monthly_meetings:
+          type: array
+          description: Last 6 months
+          items:
+            type: object
+            properties:
+              month:
+                type: string
+                example: 2026-11
+              count:
+                type: integer
     AtRiskResponse:
       type: object
       properties:
@@ -2569,9 +3621,8 @@ components:
         level:
           type: string
           enum:
-          - DIPLOMA
           - DEGREE
-          description: Currently only DEGREE is accepted by the code; see note in info.description
+          description: Only DEGREE is accepted (team decision; DIPLOMA returns 400).
         courses:
           type: array
           minItems: 1
@@ -2633,6 +3684,23 @@ components:
           allOf:
           - $ref: '#/components/schemas/StudentProfile'
           nullable: true
+        mentor_profile:
+          allOf:
+          - $ref: '#/components/schemas/MentorProfile'
+          nullable: true
+        is_iic:
+          type: boolean
+        effective_role:
+          type: string
+          enum:
+          - STUDENT
+          - MENTOR
+          - ADMIN
+          nullable: true
+        display_name:
+          type: string
+        calendar:
+          $ref: '#/components/schemas/CalendarStatus'
     MentorProfile:
       type: object
       properties:
@@ -2661,6 +3729,21 @@ components:
         is_verified:
           type: boolean
         is_available:
+          type: boolean
+        name:
+          type: string
+        is_discoverable:
+          type: boolean
+          description: Published in the mentor directory
+        bio:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+        linkedin_url:
+          type: string
+        has_active_mentee:
           type: boolean
     MentorCreate:
       type: object
@@ -2722,6 +3805,11 @@ components:
         problem_statement:
           type: string
           minLength: 80
+        preferred_mentor:
+          type: integer
+          nullable: true
+          description: Optional mentor user id from the directory (must be verified and published). A preference only; the
+            IIC decides.
     MentoringRequest:
       allOf:
       - $ref: '#/components/schemas/MentoringRequestInput'
@@ -2746,6 +3834,45 @@ components:
           updated_at:
             type: string
             format: date-time
+          preferred_mentor_summary:
+            type: object
+            nullable: true
+          stage:
+            type: string
+            enum:
+            - SUBMITTED
+            - UNDER_REVIEW
+            - WAITING
+            - AVAILABILITY_CHECK_SENT
+            - MENTOR_CONFIRMED
+            - AWAITING_IIC_APPROVAL
+            - MATCHED
+            - ACTIVE
+            - WITHDRAWN
+            - CLOSED
+          stage_label:
+            type: string
+          next_action:
+            type: string
+            description: Role-specific next step
+          last_status_at:
+            type: string
+            format: date-time
+          assigned_mentor:
+            type: object
+            nullable: true
+            description: Shown only once matched
+          mentorship_id:
+            type: integer
+            nullable: true
+          priority:
+            type: object
+            nullable: true
+            description: IIC only; null for students
+          student_summary:
+            type: object
+            nullable: true
+            description: IIC only
     AvailabilityCheck:
       type: object
       properties:
@@ -2776,6 +3903,15 @@ components:
           nullable: true
         reason:
           type: string
+        request_summary:
+          type: object
+          description: Pathway, domain and problem with contact details redacted
+        mentor_summary:
+          type: object
+          nullable: true
+          description: IIC only; includes is_student_preference
+        is_expired:
+          type: boolean
     Mentorship:
       type: object
       properties:
@@ -2807,6 +3943,38 @@ components:
           type: string
           nullable: true
           description: Email; only for the pair and the IIC
+        student_name:
+          type: string
+          nullable: true
+        mentor_name:
+          type: string
+          nullable: true
+        mentor_profile:
+          type: object
+          nullable: true
+        request_summary:
+          type: object
+        closing_reason:
+          type: string
+        progress:
+          type: object
+          properties:
+            goals_total:
+              type: integer
+            goals_completed:
+              type: integer
+            meetings_held:
+              type: integer
+            meetings_total:
+              type: integer
+            outcomes:
+              type: integer
+        open_alerts:
+          type: array
+          nullable: true
+          items:
+            type: string
+          description: IIC only
     Goal:
       type: object
       properties:
@@ -2852,6 +4020,10 @@ components:
         created_at:
           type: string
           format: date-time
+        calendar_event:
+          type: object
+          nullable: true
+          description: Always null until calendar sync (Sprint 2)
     Feedback:
       type: object
       properties:
@@ -2911,3 +4083,180 @@ components:
         created_at:
           type: string
           format: date-time
+    Page:
+      type: object
+      description: List envelope used by list endpoints.
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+          nullable: true
+        previous:
+          type: string
+          nullable: true
+    MentorSelfUpdate:
+      type: object
+      properties:
+        domain:
+          type: string
+        specialty:
+          type: string
+        current_role:
+          type: string
+        company:
+          type: string
+        career_path:
+          type: string
+        experience_years:
+          type: integer
+          minimum: 0
+        bio:
+          type: string
+        skills:
+          type: array
+          items:
+            type: string
+    MentorAdminUpdate:
+      allOf:
+      - $ref: '#/components/schemas/MentorSelfUpdate'
+      - type: object
+        properties:
+          is_discoverable:
+            type: boolean
+          is_available:
+            type: boolean
+          alumni_roll_number:
+            type: string
+          graduation_year:
+            type: integer
+    DirectoryMentor:
+      type: object
+      description: Public directory card; no email or contact details.
+      properties:
+        id:
+          type: integer
+          description: Mentor user id
+        name:
+          type: string
+        current_role:
+          type: string
+        company:
+          type: string
+        domain:
+          type: string
+        specialty:
+          type: string
+        career_path:
+          type: string
+        experience_years:
+          type: integer
+        skills:
+          type: array
+          items:
+            type: string
+        bio:
+          type: string
+        linkedin_url:
+          type: string
+        graduation_year:
+          type: integer
+        availability:
+          type: object
+          properties:
+            is_available:
+              type: boolean
+            has_capacity:
+              type: boolean
+            accepting_requests:
+              type: boolean
+            label:
+              type: string
+              enum:
+              - Available
+              - Currently mentoring
+              - Unavailable
+    CalendarStatus:
+      type: object
+      properties:
+        configured:
+          type: boolean
+        status:
+          type: string
+          enum:
+          - CONNECTED
+          - DISCONNECTED
+        google_email:
+          type: string
+        connected_at:
+          type: string
+          format: date-time
+          nullable: true
+    Dashboard:
+      type: object
+      additionalProperties: true
+      properties:
+        role:
+          type: string
+          enum:
+          - STUDENT
+          - MENTOR
+          - ADMIN
+          nullable: true
+        tasks:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              label:
+                type: string
+              link:
+                type: string
+              count:
+                type: integer
+                nullable: true
+              tone:
+                type: string
+        notifications:
+          type: object
+          properties:
+            unread:
+              type: integer
+            latest:
+              type: array
+              items:
+                $ref: '#/components/schemas/Notification'
+        display_name:
+          type: string
+    KnowledgeArticleInput:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        content:
+          type: string
+          minLength: 1
+        audience:
+          type: string
+          enum:
+          - ALL
+          - STUDENT
+          - MENTOR
+          - ADMIN
+          default: ALL
+        is_published:
+          type: boolean
+          default: false
+    KnowledgeArticle:
+      allOf:
+      - $ref: '#/components/schemas/KnowledgeArticleInput'
+      - type: object
+        properties:
+          id:
+            type: integer
+          updated_at:
+            type: string
+            format: date-time
